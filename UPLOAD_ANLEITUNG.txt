@@ -1,0 +1,12 @@
+CREOVA Upload Ready
+
+Diese Dateien direkt in GitHub hochladen:
+
+1. index.html
+2. icon.svg
+3. manifest.webmanifest
+
+Wichtig:
+Nicht die ZIP-Datei in GitHub Pages verwenden.
+Die ZIP ist nur zum Herunterladen gedacht.
+Nach dem Entpacken nur die drei Dateien hochladen/ersetzen.
