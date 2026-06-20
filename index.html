@@ -9,13 +9,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icon.svg">
-<title>CREOVA 5.4</title>
+<title>CREOVA 5.5</title>
 <style>
 :root{--bg:#f4f0e6;--card:#fffdf8;--green:#1f3529;--green2:#5d7658;--sand:#caa85a;--muted:#6d766c;--blue:#315f7d;--bike:#2e6f55;--danger:#8f3b31;--line:#e5e0d4}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#1b2921}
 header{background:linear-gradient(135deg,#14251d,#36513d 65%,#897648);color:white;padding:24px 16px}.wrap,main{max-width:1180px;margin:auto}.brand{display:flex;gap:14px;align-items:center}.logo{width:58px;height:58px;border-radius:18px;background:#f4ead6;color:#203528;display:grid;place-items:center;font-weight:900}
 h1{margin:0;font-size:36px;letter-spacing:4px}.sub{margin:4px 0 0;opacity:.9}
-nav{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;margin-top:18px}nav a{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:white;border-radius:999px;padding:12px;font-weight:800;text-align:center;text-decoration:none;font-size:14px}nav a.active{background:#f4ead6;color:#203528}
+nav{display:grid;grid-template-columns:repeat(11,1fr);gap:8px;margin-top:18px}nav a{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:white;border-radius:999px;padding:12px;font-weight:800;text-align:center;text-decoration:none;font-size:14px}nav a.active{background:#f4ead6;color:#203528}
 main{padding:18px}.page{display:none}.page.active{display:block}.card{background:var(--card);border-radius:22px;padding:18px;margin-bottom:18px;box-shadow:0 10px 28px rgba(47,39,25,.08);border:1px solid rgba(255,255,255,.7)}
 h2{margin:0 0 10px;color:var(--green)}h3{margin:12px 0 8px;color:var(--green)}.muted{color:var(--muted);font-size:14px;line-height:1.45}.small{font-size:13px}.note{background:#fff5d8;border:1px solid #ead7a5;color:#5c481b;border-radius:16px;padding:12px;margin-bottom:12px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -70,18 +70,30 @@ button,.btn{background:var(--green);color:white;border:none;font-weight:800;curs
 .locStatus{background:#eaf3e8;border:1px solid #bfd4bb;border-radius:16px;padding:12px;margin-top:10px}
 @media(max-width:900px){.detailPick,.timelineTools,.tripModeBox{grid-template-columns:1fr 1fr}.activityRow{grid-template-columns:1fr}}
 @media(max-width:650px){.detailPick,.timelineTools,.tripModeBox{grid-template-columns:1fr}}
+
+.budgetLiveBox{background:#eaf3e8;border:1px solid #bfd4bb;border-radius:18px;padding:16px;margin:14px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.budgetLiveBox b{font-size:26px;color:#1f3529}
+.optionList{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.optionCard{background:#fffdf8;border:1px solid #e3dccb;border-radius:18px;overflow:hidden}
+.optionCard img{width:100%;height:120px;object-fit:cover;background:#eef2ea}
+.optionCardBody{padding:12px}
+.optionCard label{display:flex;gap:10px;align-items:center;font-weight:800;margin-top:8px}
+.optionCard input{width:24px;height:24px}
+.infoBadge{display:inline-block;background:#eef2ea;border-radius:999px;padding:6px 10px;margin:3px;color:#1f3529}
+@media(max-width:900px){.optionList,.budgetLiveBox{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.optionList,.budgetLiveBox{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header><div class="wrap"><div class="brand"><div class="logo">CR</div><div><h1>CREOVA</h1><p class="sub">Find your place. Plan your trip.</p></div></div>
-<nav><a href="#home" id="nav-home">Ziel</a><a href="#plan" id="nav-plan">Planen</a><a href="#details" id="nav-details">Details</a><a href="#pack" id="nav-pack">Packliste</a><a href="#tours" id="nav-tours">Touren</a><a href="#gallery" id="nav-gallery">Galerie</a><a href="#budget" id="nav-budget">Budget</a><a href="#homeassistant" id="nav-homeassistant">Haus</a><a href="#alarm" id="nav-alarm">Wecker</a><a href="#timeline" id="nav-timeline">Timeline</a></nav></div></header>
+<nav><a href="#home" id="nav-home">Ziel</a><a href="#plan" id="nav-plan">Planen</a><a href="#details" id="nav-details">Infos</a><a href="#pack" id="nav-pack">Packliste</a><a href="#tours" id="nav-tours">Touren</a><a href="#gallery" id="nav-gallery">Galerie</a><a href="#budget" id="nav-budget">Budget</a><a href="#homeassistant" id="nav-homeassistant">Haus</a><a href="#alarm" id="nav-alarm">Wecker</a><a href="#timeline" id="nav-timeline">Timeline</a></nav></div></header>
 <main>
 <section id="home" class="page">
-<div class="card note"><b>CREOVA 5.4 Master Free:</b> nutzt nur kostenlose Quellen: OpenStreetMap/Overpass, Nominatim, Open‑Meteo, Wikipedia/Wikimedia und lokale Speicherung.</div>
+<div class="card note"><b>CREOVA 5.5 Master Free:</b> nutzt nur kostenlose Quellen: OpenStreetMap/Overpass, Nominatim, Open‑Meteo, Wikipedia/Wikimedia und lokale Speicherung.</div>
 <div class="card"><h2>Reiseziel nach Hobbys & Bedürfnissen finden</h2><div class="grid3"><input id="startCity" value="Marl" placeholder="Startort, z. B. Marl"><select id="radius"><option value="100">bis 100 km</option><option value="200">bis 200 km</option><option value="300" selected>bis 300 km</option><option value="500">bis 500 km</option><option value="700">bis 700 km</option><option value="1200">bis 1200 km</option><option value="9999">Europaweit</option></select><select id="travelType"><option value="camping">Camping / Dachzelt</option><option value="hotel">Hotel</option><option value="bike">Radreise</option><option value="hiking">Wanderreise</option><option value="city">Städtetrip</option></select></div><h3>Interessen</h3><div class="grid4" id="interests"></div><button onclick="renderDestinations()">Passende Orte anzeigen</button><p id="searchStatus" class="muted"></p></div><div class="card"><h2>Vorschläge</h2><div id="destinations" class="destgrid"></div></div>
 </section>
 
-<section id="details" class="page"><div id="detailsContent" class="card"><h2>Details</h2><p class="muted">Bitte wähle zuerst einen Ort über „Details“ aus.</p><a href="#home" class="btn light">Zurück</a></div></section>
+<section id="details" class="page"><div id="detailsContent" class="card"><h2>Infos</h2><p class="muted">Bitte wähle zuerst einen Ort über „Details“ aus.</p><a href="#home" class="btn light">Zurück</a></div></section>
 
 <section id="plan" class="page">
 <div class="plannerHero"><h2>Urlaub von A–Z planen</h2><p class="muted">Ziel übernehmen, Kalenderdaten eintragen, Ankunftszeiten festlegen und eine Timeline erzeugen.</p></div>
@@ -227,6 +239,27 @@ action:
 <div id="timelineList"></div>
 </section>
 
+
+<section id="infosBudget" class="page">
+<div class="plannerHero">
+<h2>ℹ️ Infos & Budget-Auswahl</h2>
+<p class="muted">Wähle aus, was du übernehmen möchtest. Alles wird automatisch in Budget und Timeline übernommen.</p>
+</div>
+<div class="card">
+<h2 id="infoPlaceTitle">Ort auswählen</h2>
+<p id="infoPlaceText" class="muted">Die Infos werden auf Deutsch angezeigt.</p>
+<div id="infoTags"></div>
+</div>
+<div class="card"><h2>🍽️ Restaurants</h2><div id="restaurantOptions" class="optionList"></div></div>
+<div class="card"><h2>🏕️ Camping & Unterkünfte</h2><div id="stayOptions" class="optionList"></div></div>
+<div class="card"><h2>🎯 Aktivitäten & Sehenswürdigkeiten</h2><div id="activityOptions" class="optionList"></div></div>
+<div class="card">
+<h2>Übernehmen</h2>
+<div id="infoBudgetSummary" class="budgetLiveBox"></div>
+<button onclick="applySelectedToTrip()">Auswahl in Planung & Timeline übernehmen</button>
+</div>
+</section>
+
 </main>
 
 <script>
@@ -274,7 +307,7 @@ function distanceKm(a,b){const R=6371,toRad=x=>x*Math.PI/180;let dLat=toRad(b.la
 async function wikiInfo(title){let url=`https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`,img="",desc="";try{let r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);let d=await r.json();img=d.originalimage?.source||d.thumbnail?.source||"";desc=d.extract||"";url=d.content_urls?.desktop?.page||url}catch(e){}return{img:img||fallbackImg,desc,url}}
 async function imageForQuery(q,fallbackText){try{let r=await fetch(`https://commons.wikimedia.org/w/api.php?action=query&origin=*&generator=search&gsrsearch=${encodeURIComponent(q)}&gsrnamespace=6&prop=imageinfo&iiprop=url&iiurlwidth=600&format=json&gsrlimit=1`);let d=await r.json();let pages=d.query?.pages?Object.values(d.query.pages):[];let img=pages[0]?.imageinfo?.[0]?.thumburl||pages[0]?.imageinfo?.[0]?.url;if(img)return img}catch(e){}return (await wikiInfo(fallbackText||q)).img}
 async function getWeather(lat,lon){try{let r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m`);let d=await r.json();return{temp:Math.round(d.current.temperature_2m)+"°C",wind:Math.round(d.current.wind_speed_10m)+" km/h"}}catch(e){return{temp:"-",wind:"-"}}}
-async function renderDestinations(){let out=document.getElementById("destinations"),status=document.getElementById("searchStatus");out.innerHTML="";status.textContent="Startort wird gesucht...";let start=await geocodeStart(v("startCity")||"Marl");if(!start){status.textContent="Startort nicht gefunden.";return}let sel=selected(),max=+v("radius");let list=destinations.map((d,i)=>{let dist=distanceKm(start,d);let hit=d.tags.filter(t=>sel.includes(t)).length;let interestScore=sel.length?Math.round(hit/sel.length*100):65;let nearBonus=Math.max(0,Math.round((1-(dist/Math.max(max,1)))*25));let score=Math.max(0,Math.min(100,interestScore+nearBonus));return{...d,score,dist,idx:i}}).filter(d=>d.dist<=max || max>=9999).sort((a,b)=>b.score-a.score || a.dist-b.dist);status.textContent=`${list.length} Orte im Umkreis gefunden`;if(!list.length){out.innerHTML="<p class='muted'>Keine Orte im Umkreis. Bitte Umkreis erhöhen.</p>";return}for(const d of list){let card=document.createElement("div");card.className="dest";card.innerHTML=`<img id="img-${d.idx}" src="${fallbackImg}"><div class="destbody"><div class="score">${d.score}%</div><h3>${esc(d.name)}, ${esc(d.country)}</h3><p class="muted">${esc(d.desc)}</p><p><span class="pill">ca. ${d.dist} km Luftlinie</span></p>${d.tags.map(t=>`<span class="pill">${esc(t)}</span>`).join("")}<div class="actions"><a class="btn detailLink" href="#details" data-idx="${d.idx}">Details</a><button class="secondary planBtn" data-idx="${d.idx}">Planen</button></div></div>`;out.appendChild(card);wikiInfo(d.wiki).then(info=>{let im=document.getElementById("img-"+d.idx);if(im){im.src=info.img;im.onerror=()=>im.src=fallbackImg}})}document.querySelectorAll(".detailLink").forEach(a=>a.addEventListener("click",e=>openDetails(+e.currentTarget.dataset.idx)));document.querySelectorAll(".planBtn").forEach(b=>b.addEventListener("click",e=>planDestination(+e.currentTarget.dataset.idx)))}
+async function renderDestinations(){let out=document.getElementById("destinations"),status=document.getElementById("searchStatus");out.innerHTML="";status.textContent="Startort wird gesucht...";let start=await geocodeStart(v("startCity")||"Marl");if(!start){status.textContent="Startort nicht gefunden.";return}let sel=selected(),max=+v("radius");let list=destinations.map((d,i)=>{let dist=distanceKm(start,d);let hit=d.tags.filter(t=>sel.includes(t)).length;let interestScore=sel.length?Math.round(hit/sel.length*100):65;let nearBonus=Math.max(0,Math.round((1-(dist/Math.max(max,1)))*25));let score=Math.max(0,Math.min(100,interestScore+nearBonus));return{...d,score,dist,idx:i}}).filter(d=>d.dist<=max || max>=9999).sort((a,b)=>b.score-a.score || a.dist-b.dist);status.textContent=`${list.length} Orte im Umkreis gefunden`;if(!list.length){out.innerHTML="<p class='muted'>Keine Orte im Umkreis. Bitte Umkreis erhöhen.</p>";return}for(const d of list){let card=document.createElement("div");card.className="dest";card.innerHTML=`<img id="img-${d.idx}" src="${fallbackImg}"><div class="destbody"><div class="score">${d.score}%</div><h3>${esc(d.name)}, ${esc(d.country)}</h3><p class="muted">${esc(d.desc)}</p><p><span class="pill">ca. ${d.dist} km Luftlinie</span></p>${d.tags.map(t=>`<span class="pill">${esc(t)}</span>`).join("")}<div class="actions"><a class="btn detailLink" href="#details" data-idx="${d.idx}">Infos</a><button class="secondary planBtn" data-idx="${d.idx}">Planen</button></div></div>`;out.appendChild(card);wikiInfo(d.wiki).then(info=>{let im=document.getElementById("img-"+d.idx);if(im){im.src=info.img;im.onerror=()=>im.src=fallbackImg}})}document.querySelectorAll(".detailLink").forEach(a=>a.addEventListener("click",e=>openDetails(+e.currentTarget.dataset.idx)));document.querySelectorAll(".planBtn").forEach(b=>b.addEventListener("click",e=>planDestination(+e.currentTarget.dataset.idx)))}
 async function openDetails(idx){let d=destinations[idx];let info=await wikiInfo(d.wiki);let weather=await getWeather(d.lat,d.lon);document.getElementById("detailsContent").innerHTML=`<div class="detailLayout"><div><div class="card"><a href="#home" class="btn light">← Zurück</a><img class="heroimg" src="${info.img}" onerror="this.src='${fallbackImg}'"><p class="muted">Bild/Info: Wikipedia/Wikimedia</p><h2>${esc(d.name)}, ${esc(d.country)}</h2><p class="muted">${esc(info.desc||d.desc)}</p><div class="grid"><div class="stat"><b>${weather.temp}</b><br>Temperatur</div><div class="stat"><b>${weather.wind}</b><br>Wind</div></div><div class="actions"><button onclick="planDestination(${idx})">Reise hier planen</button><button class="blue" onclick="window.open('${info.url}','_blank')">Direkte Seite</button></div><div class="actions"><button class="sand" onclick="openGoogleSearch('${esc(d.name)} Camping Hotel Restaurant')">Websuche</button><button class="secondary" onclick="openMapsSearch('${esc(d.name)} schöne Orte Camping')">Maps-Suche</button></div></div></div><div><div class="note"><b>Live-Daten:</b> OSM + Wikimedia. Nicht jeder Betrieb hat freie Bilder.</div><div id="restaurants"><h3>🍴 Restaurants</h3><p class="muted">lädt...</p></div><div id="hotels"><h3>🏨 Hotels & Unterkünfte</h3><p class="muted">lädt...</p></div><div id="camping"><h3>🏕️ Camping & Stellplätze</h3><p class="muted">lädt...</p></div><div id="sights"><h3>📍 Sehenswertes</h3><p class="muted">lädt...</p></div></div></div>`;loadCategory("restaurants","🍴 Restaurants",d,"restaurant",18000);loadCategory("hotels","🏨 Hotels & Unterkünfte",d,"hotel",30000);loadCategory("camping","🏕️ Camping & Stellplätze",d,"camping",40000);loadCategory("sights","📍 Sehenswertes",d,"sights",18000)}
 function openGoogleSearch(q){window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`,"_blank")}function openMapsSearch(q){window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`,"_blank")}
 function placeQuery(type,r,lat,lon){let m={camping:`node["tourism"~"camp_site|caravan_site"](around:${r},${lat},${lon});way["tourism"~"camp_site|caravan_site"](around:${r},${lat},${lon});`,restaurant:`node["amenity"~"restaurant|cafe|fast_food|bar|biergarten"](around:${r},${lat},${lon});way["amenity"~"restaurant|cafe|fast_food|bar|biergarten"](around:${r},${lat},${lon});`,hotel:`node["tourism"~"hotel|guest_house|hostel|apartment|chalet|camp_site|caravan_site"](around:${r},${lat},${lon});way["tourism"~"hotel|guest_house|hostel|apartment|chalet|camp_site|caravan_site"](around:${r},${lat},${lon});node["name"~"Prinz Rudolf",i](around:${r},${lat},${lon});way["name"~"Prinz Rudolf",i](around:${r},${lat},${lon});`,sights:`node["tourism"~"attraction|viewpoint|museum|picnic_site|zoo"](around:${r},${lat},${lon});way["tourism"~"attraction|viewpoint|museum|picnic_site|zoo"](around:${r},${lat},${lon});`}[type];return`[out:json][timeout:25];(${m});out center tags;`}
@@ -462,7 +495,7 @@ function enhanceDestinationResults(){
  if(mode==="day"){
    const results=document.querySelector("#results,#destResults,.destgrid,.destGrid");
    if(results){
-     results.innerHTML=nearDayTrips.map(d=>`<div class="dest"><img src="${d.img}" alt=""><div class="destBody"><h2>${d.name}</h2><p>${d.desc}</p><p><b>${d.km} km</b> · Budget ${d.budget}</p><div>${d.tags.map(t=>`<span class="pill">${t}</span>`).join("")}</div><div class="grid"><button onclick="openGermanDetails('${d.name}')">Details</button><button class="secondary" onclick="selectDestination('${d.name}')">Übernehmen</button></div></div></div>`).join("");
+     results.innerHTML=nearDayTrips.map(d=>`<div class="dest"><img src="${d.img}" alt=""><div class="destBody"><h2>${d.name}</h2><p>${d.desc}</p><p><b>${d.km} km</b> · Budget ${d.budget}</p><div>${d.tags.map(t=>`<span class="pill">${t}</span>`).join("")}</div><div class="grid"><button onclick="openGermanDetails('${d.name}')">Infos</button><button class="secondary" onclick="selectDestination('${d.name}')">Übernehmen</button></div></div></div>`).join("");
    }
  }
 }
@@ -478,7 +511,7 @@ function renderGermanDetails(place){
  const target=document.querySelector("#details") || document.querySelector(".page.active");
  if(!target)return;
  const cat=detailCatalog[place] || detailCatalog["Meran, Italien"] || {};
- const block=`<div class="card"><h2>Details zu ${place}</h2><p class="muted">Alle Vorschläge können direkt in die Timeline übernommen werden.</p>
+ const block=`<div class="card"><h2>Infos zu ${place}</h2><p class="muted">Alle Vorschläge können direkt in die Timeline übernommen werden.</p>
  <h3>🍽️ Restaurants</h3><div class="detailPick">${(cat.restaurants||[]).map(x=>pickCard(x,"Restaurant")).join("")}</div>
  <h3>🎯 Aktivitäten</h3><div class="detailPick">${(cat.activities||[]).map(x=>pickCard(x,"Aktivität")).join("")}</div>
  <h3>🏛️ Sehenswürdigkeiten</h3><div class="detailPick">${(cat.sights||[]).map(x=>pickCard(x,"Sehenswürdigkeit")).join("")}</div></div>`;
@@ -532,7 +565,107 @@ function moveTimelineActivity(name,newDay){
  if(found){found.day=parseInt(newDay);localStorage.timelineActivities=JSON.stringify(acts);buildTimeline();}
 }
 
-function init(){setTimeout(()=>{try{enhanceDestinationResults()}catch(e){}},500);let el=document.getElementById("interests");interests.forEach(i=>{let l=document.createElement("label");l.className="interest";let checked=(i==="Meer"||i==="Fahrradstrecken")?"checked":"";l.innerHTML=`<input type="checkbox" value="${esc(i)}" ${checked}><span>${esc(i)}</span>`;el.appendChild(l)});window.addEventListener("hashchange",activatePage);activatePage();renderDestinations();renderTrip();renderPack();calcBudget();loadHA()}
+
+const creovaCostCatalog={
+ "Domburg, Niederlande":{
+  text:"Domburg ist ein schöner Küstenort in Zeeland. Geeignet für Strand, Radfahren, Camping, Restaurants und entspannte Kurzurlaube.",
+  tags:["Meer","Strand","Radwege","Camping","familienfreundlich"],
+  restaurants:[
+   {name:"Strandrestaurant De Dam",desc:"direkt am Strand, gut für Sonnenuntergang",price:70,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Domburg_-_panoramio.jpg/640px-Domburg_-_panoramio.jpg"},
+   {name:"Markt Zes",desc:"zentral, gut für Abendessen",price:85,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Domburg_2008.jpg/640px-Domburg_2008.jpg"},
+   {name:"De Visbar",desc:"Fisch und leichte Küche",price:90,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Domburg_-_panoramio.jpg/640px-Domburg_-_panoramio.jpg"}
+  ],
+  stays:[
+   {name:"Camping Domburg",desc:"Camping nahe Strand",price:120,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Domburg_-_panoramio.jpg/640px-Domburg_-_panoramio.jpg"},
+   {name:"Strandhotel Domburg",desc:"Hotel nah am Meer",price:320,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Domburg_2008.jpg/640px-Domburg_2008.jpg"},
+   {name:"Dachzelt-Stellplatz Zeeland",desc:"einfacher Stellplatz für Kurztrip",price:80,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Domburg_-_panoramio.jpg/640px-Domburg_-_panoramio.jpg"}
+  ],
+  activities:[
+   {name:"Strandtag Domburg",desc:"Meer, Dünen und Promenade",price:0,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Domburg_-_panoramio.jpg/640px-Domburg_-_panoramio.jpg"},
+   {name:"Radtour nach Westkapelle",desc:"flache Küstenroute",price:0,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Domburg_2008.jpg/640px-Domburg_2008.jpg"},
+   {name:"Besuch Middelburg",desc:"Altstadt, Cafés, Shopping",price:40,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Middelburg_Markt.jpg/640px-Middelburg_Markt.jpg"}
+  ]
+ },
+ "Meran, Italien":{
+  text:"Meran ist ideal für Berge, gutes Essen, Radfahren, Camping, Therme, Altstadt und schöne Tagesausflüge in Südtirol.",
+  tags:["Berge","Radwege","gutes Essen","Camping","Altstadt"],
+  restaurants:[
+   {name:"Forsterbräu Meran",desc:"Südtiroler Küche, zentral",price:80,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Meran_Lauben.jpg/640px-Meran_Lauben.jpg"},
+   {name:"Restaurant Sissi",desc:"gehobene Küche",price:180,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Meran_Tappeinerweg.jpg/640px-Meran_Tappeinerweg.jpg"},
+   {name:"Pizzeria Bistro 7",desc:"unkompliziert und familienfreundlich",price:60,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Meran_Promenade.jpg/640px-Meran_Promenade.jpg"}
+  ],
+  stays:[
+   {name:"Camping Hermitage",desc:"Camping nahe Meran",price:160,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Meran_Tappeinerweg.jpg/640px-Meran_Tappeinerweg.jpg"},
+   {name:"Prinz Rudolf Smarthotel",desc:"Unterkunft oberhalb von Meran",price:420,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Meran_Lauben.jpg/640px-Meran_Lauben.jpg"},
+   {name:"Dachzelt-Stellplatz Südtirol",desc:"einfacher Stellplatz",price:100,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Passeiertal.jpg/640px-Passeiertal.jpg"}
+  ],
+  activities:[
+   {name:"Tappeinerweg",desc:"Panoramaweg über Meran",price:0,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Meran_Tappeinerweg.jpg/640px-Meran_Tappeinerweg.jpg"},
+   {name:"Therme Meran",desc:"gut bei schlechtem Wetter",price:70,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Therme_Meran.jpg/640px-Therme_Meran.jpg"},
+   {name:"Radtour Passeiertal",desc:"sportliche Tour",price:0,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Passeiertal.jpg/640px-Passeiertal.jpg"}
+  ]
+ }
+};
+function currentBudget(){return parseInt(v("mainTravelBudget")||localStorage.mainTravelBudget||"0")}
+function selectedCosts(){const sel=JSON.parse(localStorage.creovaSelectedOptions||"[]");return sel.reduce((a,b)=>a+(parseInt(b.price)||0),0)}
+function updateLiveBudget(){
+ if(document.getElementById("mainTravelBudget")) localStorage.mainTravelBudget=v("mainTravelBudget");
+ const budget=currentBudget(), used=selectedCosts(), rest=budget-used;
+ const html=`<div><span class="muted">Budget</span><br><b>${budget} €</b></div><div><span class="muted">Ausgewählt</span><br><b>${used} €</b></div><div><span class="muted">Rest</span><br><b>${rest} €</b></div>`;
+ const box=document.getElementById("liveBudgetBox"); if(box)box.innerHTML=html;
+ const sum=document.getElementById("infoBudgetSummary"); if(sum)sum.innerHTML=html;
+}
+function showInfoBudget(place){
+ localStorage.selectedDestination=place;
+ const data=creovaCostCatalog[place]||creovaCostCatalog["Domburg, Niederlande"];
+ location.hash="#infosBudget";
+ setTimeout(()=>{
+  document.getElementById("infoPlaceTitle").innerText=place;
+  document.getElementById("infoPlaceText").innerText=data.text;
+  document.getElementById("infoTags").innerHTML=data.tags.map(t=>`<span class="infoBadge">${t}</span>`).join("");
+  renderCostOptions("restaurantOptions",data.restaurants,"Restaurant");
+  renderCostOptions("stayOptions",data.stays,"Unterkunft/Camping");
+  renderCostOptions("activityOptions",data.activities,"Aktivität");
+  updateLiveBudget();
+ },100);
+}
+function renderCostOptions(id,arr,type){
+ const selected=JSON.parse(localStorage.creovaSelectedOptions||"[]");
+ const el=document.getElementById(id); if(!el)return;
+ el.innerHTML=arr.map(o=>{
+  const checked=selected.some(s=>s.name===o.name)?"checked":"";
+  const safe=JSON.stringify(JSON.stringify({...o,type}));
+  return `<div class="optionCard"><img src="${o.img||""}" alt=""><div class="optionCardBody"><h3>${esc(o.name)}</h3><p class="muted">${esc(o.desc)}</p><b>${o.price} €</b><label><input type="checkbox" ${checked} onchange='toggleCostOption(${safe},this.checked)'> übernehmen</label></div></div>`;
+ }).join("");
+}
+function toggleCostOption(json,checked){
+ const o=JSON.parse(json);
+ let selected=JSON.parse(localStorage.creovaSelectedOptions||"[]");
+ if(checked){if(!selected.some(s=>s.name===o.name))selected.push(o)}
+ else selected=selected.filter(s=>s.name!==o.name);
+ localStorage.creovaSelectedOptions=JSON.stringify(selected);
+ updateLiveBudget();
+}
+function applySelectedToTrip(){
+ const selected=JSON.parse(localStorage.creovaSelectedOptions||"[]");
+ const acts=JSON.parse(localStorage.timelineActivities||"[]");
+ selected.forEach((s,i)=>{if(!acts.some(a=>a.name===s.name))acts.push({name:s.name,type:s.type,note:s.desc,day:(i%3)+1,time:s.type==="Restaurant"?"19:00":"10:00",price:s.price})});
+ localStorage.timelineActivities=JSON.stringify(acts);
+ alert("Auswahl wurde in Planung und Timeline übernommen.");
+ location.hash="#timeline";
+ setTimeout(()=>{try{buildTimeline()}catch(e){}},150);
+}
+function creovaInfoFallback(e){
+ const txt=(e.target.innerText||"").trim();
+ if(txt==="Infos"||txt==="Details"){
+   const card=e.target.closest(".dest,.card");
+   const h=card?card.querySelector("h2,h3"):null;
+   if(h){e.preventDefault();showInfoBudget(h.innerText.trim())}
+ }
+}
+document.addEventListener("click",creovaInfoFallback);
+
+function init(){updateLiveBudget();setTimeout(()=>{try{enhanceDestinationResults()}catch(e){}},500);let el=document.getElementById("interests");interests.forEach(i=>{let l=document.createElement("label");l.className="interest";let checked=(i==="Meer"||i==="Fahrradstrecken")?"checked":"";l.innerHTML=`<input type="checkbox" value="${esc(i)}" ${checked}><span>${esc(i)}</span>`;el.appendChild(l)});window.addEventListener("hashchange",activatePage);activatePage();renderDestinations();renderTrip();renderPack();calcBudget();loadHA()}
 init();
 </script>
 </body>

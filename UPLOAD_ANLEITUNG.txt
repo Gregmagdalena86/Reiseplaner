@@ -1,16 +1,14 @@
-CREOVA 5.4 Upload
+CREOVA 5.5 Upload
 
 Diese drei Dateien in GitHub hochladen/ersetzen:
-
 index.html
 icon.svg
 manifest.webmanifest
 
 Neu:
 - Budget direkt unter Ziel
-- Tagesausflug/100km-Modus
-- Standortübernahme
-- Deutsche Detailvorschläge
-- Aktivitäten in Timeline übernehmen
-- Wetteranzeige in Timeline
-- Aktivitäten auf andere Tage verschieben
+- Infos statt Details
+- deutsche Ortsinfos
+- Restaurants, Aktivitäten, Camping, Unterkünfte zum Anhaken
+- Auswahl wird vom Budget abgezogen
+- Auswahl wird in Planung/Timeline übernommen
