@@ -1,0 +1,17 @@
+{
+  "name": "CREOVA 5.0",
+  "short_name": "CREOVA",
+  "description": "Find your place. Plan your trip.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f0e6",
+  "theme_color": "#1f3529",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
