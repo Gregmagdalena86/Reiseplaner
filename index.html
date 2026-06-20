@@ -3,186 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1f3529">
+<meta name="theme-color" content="#7b55d9">
 <link rel="manifest" href="manifest.webmanifest">
-<title>CREOVA 6.3</title>
+<title>CREOVA 7.0</title>
 <style>
-:root{--bg:#f4f0e6;--card:#fffdf8;--green:#1f3529;--green2:#5d7658;--sand:#caa85a;--muted:#6d766c;--line:#e3dccb}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#203027}
-header{background:linear-gradient(135deg,#14251d,#36513d 65%,#897648);color:white;padding:24px 16px 28px}
-.brand{display:flex;align-items:center;gap:16px}.logo{width:74px;height:74px;border-radius:22px;background:#f7ead4;color:var(--green);display:grid;place-items:center;font-weight:900}
-h1{margin:0;font-size:42px;letter-spacing:7px}.sub{margin:6px 0 0;opacity:.9;font-size:20px}
-nav{display:grid;grid-template-columns:repeat(10,1fr);gap:10px;margin-top:24px}
-nav a{display:block;text-align:center;text-decoration:none;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.38);border-radius:999px;color:white;padding:14px 10px;font-weight:800;font-size:16px}
-main{padding:18px}.page{display:none}.page:target{display:block}body:not(:has(.page:target)) #ziel{display:block}
-.hero,.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px;margin:14px 0}
-.hero{background:linear-gradient(135deg,#fffdf8,#fff6d9)}
-h2{margin:0 0 12px;color:var(--green);font-size:28px}h3{margin:12px 0 8px;color:var(--green)}
-.muted{color:var(--muted);line-height:1.45}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-label{font-weight:800;color:var(--green)}label span{display:block;font-weight:500;color:var(--muted);font-size:14px}
-input,select,textarea{width:100%;padding:14px;border:1px solid #d8dfd1;border-radius:14px;font-size:17px;background:white;margin-top:6px}
-button{background:var(--green);color:white;border:0;border-radius:14px;padding:14px 16px;font-size:16px;font-weight:900}
-button.secondary{background:var(--green2)}
-.interestChips{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.chip{background:#eef2ea;color:#1f3529;border:1px solid #cbd8c7;border-radius:999px;padding:10px 14px;font-weight:900}.chip.active{background:#1f3529;color:white}
-.budgetLive{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;background:#eaf3e8;border:1px solid #bfd4bb;border-radius:18px;padding:16px;margin-top:14px}
-.budgetLive b{font-size:28px;color:var(--green)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.box{background:#fffdf8;border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.photo{height:150px;background:linear-gradient(135deg,#dfe8dc,#9cad86);display:grid;place-items:center;font-size:44px;color:#1f3529}
-.body{padding:14px}.pill{display:inline-block;background:#eef2ea;border-radius:999px;padding:7px 10px;margin:4px;color:var(--green);font-weight:700}
-.price{font-size:22px;font-weight:900;color:var(--green)}
-.check{display:flex;gap:10px;align-items:center;margin-top:10px}.check input{width:26px;height:26px;margin:0}
-.packGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.pack{padding:12px;background:#fffdf8;border:1px solid var(--line);border-radius:18px;display:flex;gap:12px;align-items:center}
-.timelineDay{padding:16px;margin:12px 0;background:#fffdf8;border:1px solid var(--line);border-radius:18px}
-@media(max-width:950px){nav{grid-template-columns:repeat(5,1fr)}.cards,.grid3,.packGrid{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
-@media(max-width:650px){nav{grid-template-columns:1fr 1fr}.cards,.grid3,.packGrid,.budgetLive{grid-template-columns:1fr}h1{font-size:32px}}
+:root{--bg:#fbf8ff;--card:#fff;--lav:#7b55d9;--lav2:#9b7cf0;--lav3:#efe8ff;--text:#241b3f;--muted:#746c86;--line:#ded2ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#fff,#f8f3ff);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text)}
+.heroTop{min-height:280px;padding:28px;color:white;background:radial-gradient(circle at 20% 35%,rgba(255,220,170,.75),transparent 20%),linear-gradient(135deg,rgba(64,39,109,.65),rgba(123,85,217,.35),rgba(42,74,77,.35)),url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");background-size:cover;background-position:center;position:relative}
+.heroTop:after{content:"";position:absolute;inset:auto 0 0 0;height:90px;background:linear-gradient(transparent,rgba(251,248,255,.98))}
+.brand{display:flex;gap:18px;align-items:center;position:relative;z-index:2}.logo{width:72px;height:72px;border-radius:22px;background:rgba(255,255,255,.86);display:grid;place-items:center;color:var(--lav);font-weight:1000;font-size:25px;box-shadow:0 12px 35px rgba(32,18,70,.2)}
+h1{font-size:50px;letter-spacing:7px;margin:0;text-shadow:0 6px 20px rgba(0,0,0,.25)}.sub{margin:4px 0 0;font-size:20px;text-shadow:0 4px 12px rgba(0,0,0,.25)}
+nav{position:relative;z-index:2;display:grid;grid-template-columns:repeat(10,1fr);gap:12px;margin-top:74px}
+nav a{text-decoration:none;text-align:center;padding:14px 10px;border-radius:999px;background:rgba(255,255,255,.78);color:#5c36c7;font-weight:900;border:1px solid rgba(255,255,255,.8);box-shadow:0 10px 30px rgba(56,31,120,.22)}
+nav a.active,nav a:hover{background:linear-gradient(135deg,var(--lav),var(--lav2));color:white}
+main{padding:22px;max-width:1480px;margin:auto}.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:28px;padding:24px;margin:16px 0;box-shadow:0 16px 45px rgba(76,45,151,.08)}
+.titleRow{display:flex;justify-content:space-between;gap:12px;align-items:center}h2{margin:0 0 10px;font-size:32px;color:#4b2ab2}h3{margin:0 0 8px;color:#321c7a}.muted{color:var(--muted);line-height:1.45}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px}label{font-weight:900;color:#3b238d}label span{display:block;font-weight:500;color:var(--muted);font-size:14px;margin-top:3px}
+input,select{width:100%;padding:15px 16px;border:1px solid #cabcf4;border-radius:15px;font-size:17px;background:white;margin-top:8px;color:#201533}button{border:0;border-radius:16px;padding:15px 18px;font-size:16px;font-weight:1000;cursor:pointer}
+.primary{background:linear-gradient(135deg,var(--lav),var(--lav2));color:white;box-shadow:0 12px 25px rgba(123,85,217,.28)}.secondary{background:white;color:var(--lav);border:1px solid var(--line)}
+.wishPanel{background:linear-gradient(180deg,#fff,#fbf8ff);border:1px solid var(--line);border-radius:24px;padding:16px}.wishGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.wish{position:relative;min-height:116px;border:1px solid var(--line);border-radius:16px;background:white;overflow:hidden;cursor:pointer;box-shadow:0 8px 20px rgba(86,50,180,.07)}.wish.active{outline:3px solid var(--lav2)}
+.wish .pic{height:72px;background-size:cover;background-position:center}.wish .name{padding:8px 9px;font-weight:900;color:#321c7a;font-size:14px}.wish .check{position:absolute;top:8px;right:8px;width:27px;height:27px;border-radius:50%;background:white;border:1px solid var(--line);display:grid;place-items:center;color:white;font-weight:1000}.wish.active .check{background:var(--lav);color:white}
+.addInterest{display:flex;gap:8px;margin-top:12px}.addInterest input{margin-top:0}
+.budgetBox{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;background:linear-gradient(135deg,#f0e7ff,#fff);border:1px solid var(--line);border-radius:22px;padding:18px;margin-top:14px}.budgetBox b{font-size:30px;color:#4b2ab2}
+.suggestions{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}.suggestion{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:white;box-shadow:0 12px 30px rgba(76,45,151,.08);position:relative}.suggestion .photo{height:145px;background-size:cover;background-position:center}.suggestion .body{padding:13px}
+.suggestion .sel{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:10px;background:white;border:1px solid var(--line);display:grid;place-items:center;font-weight:1000;color:white}.suggestion.selected .sel{background:var(--lav);color:white}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.tag{background:#f0e9ff;color:#5d36c9;border-radius:999px;padding:5px 8px;font-size:12px;font-weight:800}.meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px;color:var(--muted)}.detailBtn{width:100%;margin-top:10px;background:white;color:var(--lav);border:1px solid var(--line);padding:10px}
+.stickyBar{position:sticky;bottom:0;z-index:20;background:linear-gradient(135deg,#7b55d9,#9b7cf0);color:white;border-radius:20px 20px 0 0;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -10px 35px rgba(76,45,151,.25)}.stickyBar button{background:white;color:var(--lav)}
+.notice{background:#f9f5ff;border:1px solid var(--line);border-radius:16px;padding:10px 12px;margin-top:12px;color:#5b4d78}
+@media(max-width:1100px){nav{grid-template-columns:repeat(5,1fr)}.grid3{grid-template-columns:1fr}.suggestions{grid-template-columns:repeat(2,1fr)}.wishGrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){main{padding:12px}.heroTop{padding:20px 14px}.suggestions,.wishGrid,.budgetBox{grid-template-columns:1fr}nav{grid-template-columns:1fr 1fr}h1{font-size:34px}}
 </style>
 </head>
 <body>
-<header>
-<div class="brand"><div class="logo">CR</div><div><h1>CREOVA</h1><p class="sub">Find your place. Plan your trip.</p></div></div>
-<nav>
-<a href="#ziel">Ziel</a><a href="#planen">Planen</a><a href="#infos">Infos</a><a href="#packliste">Packliste</a><a href="#touren">Touren</a><a href="#galerie">Galerie</a><a href="#budget">Budget</a><a href="#haus">Haus</a><a href="#wecker">Wecker</a><a href="#timeline">Timeline</a>
-</nav>
-</header>
+<header class="heroTop"><div class="brand"><div class="logo">CR</div><div><h1>CREOVA</h1><p class="sub">Find your place. Plan your trip.</p></div></div><nav><a class="active" href="#ziel">⌖ Ziel</a><a href="#planen">▣ Planen</a><a href="#infos">ⓘ Infos</a><a href="#packliste">▣ Packliste</a><a href="#touren">⌁ Touren</a><a href="#galerie">▧ Galerie</a><a href="#budget">▣ Budget</a><a href="#haus">⌂ Haus</a><a href="#wecker">◴ Wecker</a><a href="#timeline">☷ Timeline</a></nav></header>
 <main>
-<section id="ziel" class="page">
-<div class="hero"><h2>🎯 Ziel finden</h2><p class="muted">Budget, Reiseart und Wünsche eingeben. Die Vorschläge können direkt übernommen werden.</p></div>
-<div class="card">
-<div class="grid3">
-<label>Startort<span>oder Standort nutzen</span><input id="start" value="Marl"></label>
-<label>Umkreis<span>für Tagesausflug z. B. 100 km</span><select id="radius"><option value="100">100 km</option><option value="300" selected>300 km</option><option value="1000">1000 km</option></select></label>
-<label>Reiseart<span>Tagesausflug, Wochenende, Urlaub</span><select id="tripType"><option>Tagesausflug</option><option>Wochenende</option><option selected>Urlaub</option></select></label>
-<label>Gesamtbudget €<span>wird live verrechnet</span><input id="budgetInput" type="number" value="2000"></label>
-<label>Personen<span>für Übersicht</span><input id="persons" type="number" value="2"></label>
-<label>Interessen<span>ausgewählte Wünsche</span><input id="interests" value="Meer, Radfahren, Camping, gutes Essen"></label>
-</div>
-<div class="interestChips" id="interestChips">
-<button type="button" class="chip active" data-interest="Meer">Meer</button>
-<button type="button" class="chip" data-interest="Wandern">Wandern</button>
-<button type="button" class="chip active" data-interest="Radfahren">Radfahren</button>
-<button type="button" class="chip active" data-interest="Camping">Camping</button>
-<button type="button" class="chip" data-interest="Dachzelt">Dachzelt</button>
-<button type="button" class="chip active" data-interest="gutes Essen">gutes Essen</button>
-<button type="button" class="chip" data-interest="Natur">Natur</button>
-<button type="button" class="chip" data-interest="Altstadt">Altstadt</button>
-<button type="button" class="chip" data-interest="Kinder">Kinder</button>
-<button type="button" class="chip" data-interest="Wellness">Wellness</button>
-<button type="button" class="chip" data-interest="Berge">Berge</button>
-<button type="button" class="chip" data-interest="Tagesausflug">Tagesausflug</button>
-</div>
-<div class="grid" style="margin-top:14px"><button id="btnLocation">📍 Standort übernehmen</button><button id="btnPlaces">Vorschläge anzeigen</button></div>
-<p id="loc" class="muted">Standort noch nicht übernommen.</p>
-<div id="budgetBox" class="budgetLive"></div>
-</div>
-<div id="places" class="cards"></div>
-</section>
-
-<section id="infos" class="page">
-<div class="hero"><h2>ℹ️ Infos</h2><p class="muted">Deutsche Infos, Restaurants, Unterkünfte, Campingplätze, Aktivitäten und Sehenswürdigkeiten zum Anhaken.</p></div>
-<div class="card"><h2 id="infoTitle">Domburg, Niederlande</h2><p id="infoText" class="muted">Domburg ist ein schöner Küstenort in Zeeland. Ideal für Strand, Radfahren, Camping und entspannte Kurzurlaube.</p><div id="infoTags"></div></div>
-<div class="card"><h2>🍽️ Restaurants</h2><div id="restaurants" class="cards"></div></div>
-<div class="card"><h2>🏕️ Camping & Unterkünfte</h2><div id="stays" class="cards"></div></div>
-<div class="card"><h2>🎯 Aktivitäten & Sehenswürdigkeiten</h2><div id="activities" class="cards"></div></div>
-<div class="card"><h2>Übernehmen</h2><div id="infoBudget" class="budgetLive"></div><a href="#timeline"><button>Auswahl in Timeline übernehmen</button></a></div>
-</section>
-
-<section id="planen" class="page">
-<div class="hero"><h2>🧭 Urlaub von A–Z planen</h2></div>
-<div class="card"><div class="grid"><label>Reisename<input value="Urlaub"></label><label>Reiseziel<input id="tripGoal" value="Domburg, Niederlande"></label><label>Startdatum<input type="date"></label><label>Enddatum<input type="date"></label></div><textarea placeholder="Notizen..."></textarea></div>
-</section>
-
-<section id="budget" class="page"><div class="hero"><h2>💶 Budget</h2></div><div class="card"><div id="budgetPageBox" class="budgetLive"></div><div id="selectedList"></div></div></section>
-<section id="packliste" class="page"><div class="hero"><h2>🎒 Packliste</h2></div><div class="card"><h2>Kinder</h2><div class="packGrid" id="kids"></div></div><div class="card"><h2>Camping</h2><div class="packGrid" id="camp"></div></div></section>
-<section id="wecker" class="page"><div class="hero"><h2>⏰ Abfahrts-Wecker</h2></div><div class="card"><div class="grid3"><label>Ankunft<input id="arrival" type="time" value="15:00"></label><label>Fahrzeit Stunden<input id="driveH" type="number" value="4"></label><label>Pausen Minuten<input id="breaks" type="number" value="45"></label></div><button id="btnAlarm">Berechnen</button><div id="alarmResult"></div></div></section>
-<section id="timeline" class="page"><div class="hero"><h2>🗓️ Timeline mit Wetter</h2></div><div id="timelineList"></div></section>
-<section id="haus" class="page"><div class="hero"><h2>🏠 Haus / Home Assistant</h2></div><div class="card"><p class="muted">Sicher per Webhooks. Keine Tokens in der öffentlichen App speichern.</p><input placeholder="Webhook Urlaub starten"><input placeholder="Webhook Rückkehr"></div></section>
-<section id="touren" class="page"><div class="hero"><h2>🚴 Touren</h2><p class="muted">Komoot/Radtouren vorbereitet.</p></div></section>
-<section id="galerie" class="page"><div class="hero"><h2>🖼️ Galerie</h2></div></section>
+<section id="ziel"><div class="card"><h2>🎯 Ziel finden</h2><p class="muted">Budget, Reiseziel und Wünsche eingeben. Wähle Interessen aus oder füge eigene hinzu. Alle Vorschläge können direkt für die Planung übernommen werden.</p>
+<div class="grid3"><div><label>Startort<span>oder Standort nutzen</span><input id="start" value="Marl"></label><label style="margin-top:18px;display:block">Gesamtbudget €<span>wird live verrechnet</span><input id="budgetInput" type="number" value="2000"></label></div><div><label>Umkreis<span>für Tagesausflug z. B. 100 km</span><select id="radius"><option value="100">100 km</option><option value="300">300 km</option><option value="1000" selected>1000 km</option></select></label><label style="margin-top:18px;display:block">Personen<span>für Übersicht</span><input id="persons" type="number" value="2"></label></div><div><label>Reiseart<span>Tagesausflug, Wochenende, Urlaub</span><select id="tripType"><option>Tagesausflug</option><option>Wochenende</option><option selected>Urlaub</option></select></label><div class="wishPanel" style="margin-top:18px"><label>Interessen & Bedürfnisse<span>zum Anhaken – eigene Einträge werden als Kachel ergänzt</span><input id="interests" value="Meer, Radfahren, Camping, gutes Essen"></label><div class="wishGrid" id="wishGrid"></div><div class="addInterest"><input id="customInterest" placeholder="Eigenes Interesse hinzufügen..."><button class="secondary" id="addInterest">＋</button></div></div></div></div>
+<div class="grid3" style="margin-top:18px"><button class="primary" id="btnLocation">📍 Standort übernehmen</button><button class="secondary" id="btnSuggestions">Vorschläge anzeigen</button><button class="secondary" id="clearSelection">Auswahl leeren</button></div><div id="loc" class="notice">Standort noch nicht übernommen.</div><div id="budgetBox" class="budgetBox"></div></div>
+<div class="card"><div class="titleRow"><div><h2>✨ Vorschläge für dich</h2><p class="muted">Alle Karten haben Bilder und können angehakt werden. Die Kosten werden sofort vom Budget abgezogen.</p></div><select id="sort"><option>Empfehlung</option><option>Preis niedrig</option><option>Entfernung</option></select></div><div id="suggestions" class="suggestions"></div></div></section>
+<section id="planen" class="card"><h2>🧭 Planen</h2><p class="muted">Hier landen die ausgewählten Vorschläge aus der Startseite.</p><div id="planList"></div></section>
+<section id="infos" class="card"><h2>ℹ️ Infos</h2><p class="muted">Details werden später je ausgewähltem Ziel vertieft.</p></section><section id="packliste" class="card"><h2>🎒 Packliste</h2><p class="muted">Wird anhand der Auswahl automatisch erweitert.</p></section><section id="touren" class="card"><h2>🚴 Touren</h2><p class="muted">Radtouren und Wanderungen passend zum Ziel.</p></section><section id="galerie" class="card"><h2>🖼️ Galerie</h2><p class="muted">Reisebilder und Inspiration.</p></section><section id="budget" class="card"><h2>💶 Budget</h2><div id="budgetBox2" class="budgetBox"></div></section><section id="haus" class="card"><h2>🏠 Haus</h2><p class="muted">Home Assistant Webhooks vorbereitet.</p></section><section id="wecker" class="card"><h2>⏰ Wecker</h2><p class="muted">Abfahrtswecker kommt in der nächsten Ausbaustufe.</p></section><section id="timeline" class="card"><h2>🗓️ Timeline</h2><div id="timelineList"></div></section>
 </main>
+<div class="stickyBar"><div><b id="selectedCount">0 Vorschläge ausgewählt</b><br><small>Füge Vorschläge hinzu, um deinen Plan zu erstellen.</small></div><div><small>Gesamt</small><br><b id="selectedTotal">0 €</b></div><button onclick="location.hash='#planen'">Zum Planen hinzufügen ›</button></div>
 <script>
-const placesData=[
- {name:"Domburg, Niederlande",km:246,emoji:"🌊",text:"Strand, Camping, Radfahren und Restaurants in Zeeland.",tags:["Meer","Radfahren","Camping","gutes Essen"],options:[
-  {name:"Camping Domburg",type:"Camping",price:120,emoji:"🏕️",desc:"Camping nahe Strand und Dünen."},
-  {name:"Dachzelt-Stellplatz Zeeland",type:"Camping",price:80,emoji:"⛺",desc:"einfacher Stellplatz für kurzen Urlaub."},
-  {name:"Strandhotel Domburg",type:"Unterkunft",price:320,emoji:"🏨",desc:"Hotel nah am Meer."},
-  {name:"Strandrestaurant De Dam",type:"Restaurant",price:70,emoji:"🍽️",desc:"Restaurant direkt am Strand."},
-  {name:"Radtour nach Westkapelle",type:"Unternehmung",price:0,emoji:"🚴",desc:"flache Küstenroute."},
-  {name:"Besuch Middelburg",type:"Sehenswürdigkeit",price:40,emoji:"🏛️",desc:"Altstadt, Cafés und Shopping."}
- ]},
- {name:"Winterberg, Deutschland",km:95,emoji:"⛰️",text:"Tagesausflug, Bikepark, Wandern und Natur.",tags:["Wandern","Radfahren","Natur","Berge","Tagesausflug"],options:[
-  {name:"Bikepark Winterberg",type:"Unternehmung",price:90,emoji:"🚵",desc:"sportliche MTB-Aktivität."},
-  {name:"Kahler Asten",type:"Sehenswürdigkeit",price:0,emoji:"⛰️",desc:"Aussichtspunkt und Wanderziel."},
-  {name:"Campingplatz Winterberg",type:"Camping",price:70,emoji:"🏕️",desc:"Camping im Sauerland."},
-  {name:"Brauhaus Winterberg",type:"Restaurant",price:60,emoji:"🍺",desc:"rustikales Essen."}
- ]},
- {name:"Meran, Italien",km:830,emoji:"🏔️",text:"Berge, gutes Essen, Camping, Radtouren, Therme und Südtirol.",tags:["Berge","Radfahren","Wandern","Camping","gutes Essen","Wellness"],options:[
-  {name:"Camping Hermitage",type:"Camping",price:160,emoji:"🏕️",desc:"Camping nahe Meran."},
-  {name:"Prinz Rudolf Smarthotel",type:"Unterkunft",price:420,emoji:"🏨",desc:"Unterkunft oberhalb von Meran."},
-  {name:"Forsterbräu Meran",type:"Restaurant",price:80,emoji:"🍽️",desc:"Südtiroler Küche."},
-  {name:"Therme Meran",type:"Unternehmung",price:70,emoji:"💧",desc:"gut bei schlechtem Wetter."},
-  {name:"Tappeinerweg",type:"Sehenswürdigkeit",price:0,emoji:"🥾",desc:"Panoramaweg über Meran."}
- ]}
-];
-let selected=JSON.parse(localStorage.creovaStableSelected||"[]");
-function euro(n){return Number(n||0)+" €"}
-function budget(){return Number(document.getElementById("budgetInput")?.value||localStorage.creovaBudget||2000)}
-function used(){return selected.reduce((a,b)=>a+Number(b.price),0)}
-function activeInterests(){return [...document.querySelectorAll(".chip.active")].map(x=>x.dataset.interest)}
-function updateInterestInput(){document.getElementById("interests").value=activeInterests().join(", ")}
-function updateBudget(){
- localStorage.creovaBudget=budget();
- let h=`<div><span class="muted">Budget</span><br><b>${euro(budget())}</b></div><div><span class="muted">Ausgewählt</span><br><b>${euro(used())}</b></div><div><span class="muted">Rest</span><br><b>${euro(budget()-used())}</b></div>`;
- ["budgetBox","infoBudget","budgetPageBox"].forEach(id=>{let e=document.getElementById(id);if(e)e.innerHTML=h});
- let l=document.getElementById("selectedList");if(l)l.innerHTML=selected.map(x=>`<p><b>${x.name}</b> · ${x.type} · ${x.price} €</p>`).join("")||"<p class='muted'>Noch nichts ausgewählt.</p>";
-}
-function score(p){const a=activeInterests();return p.tags.filter(t=>a.includes(t)).length}
-function renderPlaces(){
- let r=Number(document.getElementById("radius")?.value||300);
- let items=placesData.filter(p=>p.km<=r||r>=1000).sort((a,b)=>score(b)-score(a));
- document.getElementById("places").innerHTML=items.map(p=>`<div class="box"><div class="photo">${p.emoji}</div><div class="body"><h3>${p.name}</h3><p class="muted">${p.text}</p><p><b>${p.km} km</b> · Treffer: ${score(p)}</p>${p.tags.map(t=>`<span class="pill">${t}</span>`).join("")}<p><a href="#infos"><button data-place="${p.name}">Infos</button></a></p></div></div>`).join("");
-}
-function openInfo(name){
- const p=placesData.find(x=>x.name===name)||placesData[0];
- document.getElementById("tripGoal").value=p.name;
- document.getElementById("infoTitle").innerText=p.name;
- document.getElementById("infoText").innerText=p.text+" Alle Vorschläge können angehakt und in den Urlaub übernommen werden.";
- document.getElementById("infoTags").innerHTML=p.tags.map(t=>`<span class="pill">${t}</span>`).join("");
- renderOptions("restaurants",p.options.filter(o=>o.type==="Restaurant"));
- renderOptions("stays",p.options.filter(o=>o.type==="Camping"||o.type==="Unterkunft"));
- renderOptions("activities",p.options.filter(o=>o.type==="Unternehmung"||o.type==="Sehenswürdigkeit"));
-}
-function renderOptions(id,arr){
- document.getElementById(id).innerHTML=arr.map(o=>{
-  let ch=selected.some(s=>s.name===o.name)?"checked":"";
-  return `<div class="box"><div class="photo">${o.emoji}</div><div class="body"><h3>${o.name}</h3><p class="muted">${o.desc}</p><p>${o.type}</p><div class="price">${o.price} €</div><label class="check"><input type="checkbox" ${ch} data-option="${o.name}"> für Urlaub übernehmen</label></div></div>`
- }).join("");
-}
-function optionByName(name){for(const p of placesData){const o=p.options.find(x=>x.name===name);if(o)return o}return null}
-function renderTimeline(){
- const el=document.getElementById("timelineList"); if(!el)return;
- el.innerHTML=`<div class="timelineDay"><h3>Tag 1 · ☀️ gutes Wetter</h3>${selected.map(x=>`<p><b>${x.name}</b> · ${x.type} · ${x.price} €</p>`).join("")||"<p class='muted'>Noch nichts übernommen.</p>"}</div><div class="timelineDay"><h3>Tag 2 · 🌧️ Regen möglich</h3><p class="muted">Radtouren können bei Regen auf Tag 1 verschoben werden.</p></div>`;
-}
-function renderPack(){
- document.getElementById("kids").innerHTML=["🧸 Lieblingsspielzeug","🍎 Snacks","👕 Wechselkleidung","💊 Kinder-Medikamente","🧴 Sonnencreme Kinder","📱 Tablet/Ladekabel"].map(x=>`<div class="pack">${x}</div>`).join("");
- document.getElementById("camp").innerHTML=["⛺ Dachzelt","🛏️ Schlafsack","🔥 Gaskocher","🧊 Kühlbox","🔦 Stirnlampe","🪑 Campingstuhl"].map(x=>`<div class="pack">${x}</div>`).join("");
-}
-document.addEventListener("click",e=>{
- if(e.target.matches(".chip")){e.target.classList.toggle("active");updateInterestInput();renderPlaces()}
- if(e.target.matches("[data-place]"))openInfo(e.target.dataset.place)
-});
-document.addEventListener("change",e=>{
- if(e.target.matches("[data-option]")){
-  const o=optionByName(e.target.dataset.option); if(!o)return;
-  if(e.target.checked&&!selected.some(s=>s.name===o.name))selected.push(o);
-  if(!e.target.checked)selected=selected.filter(s=>s.name!==o.name);
-  localStorage.creovaStableSelected=JSON.stringify(selected);updateBudget();renderTimeline();
- }
-});
-document.getElementById("btnPlaces").addEventListener("click",renderPlaces);
-document.getElementById("budgetInput").addEventListener("input",updateBudget);
-document.getElementById("radius").addEventListener("change",renderPlaces);
-document.getElementById("btnLocation").addEventListener("click",()=>{if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>loc.textContent=`✅ Standort: ${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`,()=>loc.textContent="Standort nicht freigegeben.")});
-document.getElementById("btnAlarm").addEventListener("click",()=>{let [h,m]=arrival.value.split(":").map(Number);let dep=h*60+m-Number(driveH.value)*60-Number(breaks.value);let t=(x)=>String(Math.floor((x+1440)%1440/60)).padStart(2,"0")+":"+String((x+1440)%1440%60).padStart(2,"0");alarmResult.innerHTML=`<div class="budgetLive"><div><span>Aufstehen</span><br><b>${t(dep-90)}</b></div><div><span>Haus-Check</span><br><b>${t(dep-25)}</b></div><div><span>Abfahrt</span><br><b>${t(dep)}</b></div></div>`});
-updateInterestInput();renderPlaces();openInfo("Domburg, Niederlande");renderPack();renderTimeline();updateBudget();
-</script>
-</body></html>
+const wishBase=[{name:"Meer",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80",active:true},{name:"Wandern",img:"https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=500&q=80"},{name:"Radfahren",img:"https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=500&q=80",active:true},{name:"Camping",img:"https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=500&q=80",active:true},{name:"Dachzelt",img:"https://images.unsplash.com/photo-1533873984035-25970ab07461?auto=format&fit=crop&w=500&q=80"},{name:"gutes Essen",img:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=500&q=80",active:true},{name:"Natur",img:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=500&q=80"},{name:"Altstadt",img:"https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=500&q=80"},{name:"Kinder",img:"https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=500&q=80"},{name:"Wellness",img:"https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=500&q=80"},{name:"Shopping",img:"https://images.unsplash.com/photo-1481437156560-3205f6a55735?auto=format&fit=crop&w=500&q=80"},{name:"Berge",img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=500&q=80"},{name:"See",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=500&q=80"},{name:"Tagesausflug",img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80"}];
+let wishes=JSON.parse(localStorage.creova7wishes||"null")||wishBase;let selected=JSON.parse(localStorage.creova7selected||"[]");
+const suggestions=[{title:"Nordsee – Domburg",km:98,price:45,rating:"4.6",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",tags:["Meer","Camping","Radfahren"],desc:"Strand, Dünen, Radwege und Campingplätze."},{title:"Eifel Nationalpark",km:85,price:30,rating:"4.7",img:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80",tags:["Wandern","Natur","Camping"],desc:"Wald, Seen, Wanderwege und ruhige Plätze."},{title:"Biggesee",km:120,price:35,rating:"4.5",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80",tags:["See","Radfahren","Natur"],desc:"See, Aussicht, Radwege und Picknickplätze."},{title:"Maastricht",km:160,price:85,rating:"4.8",img:"https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=800&q=80",tags:["Altstadt","Kultur","Shopping","gutes Essen"],desc:"Altstadt, Restaurants, Cafés und Shopping."},{title:"Kletterwald Winterberg",km:180,price:25,rating:"4.9",img:"https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=800&q=80",tags:["Kinder","Abenteuer","Natur"],desc:"Schöne Aktivität für Familien mit Kindern."},{title:"Therme & Wellness",km:75,price:65,rating:"4.4",img:"https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80",tags:["Wellness","Tagesausflug"],desc:"Entspannen bei schlechtem Wetter."},{title:"Sauerland Bike Tour",km:95,price:0,rating:"4.7",img:"https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=800&q=80",tags:["Radfahren","Berge","Natur"],desc:"Sportliche Radtour mit Aussicht."},{title:"Campingplatz am See",km:110,price:55,rating:"4.5",img:"https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80",tags:["Camping","See","Dachzelt"],desc:"Camping und Dachzelt direkt am Wasser."}];
+function activeWishes(){return wishes.filter(w=>w.active).map(w=>w.name)}
+function renderWishes(){wishGrid.innerHTML=wishes.map((w,i)=>`<div class="wish ${w.active?'active':''}" data-wish="${i}"><div class="pic" style="background-image:url('${w.img}')"></div><div class="check">✓</div><div class="name">${w.name}</div></div>`).join("");interests.value=activeWishes().join(", ")}
+function score(s){return s.tags.filter(t=>activeWishes().includes(t)).length}
+function renderSuggestions(){let arr=[...suggestions].sort((a,b)=>score(b)-score(a));if(sort.value==="Preis niedrig")arr.sort((a,b)=>a.price-b.price);if(sort.value==="Entfernung")arr.sort((a,b)=>a.km-b.km);document.getElementById("suggestions").innerHTML=arr.map(s=>{let is=selected.some(x=>x.title===s.title);return `<div class="suggestion ${is?'selected':''}" data-suggestion="${s.title}"><div class="photo" style="background-image:url('${s.img}')"></div><div class="sel">✓</div><div class="body"><h3>${s.title}</h3><p class="muted">${s.desc}</p><div class="tags">${s.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div><div class="meta"><span>⭐ ${s.rating}</span><span>${s.km} km</span><b>ab ${s.price} €</b></div><button class="detailBtn">Details anzeigen</button></div></div>`}).join("")}
+function updateBudget(){let budget=Number(budgetInput.value||0);let sum=selected.reduce((a,b)=>a+b.price,0);let box=`<div><span class="muted">Budget</span><br><b>${budget} €</b></div><div><span class="muted">Ausgewählt</span><br><b>${sum} €</b></div><div><span class="muted">Rest</span><br><b>${budget-sum} €</b></div>`;budgetBox.innerHTML=box;budgetBox2.innerHTML=box;selectedCount.textContent=selected.length+" Vorschläge ausgewählt";selectedTotal.textContent=sum+" €";planList.innerHTML=selected.map(s=>`<div class="card"><h3>${s.title}</h3><p>${s.desc}</p><b>${s.price} €</b></div>`).join("")||"<p class='muted'>Noch keine Vorschläge ausgewählt.</p>";timelineList.innerHTML=selected.map((s,i)=>`<div class="card"><h3>Tag ${i+1}: ${s.title}</h3><p>${s.desc}</p></div>`).join("")||"<p class='muted'>Noch keine Timeline vorhanden.</p>"}
+document.addEventListener("click",e=>{let w=e.target.closest(".wish");if(w){wishes[Number(w.dataset.wish)].active=!wishes[Number(w.dataset.wish)].active;localStorage.creova7wishes=JSON.stringify(wishes);renderWishes();renderSuggestions();return}let s=e.target.closest(".suggestion");if(s){let item=suggestions.find(x=>x.title===s.dataset.suggestion);if(selected.some(x=>x.title===item.title))selected=selected.filter(x=>x.title!==item.title);else selected.push(item);localStorage.creova7selected=JSON.stringify(selected);renderSuggestions();updateBudget();}});
+addInterest.onclick=()=>{let val=customInterest.value.trim();if(!val)return;wishes.push({name:val,img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80",active:true});customInterest.value="";localStorage.creova7wishes=JSON.stringify(wishes);renderWishes();renderSuggestions();};
+btnSuggestions.onclick=renderSuggestions;budgetInput.oninput=updateBudget;sort.onchange=renderSuggestions;clearSelection.onclick=()=>{selected=[];localStorage.creova7selected="[]";renderSuggestions();updateBudget()};btnLocation.onclick=()=>{if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>loc.textContent=`✅ Standort: ${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`,()=>loc.textContent="Standort nicht freigegeben.")};
+renderWishes();renderSuggestions();updateBudget();
+</script></body></html>
