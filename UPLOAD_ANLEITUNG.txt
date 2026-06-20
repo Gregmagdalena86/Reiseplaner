@@ -1,12 +1,16 @@
-CREOVA Upload Ready
+CREOVA 5.4 Upload
 
-Diese Dateien direkt in GitHub hochladen:
+Diese drei Dateien in GitHub hochladen/ersetzen:
 
-1. index.html
-2. icon.svg
-3. manifest.webmanifest
+index.html
+icon.svg
+manifest.webmanifest
 
-Wichtig:
-Nicht die ZIP-Datei in GitHub Pages verwenden.
-Die ZIP ist nur zum Herunterladen gedacht.
-Nach dem Entpacken nur die drei Dateien hochladen/ersetzen.
+Neu:
+- Budget direkt unter Ziel
+- Tagesausflug/100km-Modus
+- Standortübernahme
+- Deutsche Detailvorschläge
+- Aktivitäten in Timeline übernehmen
+- Wetteranzeige in Timeline
+- Aktivitäten auf andere Tage verschieben

@@ -9,13 +9,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icon.svg">
-<title>CREOVA 5.0</title>
+<title>CREOVA 5.4</title>
 <style>
 :root{--bg:#f4f0e6;--card:#fffdf8;--green:#1f3529;--green2:#5d7658;--sand:#caa85a;--muted:#6d766c;--blue:#315f7d;--bike:#2e6f55;--danger:#8f3b31;--line:#e5e0d4}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#1b2921}
 header{background:linear-gradient(135deg,#14251d,#36513d 65%,#897648);color:white;padding:24px 16px}.wrap,main{max-width:1180px;margin:auto}.brand{display:flex;gap:14px;align-items:center}.logo{width:58px;height:58px;border-radius:18px;background:#f4ead6;color:#203528;display:grid;place-items:center;font-weight:900}
 h1{margin:0;font-size:36px;letter-spacing:4px}.sub{margin:4px 0 0;opacity:.9}
-nav{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-top:18px}nav a{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:white;border-radius:999px;padding:12px;font-weight:800;text-align:center;text-decoration:none;font-size:14px}nav a.active{background:#f4ead6;color:#203528}
+nav{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;margin-top:18px}nav a{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:white;border-radius:999px;padding:12px;font-weight:800;text-align:center;text-decoration:none;font-size:14px}nav a.active{background:#f4ead6;color:#203528}
 main{padding:18px}.page{display:none}.page.active{display:block}.card{background:var(--card);border-radius:22px;padding:18px;margin-bottom:18px;box-shadow:0 10px 28px rgba(47,39,25,.08);border:1px solid rgba(255,255,255,.7)}
 h2{margin:0 0 10px;color:var(--green)}h3{margin:12px 0 8px;color:var(--green)}.muted{color:var(--muted);font-size:14px;line-height:1.45}.small{font-size:13px}.note{background:#fff5d8;border:1px solid #ead7a5;color:#5c481b;border-radius:16px;padding:12px;margin-bottom:12px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -46,14 +46,38 @@ button,.btn{background:var(--green);color:white;border:none;font-weight:800;curs
 .statusOk{background:#eaf3e8;border:1px solid #bfd4bb;color:#1f3529;border-radius:16px;padding:12px;margin-top:12px}
 .statusWarn{background:#fff5d8;border:1px solid #ead7a5;color:#5c481b;border-radius:16px;padding:12px;margin-top:12px}
 @media(max-width:650px){.haGrid,.haChecklist{grid-template-columns:1fr}}
+
+.alarmGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.alarmPlan{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.alarmStep{background:#fffdf8;border:1px solid #e3dccb;border-radius:18px;padding:14px}
+.alarmTime{font-size:30px;font-weight:900;color:#1f3529}
+.alarmNote{background:#eaf3e8;border:1px solid #bfd4bb;border-radius:18px;padding:14px;margin-top:14px}
+@media(max-width:800px){.alarmGrid,.alarmPlan{grid-template-columns:1fr}}
+
+.tripModeBox{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}
+.tripModeBox button{background:#eef2ea;color:#1f3529;border:1px solid #d8dfd1}
+.tripModeBox button.active{background:#1f3529;color:white}
+.detailPick{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pickCard{background:#fffdf8;border:1px solid #e3dccb;border-radius:18px;overflow:hidden}
+.pickCard img{width:100%;height:120px;object-fit:cover;background:#eef2ea}
+.pickCardBody{padding:12px}
+.timelineTools{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0}
+.dayLine{background:#fffdf8;border:1px solid #e3dccb;border-radius:18px;padding:14px;margin:12px 0}
+.dayLine h3{display:flex;justify-content:space-between;gap:10px}
+.activityRow{display:grid;grid-template-columns:80px 1fr 140px;gap:10px;align-items:center;border-top:1px solid #e3dccb;padding:10px 0}
+.activityRow:first-of-type{border-top:none}
+.smallSelect{padding:10px;border-radius:12px;border:1px solid #d8dfd1;background:white}
+.locStatus{background:#eaf3e8;border:1px solid #bfd4bb;border-radius:16px;padding:12px;margin-top:10px}
+@media(max-width:900px){.detailPick,.timelineTools,.tripModeBox{grid-template-columns:1fr 1fr}.activityRow{grid-template-columns:1fr}}
+@media(max-width:650px){.detailPick,.timelineTools,.tripModeBox{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header><div class="wrap"><div class="brand"><div class="logo">CR</div><div><h1>CREOVA</h1><p class="sub">Find your place. Plan your trip.</p></div></div>
-<nav><a href="#home" id="nav-home">Ziel</a><a href="#plan" id="nav-plan">Planen</a><a href="#details" id="nav-details">Details</a><a href="#pack" id="nav-pack">Packliste</a><a href="#tours" id="nav-tours">Touren</a><a href="#gallery" id="nav-gallery">Galerie</a><a href="#budget" id="nav-budget">Budget</a><a href="#homeassistant" id="nav-homeassistant">Haus</a></nav></div></header>
+<nav><a href="#home" id="nav-home">Ziel</a><a href="#plan" id="nav-plan">Planen</a><a href="#details" id="nav-details">Details</a><a href="#pack" id="nav-pack">Packliste</a><a href="#tours" id="nav-tours">Touren</a><a href="#gallery" id="nav-gallery">Galerie</a><a href="#budget" id="nav-budget">Budget</a><a href="#homeassistant" id="nav-homeassistant">Haus</a><a href="#alarm" id="nav-alarm">Wecker</a><a href="#timeline" id="nav-timeline">Timeline</a></nav></div></header>
 <main>
 <section id="home" class="page">
-<div class="card note"><b>CREOVA 5.0 Master Free:</b> nutzt nur kostenlose Quellen: OpenStreetMap/Overpass, Nominatim, Open‑Meteo, Wikipedia/Wikimedia und lokale Speicherung.</div>
+<div class="card note"><b>CREOVA 5.4 Master Free:</b> nutzt nur kostenlose Quellen: OpenStreetMap/Overpass, Nominatim, Open‑Meteo, Wikipedia/Wikimedia und lokale Speicherung.</div>
 <div class="card"><h2>Reiseziel nach Hobbys & Bedürfnissen finden</h2><div class="grid3"><input id="startCity" value="Marl" placeholder="Startort, z. B. Marl"><select id="radius"><option value="100">bis 100 km</option><option value="200">bis 200 km</option><option value="300" selected>bis 300 km</option><option value="500">bis 500 km</option><option value="700">bis 700 km</option><option value="1200">bis 1200 km</option><option value="9999">Europaweit</option></select><select id="travelType"><option value="camping">Camping / Dachzelt</option><option value="hotel">Hotel</option><option value="bike">Radreise</option><option value="hiking">Wanderreise</option><option value="city">Städtetrip</option></select></div><h3>Interessen</h3><div class="grid4" id="interests"></div><button onclick="renderDestinations()">Passende Orte anzeigen</button><p id="searchStatus" class="muted"></p></div><div class="card"><h2>Vorschläge</h2><div id="destinations" class="destgrid"></div></div>
 </section>
 
@@ -139,6 +163,68 @@ action:
     data:
       preset_mode: away</textarea>
 </div>
+</section>
+
+
+<section id="alarm" class="page">
+<div class="plannerHero">
+<h2>⏰ Abfahrts-Wecker</h2>
+<p class="muted">CREOVA berechnet deine Abfahrtszeit und erstellt dir einen Reise-Start-Plan. Für iPhone kannst du zusätzlich eine Kalenderdatei erzeugen.</p>
+</div>
+
+<div class="card">
+<h2>Reise-Start berechnen</h2>
+<div class="alarmGrid">
+<label class="inputLabel">Reisedatum<span>Kalender öffnen</span><input id="alarmDate" class="cleanInput" type="date"><div class="dateHint"><button type="button" class="light" onclick="focusDate('alarmDate')">📅 Kalender öffnen</button></div></label>
+<label class="inputLabel">Gewünschte Ankunft<span>z. B. 15:00</span><input id="alarmArrival" class="cleanInput" type="time" value="15:00"></label>
+<label class="inputLabel">Fahrzeit Stunden<span>z. B. 4</span><input id="alarmDriveH" class="cleanInput" type="number" min="0" value="4"></label>
+<label class="inputLabel">Fahrzeit Minuten<span>z. B. 30</span><input id="alarmDriveM" class="cleanInput" type="number" min="0" max="59" value="30"></label>
+<label class="inputLabel">Pausen Minuten<span>z. B. 45</span><input id="alarmBreaks" class="cleanInput" type="number" min="0" value="45"></label>
+<label class="inputLabel">Sicherheits-Puffer Minuten<span>z. B. 30</span><input id="alarmBuffer" class="cleanInput" type="number" min="0" value="30"></label>
+<label class="inputLabel">Aufstehen vorher<span>Minuten vor Abfahrt</span><input id="alarmWakeBefore" class="cleanInput" type="number" min="0" value="90"></label>
+<label class="inputLabel">Auto beladen vorher<span>Minuten vor Abfahrt</span><input id="alarmLoadBefore" class="cleanInput" type="number" min="0" value="45"></label>
+<label class="inputLabel">Haus-Check vorher<span>Minuten vor Abfahrt</span><input id="alarmHouseBefore" class="cleanInput" type="number" min="0" value="25"></label>
+</div>
+<div class="grid">
+<button onclick="calcDepartureAlarm()">Abfahrts-Wecker berechnen</button>
+<button class="secondary" onclick="downloadAlarmICS()">Kalender-Erinnerungen erstellen</button>
+</div>
+<div id="alarmResult" class="alarmNote">Noch nicht berechnet.</div>
+<div id="alarmPlan" class="alarmPlan"></div>
+</div>
+
+<div class="card">
+<h2>Warum Kalender statt echter Wecker?</h2>
+<p class="muted">Eine Webseite/PWA darf auf dem iPhone nicht zuverlässig im Hintergrund klingeln wie die native Uhr-App. CREOVA erzeugt deshalb Kalender-Erinnerungen, die iOS zuverlässig anzeigen kann.</p>
+</div>
+</section>
+
+
+<section id="timeline" class="page">
+<div class="plannerHero">
+<h2>🗓️ Reise-Timeline</h2>
+<p class="muted">Übernommene Aktivitäten werden automatisch eingeplant. Du kannst sie auf andere Tage verschieben, z. B. wenn das Wetter für eine Radtour schlecht ist.</p>
+</div>
+
+<div class="card">
+<h2>Timeline erzeugen</h2>
+<div class="timelineTools">
+<label class="inputLabel">Startdatum<input id="tlStart" type="date" class="cleanInput"><div class="dateHint"><button type="button" class="light" onclick="focusDate('tlStart')">📅 Kalender öffnen</button></div></label>
+<label class="inputLabel">Enddatum<input id="tlEnd" type="date" class="cleanInput"><div class="dateHint"><button type="button" class="light" onclick="focusDate('tlEnd')">📅 Kalender öffnen</button></div></label>
+<label class="inputLabel">Zielort<input id="tlPlace" class="cleanInput" placeholder="z. B. Meran"></label>
+</div>
+<div class="grid">
+<button onclick="buildTimeline()">Timeline erstellen</button>
+<button class="secondary" onclick="addManualActivity()">Aktivität manuell hinzufügen</button>
+</div>
+</div>
+
+<div id="timelineWeather" class="card">
+<h2>Wetterübersicht</h2>
+<p class="muted">Für echte Wetterdaten wird später Open-Meteo kostenlos angebunden. Aktuell zeigt CREOVA eine lokale Vorschau anhand des Zieltyps.</p>
+</div>
+
+<div id="timelineList"></div>
 </section>
 
 </main>
@@ -256,7 +342,197 @@ function renderHAChecklist(){const el=document.getElementById("haChecklist");if(
 function saveHAChecklist(){alert("Haus-Checkliste gespeichert.")}
 function resetHAChecklist(){localStorage.removeItem("haChecks");renderHAChecklist()}
 
-function init(){let el=document.getElementById("interests");interests.forEach(i=>{let l=document.createElement("label");l.className="interest";let checked=(i==="Meer"||i==="Fahrradstrecken")?"checked":"";l.innerHTML=`<input type="checkbox" value="${esc(i)}" ${checked}><span>${esc(i)}</span>`;el.appendChild(l)});window.addEventListener("hashchange",activatePage);activatePage();renderDestinations();renderTrip();renderPack();calcBudget();loadHA()}
+
+function pad2(n){return String(n).padStart(2,"0")}
+function minutesToTime(m){m=((m%1440)+1440)%1440;return pad2(Math.floor(m/60))+":"+pad2(m%60)}
+function timeToMinSafe(t){if(!t)return 0;let [h,m]=t.split(":").map(Number);return h*60+(m||0)}
+function calcDepartureAlarm(){
+  const arrival=timeToMinSafe(v("alarmArrival")||"15:00");
+  const drive=(parseInt(v("alarmDriveH")||"0")*60)+parseInt(v("alarmDriveM")||"0");
+  const breaks=parseInt(v("alarmBreaks")||"0");
+  const buffer=parseInt(v("alarmBuffer")||"0");
+  const depart=arrival-drive-breaks-buffer;
+  const wake=depart-parseInt(v("alarmWakeBefore")||"90");
+  const load=depart-parseInt(v("alarmLoadBefore")||"45");
+  const house=depart-parseInt(v("alarmHouseBefore")||"25");
+  const plan=[
+    ["⏰",minutesToTime(wake),"Aufstehen","Genug Zeit zum Fertigmachen und Frühstücken."],
+    ["🚗",minutesToTime(load),"Auto beladen","Kühlbox, Gepäck, Fahrrad, Dokumente und Getränke einpacken."],
+    ["🏠",minutesToTime(house),"Haus-Check","Fenster, Herd, Wasser, Müll, Alarmanlage, Bewässerung prüfen."],
+    ["🛣️",minutesToTime(depart),"Abfahrt","Jetzt losfahren, damit du entspannt ankommst."],
+    ["🏁",minutesToTime(arrival),"Ankunft","Geplante Ankunft am Urlaubsort."]
+  ];
+  localStorage.alarmPlan=JSON.stringify(plan);
+  localStorage.alarmSettings=JSON.stringify({
+    date:v("alarmDate"),arrival:v("alarmArrival"),driveH:v("alarmDriveH"),driveM:v("alarmDriveM"),
+    breaks:v("alarmBreaks"),buffer:v("alarmBuffer"),wakeBefore:v("alarmWakeBefore"),
+    loadBefore:v("alarmLoadBefore"),houseBefore:v("alarmHouseBefore")
+  });
+  document.getElementById("alarmResult").innerHTML=`✅ Empfohlene Abfahrt: <b>${minutesToTime(depart)}</b><br>Fahrzeit ${drive} Min + Pausen ${breaks} Min + Puffer ${buffer} Min.`;
+  renderAlarmPlan(plan);
+}
+function renderAlarmPlan(plan){
+  const el=document.getElementById("alarmPlan"); if(!el)return;
+  el.innerHTML=plan.map(p=>`<div class="alarmStep"><div style="font-size:26px">${p[0]}</div><div class="alarmTime">${p[1]}</div><h3>${esc(p[2])}</h3><p class="muted">${esc(p[3])}</p></div>`).join("");
+}
+function loadAlarm(){
+  try{
+    const s=JSON.parse(localStorage.alarmSettings||"{}");
+    Object.entries({alarmDate:s.date,alarmArrival:s.arrival,alarmDriveH:s.driveH,alarmDriveM:s.driveM,alarmBreaks:s.breaks,alarmBuffer:s.buffer,alarmWakeBefore:s.wakeBefore,alarmLoadBefore:s.loadBefore,alarmHouseBefore:s.houseBefore}).forEach(([k,val])=>{if(val!==undefined&&document.getElementById(k))setv(k,val)});
+    const plan=JSON.parse(localStorage.alarmPlan||"null"); if(plan)renderAlarmPlan(plan);
+  }catch(e){}
+}
+function icsDate(date,time){
+  if(!date){let d=new Date();date=d.toISOString().slice(0,10)}
+  const t=(time||"08:00").replace(":","");
+  return date.replaceAll("-","")+"T"+t+"00";
+}
+function downloadAlarmICS(){
+  let plan=JSON.parse(localStorage.alarmPlan||"null");
+  if(!plan){calcDepartureAlarm();plan=JSON.parse(localStorage.alarmPlan||"null")}
+  const date=v("alarmDate")||new Date().toISOString().slice(0,10);
+  let ics="BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CREOVA//Abfahrtswecker//DE\n";
+  plan.forEach((p,i)=>{
+    const start=icsDate(date,p[1]);
+    ics+=`BEGIN:VEVENT\nUID:creova-${Date.now()}-${i}@creova\nDTSTAMP:${icsDate(new Date().toISOString().slice(0,10),"00:00")}Z\nDTSTART:${start}\nSUMMARY:CREOVA: ${p[2]}\nDESCRIPTION:${p[3]}\nBEGIN:VALARM\nTRIGGER:-PT10M\nACTION:DISPLAY\nDESCRIPTION:CREOVA Erinnerung\nEND:VALARM\nEND:VEVENT\n`;
+  });
+  ics+="END:VCALENDAR";
+  const blob=new Blob([ics],{type:"text/calendar"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="CREOVA-Abfahrtswecker.ics";
+  a.click();
+}
+
+
+const nearDayTrips=[
+ {name:"Münster, Deutschland",km:55,tags:["Altstadt","gutes Essen","Shopping","Radwege"],desc:"Schöne Altstadt, Prinzipalmarkt, Aasee und gute Radwege.",budget:"€€",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Muenster_Prinzipalmarkt_2019.jpg/640px-Muenster_Prinzipalmarkt_2019.jpg"},
+ {name:"Hattingen, Deutschland",km:38,tags:["Altstadt","Ruhe","Radwege","Natur"],desc:"Fachwerk-Altstadt, Ruhrtalradweg und gemütliche Restaurants.",budget:"€",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Hattingen_Blankenstein_Burg_2011.jpg/640px-Hattingen_Blankenstein_Burg_2011.jpg"},
+ {name:"Winterberg, Deutschland",km:95,tags:["Natur","Wandern","Fahrradstrecken","familienfreundlich"],desc:"Sauerland, Bikepark, Wanderwege und schöne Aussichtspunkte.",budget:"€€",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Winterberg_Kahler_Asten.jpg/640px-Winterberg_Kahler_Asten.jpg"},
+ {name:"Xanten, Deutschland",km:75,tags:["See","Natur","familienfreundlich","Radwege"],desc:"Archäologischer Park, Xantener Südsee und flache Radrouten.",budget:"€€",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Xanten_APX_Hafentempel.jpg/640px-Xanten_APX_Hafentempel.jpg"},
+ {name:"Düsseldorf, Deutschland",km:65,tags:["Shopping","gutes Essen","Altstadt","Rhein"],desc:"Königsallee, Rheinufer, japanisches Essen und Altstadt.",budget:"€€€",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Duesseldorf_Medienhafen_2015.jpg/640px-Duesseldorf_Medienhafen_2015.jpg"}
+];
+
+const detailCatalog={
+ "Meran, Italien":{
+   restaurants:[
+    ["Forsterbräu Meran","Südtiroler Küche, zentral gelegen.","https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Meran_Lauben.jpg/640px-Meran_Lauben.jpg"],
+    ["Restaurant Sissi","gehobene Küche, sehr bekannt in Meran.","https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Meran_Tappeinerweg.jpg/640px-Meran_Tappeinerweg.jpg"],
+    ["Pizzeria Bistro 7","unkompliziert, gut für Familien.","https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Meran_Promenade.jpg/640px-Meran_Promenade.jpg"]
+   ],
+   activities:[
+    ["Tappeinerweg Spaziergang","leichter Panoramaweg über Meran.","https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Meran_Tappeinerweg.jpg/640px-Meran_Tappeinerweg.jpg"],
+    ["Therme Meran","gut bei schlechtem Wetter.","https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Therme_Meran.jpg/640px-Therme_Meran.jpg"],
+    ["Radtour Passeiertal","sportliche Tour mit schöner Landschaft.","https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Passeiertal.jpg/640px-Passeiertal.jpg"]
+   ],
+   sights:[
+    ["Gärten von Schloss Trauttmansdorff","Top-Sehenswürdigkeit, ideal bei gutem Wetter.","https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Trauttmansdorff_Gardens.jpg/640px-Trauttmansdorff_Gardens.jpg"],
+    ["Meraner Lauben","Altstadt, Shopping und Cafés.","https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Meran_Lauben.jpg/640px-Meran_Lauben.jpg"]
+   ]
+ },
+ "Zandvoort, Niederlande":{
+   restaurants:[["Strandpavillon Thalassa","direkt am Strand.","https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Zandvoort_Beach.jpg/640px-Zandvoort_Beach.jpg"],["Ubuntu Beach","modern, Strandfeeling.","https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Zandvoort_Beach.jpg/640px-Zandvoort_Beach.jpg"]],
+   activities:[["Strandtag Zandvoort","Meer, Dünen und Promenade.","https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Zandvoort_Beach.jpg/640px-Zandvoort_Beach.jpg"],["Radtour durch die Dünen","schöne Radwege Richtung Haarlem.","https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Kennemerduinen.jpg/640px-Kennemerduinen.jpg"]],
+   sights:[["Nationalpark Zuid-Kennemerland","Dünen, Natur und Tiere.","https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Kennemerduinen.jpg/640px-Kennemerduinen.jpg"]]
+ }
+};
+
+function useCurrentLocation(){
+ if(!navigator.geolocation){document.getElementById("locationStatus").innerHTML="Standort wird von diesem Browser nicht unterstützt.";return}
+ navigator.geolocation.getCurrentPosition(pos=>{
+   const lat=pos.coords.latitude.toFixed(5), lon=pos.coords.longitude.toFixed(5);
+   localStorage.creovaLat=lat; localStorage.creovaLon=lon;
+   document.getElementById("locationStatus").innerHTML=`✅ Standort übernommen: ${lat}, ${lon}. Für die Umkreissuche wird dieser Startpunkt genutzt.`;
+ },err=>{
+   document.getElementById("locationStatus").innerHTML="⚠️ Standort konnte nicht übernommen werden. Bitte Standortzugriff erlauben.";
+ });
+}
+
+function setTripMode(mode){
+ localStorage.tripMode=mode;
+ if(mode==="day"){
+   const radius=document.querySelector("#radius,#range,#distance");
+   if(radius) radius.value="100";
+ }
+}
+
+function enhanceDestinationResults(){
+ const mode=v("tripMode")||localStorage.tripMode||"day";
+ const budget=parseInt(v("targetBudget")||"0");
+ if(mode==="day"){
+   const results=document.querySelector("#results,#destResults,.destgrid,.destGrid");
+   if(results){
+     results.innerHTML=nearDayTrips.map(d=>`<div class="dest"><img src="${d.img}" alt=""><div class="destBody"><h2>${d.name}</h2><p>${d.desc}</p><p><b>${d.km} km</b> · Budget ${d.budget}</p><div>${d.tags.map(t=>`<span class="pill">${t}</span>`).join("")}</div><div class="grid"><button onclick="openGermanDetails('${d.name}')">Details</button><button class="secondary" onclick="selectDestination('${d.name}')">Übernehmen</button></div></div></div>`).join("");
+   }
+ }
+}
+
+function openGermanDetails(place){
+ localStorage.selectedDestination=place;
+ if(document.getElementById("tlPlace")) setv("tlPlace",place);
+ location.hash="#details";
+ setTimeout(()=>renderGermanDetails(place),100);
+}
+
+function renderGermanDetails(place){
+ const target=document.querySelector("#details") || document.querySelector(".page.active");
+ if(!target)return;
+ const cat=detailCatalog[place] || detailCatalog["Meran, Italien"] || {};
+ const block=`<div class="card"><h2>Details zu ${place}</h2><p class="muted">Alle Vorschläge können direkt in die Timeline übernommen werden.</p>
+ <h3>🍽️ Restaurants</h3><div class="detailPick">${(cat.restaurants||[]).map(x=>pickCard(x,"Restaurant")).join("")}</div>
+ <h3>🎯 Aktivitäten</h3><div class="detailPick">${(cat.activities||[]).map(x=>pickCard(x,"Aktivität")).join("")}</div>
+ <h3>🏛️ Sehenswürdigkeiten</h3><div class="detailPick">${(cat.sights||[]).map(x=>pickCard(x,"Sehenswürdigkeit")).join("")}</div></div>`;
+ const old=document.getElementById("germanDetailsBlock"); if(old)old.remove();
+ const div=document.createElement("div"); div.id="germanDetailsBlock"; div.innerHTML=block; target.appendChild(div);
+}
+function pickCard(x,type){
+ return `<div class="pickCard"><img src="${x[2]||""}" alt=""><div class="pickCardBody"><h3>${esc(x[0])}</h3><p class="muted">${esc(x[1])}</p><button onclick="addToTimeline('${esc(x[0])}','${type}','${esc(x[1])}')">In Timeline übernehmen</button></div></div>`;
+}
+function addToTimeline(name,type,note){
+ const list=JSON.parse(localStorage.timelineActivities||"[]");
+ list.push({name,type,note,day:1,time:type==="Restaurant"?"19:00":"10:00"});
+ localStorage.timelineActivities=JSON.stringify(list);
+ alert(name+" wurde in die Timeline übernommen.");
+}
+function addManualActivity(){
+ const name=prompt("Aktivität eingeben:");
+ if(!name)return;
+ addToTimeline(name,"Manuell","Manuell hinzugefügt");
+ buildTimeline();
+}
+function dateRange(start,end){
+ const arr=[]; let s=start?new Date(start):new Date(); let e=end?new Date(end):new Date(s);
+ if(!end)e.setDate(s.getDate()+1);
+ for(let d=new Date(s);d<=e;d.setDate(d.getDate()+1))arr.push(new Date(d));
+ return arr;
+}
+function fakeWeather(i){
+ const w=[["☀️","sonnig","ideal für Radfahren/Outdoor"],["⛅","wechselhaft","gut für Stadt und kurze Touren"],["🌧️","Regen möglich","besser Restaurant, Therme, Museum"],["🌤️","freundlich","gut für Sehenswürdigkeiten"]];
+ return w[i%w.length];
+}
+function buildTimeline(){
+ const acts=JSON.parse(localStorage.timelineActivities||"[]");
+ const days=dateRange(v("tlStart"),v("tlEnd"));
+ const el=document.getElementById("timelineList"); if(!el)return;
+ el.innerHTML=days.map((d,idx)=>{
+   const w=fakeWeather(idx);
+   const dayActs=acts.filter(a=>(a.day||1)==idx+1);
+   return `<div class="dayLine"><h3><span>Tag ${idx+1} · ${d.toLocaleDateString("de-DE")}</span><span>${w[0]} ${w[1]}</span></h3><p class="muted">${w[2]}</p>
+   ${dayActs.length?dayActs.map((a,i)=>activityRow(a,idx+1,i,days.length)).join(""):"<p class='muted'>Noch keine Aktivität geplant.</p>"}</div>`;
+ }).join("");
+ document.getElementById("timelineWeather").innerHTML="<h2>Wetterübersicht</h2><p class='muted'>Wetter wird pro Tag angezeigt. Aktivitäten lassen sich passend verschieben.</p>";
+}
+function activityRow(a,day,i,maxDay){
+ let opts=""; for(let d=1;d<=maxDay;d++)opts+=`<option value="${d}" ${d==day?"selected":""}>Tag ${d}</option>`;
+ return `<div class="activityRow"><b>${a.time||"10:00"}</b><div><b>${esc(a.name)}</b><br><span class="muted">${esc(a.type)} · ${esc(a.note||"")}</span></div><select class="smallSelect" onchange="moveTimelineActivity('${esc(a.name)}',this.value)">${opts}</select></div>`;
+}
+function moveTimelineActivity(name,newDay){
+ const acts=JSON.parse(localStorage.timelineActivities||"[]");
+ const found=acts.find(a=>a.name===name);
+ if(found){found.day=parseInt(newDay);localStorage.timelineActivities=JSON.stringify(acts);buildTimeline();}
+}
+
+function init(){setTimeout(()=>{try{enhanceDestinationResults()}catch(e){}},500);let el=document.getElementById("interests");interests.forEach(i=>{let l=document.createElement("label");l.className="interest";let checked=(i==="Meer"||i==="Fahrradstrecken")?"checked":"";l.innerHTML=`<input type="checkbox" value="${esc(i)}" ${checked}><span>${esc(i)}</span>`;el.appendChild(l)});window.addEventListener("hashchange",activatePage);activatePage();renderDestinations();renderTrip();renderPack();calcBudget();loadHA()}
 init();
 </script>
 </body>
