@@ -20,7 +20,7 @@
 @media print{.hero,.sticky,.nav,.heroActions,.actions,.btn{display:none!important}.app{margin:0;padding:0}.card{box-shadow:none;break-inside:avoid}body{background:white}}
 
 
-/* CREOVA Ultimate V6 Final: professionelle Packliste */
+/* CREOVA Ultimate V7 Final: professionelle Packliste */
 .packPro{
   padding-bottom:32px;
 }
@@ -143,4 +143,25 @@
     height:52px !important;
     min-height:52px !important;
   }
+}
+
+
+/* CREOVA V7 Final: Packliste nutzt feste App-Icons statt externe Produktfotos */
+.proProducts .product .photo{
+  background-size:contain !important;
+  background-repeat:no-repeat !important;
+  background-color:#f8f3ff !important;
+  border:1px solid #eadfff !important;
+}
+
+.proProducts .product{
+  grid-template-columns:58px 1fr 32px !important;
+}
+
+.proProducts .product .check{
+  background:#fff !important;
+}
+
+.proProducts .product.done .check{
+  background:var(--p) !important;
 }

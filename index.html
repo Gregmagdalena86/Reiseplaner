@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>CREOVA Ultimate V6.1 Final</title>
+<title>CREOVA Ultimate V7 Final</title>
 <meta name="theme-color" content="#7b4de2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg">
-<link rel="stylesheet" href="styles.css?v=61">
+<link rel="stylesheet" href="styles.css?v=7">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
@@ -53,11 +53,11 @@
       <div class="formGrid">
         <label>Startort<span>für Suche und Karte</span><input id="start" placeholder="z. B. Marl"></label>
         <label>Ziel / Region<span>optional, z. B. Domburg</span><input id="destination" placeholder="z. B. Domburg, Winterberg, Algarve"></label>
-        <label>Umkreis<span>POI-Suche</span><select id="radius"><option value="5000">5 km</option><option value="10000">10 km</option><option value="25000">25 km</option><option value="50000">50 km</option><option value="100000">100 km</option></select></label>
+        <label>Umkreis<span>POI-Suche</span><select id="radius"><option value="5000">5 km</option><option value="10000">10 km</option><option value="25000">25 km</option><option value="50000">50 km</option><option value="100000">100 km</option><option value="300000">300 km</option><option value="1000000">1000 km</option><option value="20000000">weltweit</option></select></label>
         <label>Zeitraum Start<span>Kalender</span><input id="dateStart" type="date"></label>
         <label>Zeitraum Ende<span>Kalender</span><input id="dateEnd" type="date"></label>
         <label>Reiseart<span>viele Optionen</span><select id="tripType"></select></label>
-        <label>Gesamtbudget €<span>live verrechnet</span><input id="budgetInput" type="number" min="0" step="50"></label>
+        <label>Gesamtbudget €<span>startet immer bei 0</span><input id="budgetInput" type="number" min="0" step="50"></label>
         <label>Personen<span>Kosten pro Person</span><input id="persons" type="number" min="1" step="1"></label>
         <label>Wetterwunsch<span>Sortierung</span><select id="weatherPref"><option>Sonnig</option><option>Mild</option><option>Kühl</option><option>Egal</option><option>Schlechtwetter-geeignet</option></select></label>
       </div>
@@ -227,8 +227,8 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="api-config.js?v=61"></script>
-<script src="data.js?v=61"></script>
-<script src="app.js?v=61"></script>
+<script src="api-config.js?v=7"></script>
+<script src="data.js?v=7"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>
