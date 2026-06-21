@@ -1,4 +1,4 @@
-CREOVA Ultimate V5
+CREOVA Ultimate V6 Final
 
 Upload nach GitHub:
 - index.html
@@ -10,19 +10,15 @@ Upload nach GitHub:
 - manifest.webmanifest
 - icon.svg
 
-Funktionen:
-- interaktive Karte: Leaflet/OpenStreetMap
-- echte Wetterdaten: Open-Meteo
-- echte Restaurants/Camping/Hotels: OpenStreetMap Overpass
-- Budget-Rechner live
-- Packliste 100+
-- PDF über Drucken
-- TXT Export
-- Offline-Modus für App-Dateien über Service Worker
+Finale V6-Schwerpunkte:
+- professionelle kompakte Packliste
+- kleine Produktbilder
+- Suchfeld in der Packliste
+- Kategorien auswählbar
+- Wetter-Fix aus V5.1 enthalten
+- Karte/Wetter/Orte/Budget/Timeline/Export bleiben enthalten
+- neuer Cache-Buster ?v=6
+- Service-Worker-Cache auf V6 gesetzt
 
-Hinweis:
-Externe Live-Daten funktionieren nur mit Internet. Offline bleiben App, Planung und gespeicherte Daten verfügbar.
-
-V5.1 Wetter-Fix: Wetter lädt automatisch mit Fallback Marl und robuster Fehleranzeige.
-
-V5.2: Packliste optisch kompakter, kleine Produktbilder, mehr Übersicht.
+Nach Upload öffnen:
+https://gregmagdalena86.github.io/Reiseplaner/?v=6

@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>CREOVA Ultimate V5</title>
+<title>CREOVA Ultimate V6 Final</title>
 <meta name="theme-color" content="#7b4de2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=6">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
@@ -138,13 +138,30 @@
 <section id="view-infos" class="view hidden"><div class="card" id="detailContent"><h2>ⓘ Infos</h2><p class="muted">Klicke auf „Details anzeigen“.</p></div></section>
 
 <section id="view-packliste" class="view hidden">
-  <div class="card">
-    <div class="titleRow"><div><h2>🎒 Packliste 100+</h2><p class="muted">Dynamisch nach Reiseart, Interessen und ausgewählten Orten.</p></div><b id="packText">0 / 0</b></div>
+  <div class="card packPro">
+    <div class="titleRow">
+      <div>
+        <h2>🎒 Packliste</h2>
+        <p class="muted">Professionelle Packliste mit kleinen Produktbildern, Suche, Kategorien und Fortschritt.</p>
+      </div>
+      <b id="packText">0 / 0</b>
+    </div>
+
     <div class="bar"><div id="packFill" class="fill"></div></div>
-    <div id="packCats" class="packCats"></div>
-    <div class="customAdd"><input id="customPack" placeholder="Neuen Packlisten-Eintrag hinzufügen"><button class="btn primary" id="addPack">＋ Hinzufügen</button></div>
-    <div class="titleRow slim"><h3>Artikel</h3><select id="packFilter"><option>Alle Kategorien</option></select></div>
-    <div id="products" class="products"></div>
+
+    <div class="packToolbar">
+      <input id="packSearch" placeholder="Packliste durchsuchen, z. B. Zahnbürste, Shampoo, Sonnencreme">
+      <select id="packFilter"><option>Alle Kategorien</option></select>
+    </div>
+
+    <div id="packCats" class="packCats compactCats"></div>
+
+    <div class="customAdd">
+      <input id="customPack" placeholder="Eigenen Artikel hinzufügen">
+      <button class="btn primary" id="addPack">＋ Hinzufügen</button>
+    </div>
+
+    <div id="products" class="products proProducts"></div>
   </div>
 </section>
 
@@ -210,8 +227,8 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="api-config.js"></script>
-<script src="data.js"></script>
-<script src="app.js"></script>
+<script src="api-config.js?v=6"></script>
+<script src="data.js?v=6"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>
