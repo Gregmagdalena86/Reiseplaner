@@ -22,3 +22,7 @@ Funktionen:
 
 Hinweis:
 Externe Live-Daten funktionieren nur mit Internet. Offline bleiben App, Planung und gespeicherte Daten verfügbar.
+
+V5.1 Wetter-Fix: Wetter lädt automatisch mit Fallback Marl und robuster Fehleranzeige.
+
+V5.2: Packliste optisch kompakter, kleine Produktbilder, mehr Übersicht.
