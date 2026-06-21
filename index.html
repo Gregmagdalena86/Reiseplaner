@@ -676,7 +676,7 @@
       const old = JSON.parse(localStorage.getItem("creovaState") || "{}");
       if(old && typeof old === "object"){
         Object.assign(state, old);
-        state.vehicle = Object.assign({name:"VW Passat B6", type:"Diesel", consumption:7.2, tank:70, fuel:1.65, extra:0}, old.vehicle || {});
+  state.vehicle = Object.assign({ name:"VW Passat B6",type:"Diesel",category:"kombi"consumption:7.2,tank:70,fuel:1.65,extra:0}, old.vehicle || {});
         state.pack = Array.isArray(old.pack) ? old.pack : state.pack;
       }
     }catch(e){}
@@ -1172,13 +1172,23 @@
     $("#openPlan").onclick = () => renderPanel("plan");
     $("#editVehicle").onclick = openVehicle;
     $("#saveVehicle").onclick = () => {
-      state.vehicle = {
-        name: $("#mVehicleName").value.trim() || "VW Passat B6",
-        type: $("#mVehicleType").value.trim() || "Diesel",
-        consumption: Number($("#mConsumption").value) || 0,
-        tank: Number($("#mTank").value) || 0,
-        fuel: Number($("#mFuel").value) || 0,
-        extra: Number($("#mExtra").value) || 0
+    state.vehicle = {
+
+  name: $("#mVehicleName").value.trim() || "VW Passat B6",
+
+  type: $("#mVehicleType").value.trim() || "Diesel",
+
+  category: ($("#mVehicleCategory")?.value || "kombi"),
+
+  consumption: Number($("#mConsumption").value) || 0,
+
+  tank: Number($("#mTank").value) || 0,
+
+  fuel: Number($("#mFuel").value) || 0,
+
+  extra: Number($("#mExtra").value) || 0
+
+};
       };
       $("#vehicleModal").classList.remove("active");
       save(); renderVehicle(); renderBudget(); renderPanel(state.page); toast("Fahrzeug gespeichert");
