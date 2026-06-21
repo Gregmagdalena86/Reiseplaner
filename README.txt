@@ -1,20 +1,21 @@
-CREOVA X Clean
+CREOVA Web App V1
 
-Schritt 1–4:
-1. Alten Stand auf GitHub als Backup behalten.
-2. Diese neue Version entpacken.
-3. Die Dateien im Repository ersetzen:
-   index.html
-   styles.css
-   data.js
-   app.js
-   sw.js
-   manifest.webmanifest
-   icon.svg
-   README.txt
-4. Seite öffnen mit:
-   https://gregmagdalena86.github.io/Reiseplaner/?v=x1
+Start:
+1. index.html lokal im Browser öffnen
+2. Oder in GitHub/Netlify/Vercel als statische Webseite hochladen
 
-Wichtig:
-Keine ZIP-Dateien in das Repository hochladen.
-Nur die entpackten Dateien hochladen.
+Enthaltene Funktionen:
+- CREOVA Layout nach Referenzbild
+- Sidebar, Schnellzugriff, Reiseformular
+- Zielvorschläge auswählen/entfernen
+- Planung, Budget, Timeline
+- Fahrzeugdaten bearbeiten
+- Packliste bearbeiten
+- Wetter per Open-Meteo, wenn Internet verfügbar
+- GPS-Übernahme, wenn Browserfreigabe erteilt wird
+- Karte via OpenStreetMap
+- Export als JSON/CSV
+- Dark Mode und lokale Speicherung per localStorage
+
+Hinweis:
+Die App läuft ohne Backend. Für echte Buchungen, Benutzerkonten, Datenbank, Authentifizierung oder produktive Wetter-/Places-APIs muss ein Backend/API-Key ergänzt werden.

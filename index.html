@@ -1,19 +1,405 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>CREOVA X Clean</title>
-  <meta name="theme-color" content="#6b38de">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="styles.css?v=x1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CREOVA – Reiseplanung</title>
+  <meta name="description" content="CREOVA Reiseplaner Web App" />
+  <style>
+    :root{
+      --violet:#5b2ee6;
+      --violet-2:#7e5cff;
+      --violet-3:#efe9ff;
+      --ink:#15142b;
+      --muted:#6d6a82;
+      --line:rgba(80,56,150,.14);
+      --glass:rgba(255,255,255,.74);
+      --glass-2:rgba(255,255,255,.92);
+      --shadow:0 24px 70px rgba(54,35,120,.20);
+      --shadow-soft:0 12px 35px rgba(54,35,120,.12);
+      --radius:22px;
+      --radius-sm:15px;
+      --bg:url("https://images.unsplash.com/photo-1533873984035-25970ab07461?auto=format&fit=crop&w=2200&q=90");
+    }
+    [data-theme="dark"]{
+      --ink:#f4f1ff;
+      --muted:#c9c2dc;
+      --line:rgba(255,255,255,.16);
+      --glass:rgba(23,19,42,.70);
+      --glass-2:rgba(30,24,56,.88);
+      --violet-3:rgba(126,92,255,.18);
+      --shadow:0 24px 70px rgba(0,0,0,.45);
+      --shadow-soft:0 12px 35px rgba(0,0,0,.32);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color:var(--ink);
+      background:
+        linear-gradient(120deg, rgba(250,248,255,.76), rgba(255,255,255,.44) 30%, rgba(239,233,255,.64) 100%),
+        var(--bg) center top / cover fixed no-repeat;
+      overflow-x:hidden;
+    }
+    [data-theme="dark"] body,
+    body[data-theme="dark"]{
+      background:
+        linear-gradient(120deg, rgba(11,10,22,.82), rgba(20,16,42,.54) 35%, rgba(35,17,73,.76) 100%),
+        var(--bg) center top / cover fixed no-repeat;
+    }
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 73% 6%, rgba(255,226,184,.78), transparent 23%),
+        linear-gradient(180deg, transparent 0%, rgba(237,229,255,.86) 74%, rgba(244,241,255,.98) 100%);
+      z-index:-1;
+    }
+    body[data-theme="dark"]:before{
+      background:
+        radial-gradient(circle at 73% 6%, rgba(255,190,80,.18), transparent 23%),
+        linear-gradient(180deg, transparent 0%, rgba(19,15,38,.88) 72%, rgba(15,12,29,.98) 100%);
+    }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{display:grid;grid-template-columns:108px 1fr;min-height:100vh}
+    .sidebar{
+      position:sticky;
+      top:0;
+      height:100vh;
+      padding:26px 18px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      backdrop-filter:blur(22px);
+      background:rgba(255,255,255,.58);
+      border-right:1px solid rgba(255,255,255,.65);
+      z-index:10;
+    }
+    body[data-theme="dark"] .sidebar{background:rgba(18,15,34,.64);border-right-color:rgba(255,255,255,.08)}
+    .navbtn{
+      border:0;
+      border-radius:20px;
+      min-height:66px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      color:#30265d;
+      background:transparent;
+      transition:.18s ease;
+    }
+    body[data-theme="dark"] .navbtn{color:#ebe5ff}
+    .navbtn .ico{font-size:23px;line-height:1;color:var(--violet)}
+    .navbtn span{font-size:12px;font-weight:750}
+    .navbtn.active,.navbtn:hover{
+      background:linear-gradient(180deg, rgba(239,233,255,.95), rgba(255,255,255,.82));
+      color:var(--violet);
+      box-shadow:var(--shadow-soft);
+      transform:translateY(-1px);
+    }
+    body[data-theme="dark"] .navbtn.active, body[data-theme="dark"] .navbtn:hover{background:rgba(126,92,255,.22)}
+    .main{padding:28px 34px 112px;max-width:1730px;width:100%;margin:0 auto}
+    .topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:22px;margin-bottom:55px}
+    .brand{display:flex;align-items:center;gap:20px}
+    .logo{
+      width:78px;height:78px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;font-weight:900;font-size:34px;letter-spacing:-1px;
+      background:linear-gradient(150deg, var(--violet), var(--violet-2));
+      box-shadow:0 18px 42px rgba(91,46,230,.38);
+    }
+    .brand h1{margin:0;font-size:55px;line-height:.9;color:var(--violet);letter-spacing:.5px;font-weight:900}
+    .brand p{margin:8px 0 0;color:#392a91;font-weight:800;font-size:18px}
+    body[data-theme="dark"] .brand p{color:#ded4ff}
+    .status{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:flex-end}
+    .weather-pill{
+      min-width:432px;
+      border-radius:24px;
+      background:var(--glass-2);
+      backdrop-filter:blur(22px);
+      box-shadow:var(--shadow-soft);
+      padding:18px 24px;
+      display:grid;
+      grid-template-columns:1fr 1px 156px;
+      align-items:center;
+      gap:22px;
+    }
+    .divider{height:54px;background:var(--line)}
+    .loc{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:center}
+    .loc .pin{font-size:24px;color:var(--violet)}
+    .loc small,.weatherText small{display:block;color:var(--ink);font-weight:900}
+    .loc strong{font-size:19px;font-weight:700}
+    .sunline{display:flex;align-items:center;gap:12px}
+    .sun{font-size:39px;filter:drop-shadow(0 6px 10px rgba(240,170,40,.3))}
+    .temp{font-size:19px;font-weight:900}
+    .weatherText span{font-size:13px;color:var(--muted);font-weight:700}
+    .iconbtn{
+      width:60px;height:60px;border-radius:19px;border:0;
+      background:var(--glass-2);
+      color:var(--violet);
+      box-shadow:var(--shadow-soft);
+      display:grid;place-items:center;
+      font-size:23px;
+      transition:.18s ease;
+    }
+    .iconbtn:hover{transform:translateY(-2px);background:#fff}
+    body[data-theme="dark"] .iconbtn:hover{background:rgba(50,41,88,.9)}
+    .hero{margin-top:0;margin-left:12px;margin-bottom:34px;text-shadow:0 4px 26px rgba(0,0,0,.22)}
+    .hero h2{margin:0 0 12px;font-size:42px;color:#fff;letter-spacing:-.8px}
+    .hero p{margin:0;color:#fff;font-size:19px;font-weight:650}
+    .quick{
+      margin:0 0 28px;
+      padding:14px;
+      border-radius:25px;
+      background:rgba(255,255,255,.68);
+      backdrop-filter:blur(24px);
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:8px;
+    }
+    body[data-theme="dark"] .quick{background:rgba(20,16,42,.70)}
+    .quick button{
+      border:1px solid rgba(255,255,255,.75);
+      min-height:66px;
+      border-radius:17px;
+      background:rgba(255,255,255,.88);
+      color:#38218f;
+      display:flex;align-items:center;justify-content:center;gap:14px;
+      font-weight:850;
+      transition:.18s ease;
+    }
+    body[data-theme="dark"] .quick button{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);color:#eee8ff}
+    .quick button:hover,.quick button.active{
+      background:linear-gradient(135deg, var(--violet), var(--violet-2));
+      color:#fff;
+      transform:translateY(-2px);
+      box-shadow:0 16px 35px rgba(91,46,230,.30);
+    }
+    .quick .qico{font-size:30px}
+    .grid{display:grid;grid-template-columns:minmax(640px, 1.25fr) minmax(470px, .95fr);gap:18px}
+    .rightcol{display:grid;grid-template-rows:auto 1fr;gap:18px}
+    .card{
+      border:1px solid rgba(255,255,255,.70);
+      border-radius:var(--radius);
+      background:var(--glass-2);
+      backdrop-filter:blur(24px);
+      box-shadow:var(--shadow-soft);
+      padding:22px;
+    }
+    body[data-theme="dark"] .card{border-color:rgba(255,255,255,.10)}
+    .section-title{display:flex;align-items:center;gap:13px;margin-bottom:18px}
+    .section-title .bigico{font-size:34px;color:var(--violet)}
+    .section-title h3{font-size:22px;line-height:1;margin:0;color:var(--violet);font-weight:900}
+    .section-title p{margin:6px 0 0;font-size:13px;color:var(--muted);font-weight:600}
+    .formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 22px}
+    .field label{display:block;color:var(--violet);font-weight:850;font-size:14px;margin-bottom:2px}
+    .field small{display:block;color:var(--muted);font-weight:650;font-size:12px;margin-bottom:7px}
+    input,select,textarea{
+      width:100%;
+      border:1px solid rgba(85,58,160,.16);
+      outline:none;
+      border-radius:12px;
+      background:rgba(255,255,255,.72);
+      color:var(--ink);
+      padding:12px 14px;
+      min-height:43px;
+      box-shadow:inset 0 1px 2px rgba(45,27,95,.04);
+    }
+    body[data-theme="dark"] input, body[data-theme="dark"] select, body[data-theme="dark"] textarea{
+      background:rgba(255,255,255,.07);
+      border-color:rgba(255,255,255,.13);
+      color:#fff;
+    }
+    input:focus,select:focus,textarea:focus{border-color:rgba(91,46,230,.54);box-shadow:0 0 0 4px rgba(91,46,230,.12)}
+    .interests{grid-column:1/-1;display:grid;grid-template-columns:190px 1fr 138px;gap:14px;align-items:end}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .btn{
+      border:1px solid rgba(91,46,230,.12);
+      border-radius:13px;
+      min-height:50px;
+      padding:0 19px;
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      font-weight:850;
+      color:var(--violet);
+      background:rgba(255,255,255,.70);
+      transition:.18s ease;
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-soft)}
+    .btn.primary{background:linear-gradient(135deg, var(--violet), var(--violet-2));border-color:transparent;color:#fff;box-shadow:0 14px 32px rgba(91,46,230,.32)}
+    .btn.danger{color:#d83755;border-color:rgba(216,55,85,.22)}
+    .btn.mini{min-height:38px;padding:0 12px;border-radius:11px;font-size:13px}
+    body[data-theme="dark"] .btn{background:rgba(255,255,255,.08)}
+    .vehicle{display:grid;grid-template-columns:214px 1fr;gap:16px}
+    .carbox{border:1px solid var(--line);border-radius:15px;padding:12px;background:rgba(255,255,255,.48)}
+    body[data-theme="dark"] .carbox{background:rgba(255,255,255,.06)}
+    .carimg{
+      height:114px;border-radius:13px;
+      background:
+        radial-gradient(ellipse at center, rgba(0,0,0,.18), transparent 70%),
+        url("https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=700&q=80") center / cover no-repeat;
+      margin-bottom:10px;
+      filter:saturate(.8);
+    }
+    .carbox strong{display:block;margin-bottom:7px;font-size:15px}
+    .carbox span{font-size:13px;color:var(--muted);font-weight:650}
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--line);border-radius:15px;overflow:hidden}
+    .stat{padding:13px 14px;min-height:70px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .stat:nth-child(2n){border-right:0}
+    .stat:nth-child(n+3){border-bottom:0}
+    .stat small{display:block;color:var(--muted);font-weight:700;margin-bottom:5px}
+    .stat strong{font-weight:800}
+    .costs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:11px}
+    .cost{border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(255,255,255,.48)}
+    body[data-theme="dark"] .cost{background:rgba(255,255,255,.06)}
+    .cost small{display:block;color:var(--muted);font-size:12px;font-weight:700}
+    .cost strong{display:block;margin-top:8px;font-size:17px}
+    .cost.highlight{background:var(--violet-3)}
+    .budget{display:grid;grid-template-columns:1fr 150px;gap:22px;align-items:center}
+    .rows{border:1px solid var(--line);border-radius:15px;overflow:hidden}
+    .row{display:flex;justify-content:space-between;gap:12px;padding:13px 15px;border-bottom:1px solid var(--line)}
+    .row:last-child{border-bottom:0}
+    .row span{color:var(--muted);font-weight:650}
+    .row strong{font-size:20px}
+    .row.total strong,.row.total span{color:var(--violet);font-weight:900}
+    .donut{
+      width:138px;height:138px;border-radius:50%;
+      background:conic-gradient(var(--violet) var(--percent,0%), rgba(114,93,172,.15) 0);
+      display:grid;place-items:center;justify-self:center;
+    }
+    .donut-inner{width:98px;height:98px;border-radius:50%;background:var(--glass-2);display:grid;place-items:center;text-align:center}
+    .donut b{display:block;font-size:25px}
+    .donut small{display:block;font-size:11px;color:var(--muted);font-weight:750}
+    .panel{display:none;margin-top:18px}
+    .panel.active{display:block}
+    .panel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+    .item{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:rgba(255,255,255,.62);
+      padding:16px;
+      min-height:132px;
+      transition:.18s ease;
+    }
+    body[data-theme="dark"] .item{background:rgba(255,255,255,.07)}
+    .item:hover{transform:translateY(-2px);box-shadow:var(--shadow-soft)}
+    .item h4{margin:0 0 8px;color:var(--violet);font-size:17px}
+    .item p{margin:0 0 12px;color:var(--muted);font-weight:620;font-size:13px;line-height:1.45}
+    .item .meta{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{
+      display:inline-flex;align-items:center;gap:6px;
+      border-radius:999px;
+      padding:7px 10px;
+      background:var(--violet-3);
+      color:var(--violet);
+      font-weight:800;
+      font-size:12px;
+    }
+    .selected{outline:3px solid rgba(91,46,230,.22);background:rgba(239,233,255,.78)}
+    body[data-theme="dark"] .selected{background:rgba(126,92,255,.20)}
+    .bottom{
+      position:fixed;left:132px;right:28px;bottom:22px;
+      min-height:77px;border-radius:18px;
+      background:linear-gradient(135deg, var(--violet), #4b18d7);
+      color:#fff;
+      box-shadow:0 22px 60px rgba(66,25,186,.38);
+      display:grid;grid-template-columns:1fr 160px 180px;gap:20px;align-items:center;
+      padding:15px 22px;
+      z-index:20;
+    }
+    .bottom .bag{font-size:35px;margin-right:15px}
+    .bottom strong{display:block}
+    .bottom small{display:block;opacity:.85;margin-top:4px}
+    .bottom-left{display:flex;align-items:center}
+    .bottom-center{text-align:center}
+    .bottom .open{
+      border:0;border-radius:13px;background:#fff;color:#3e23b4;
+      height:50px;font-weight:900;padding:0 19px;
+    }
+    .mapbox{height:420px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.48)}
+    .mapbox iframe{width:100%;height:100%;border:0}
+    .list{display:grid;gap:10px}
+    .todo{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.55)
+    }
+    body[data-theme="dark"] .todo{background:rgba(255,255,255,.07)}
+    .todo label{display:flex;align-items:center;gap:10px;font-weight:750}
+    .todo input{width:auto;min-height:auto}
+    .modal{
+      position:fixed;inset:0;background:rgba(15,10,32,.52);
+      z-index:50;display:none;align-items:center;justify-content:center;padding:24px;
+    }
+    .modal.active{display:flex}
+    .modalbox{max-width:680px;width:100%;background:var(--glass-2);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(24px)}
+    .modalhead{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:14px}
+    .modalhead h3{margin:0;color:var(--violet)}
+    .x{border:0;background:transparent;color:var(--violet);font-size:27px}
+    .settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .notice{border:1px dashed rgba(91,46,230,.28);border-radius:16px;background:rgba(239,233,255,.52);padding:14px;color:var(--muted);font-weight:650;line-height:1.45}
+    body[data-theme="dark"] .notice{background:rgba(126,92,255,.12)}
+    .toast{
+      position:fixed;right:30px;bottom:116px;background:var(--glass-2);color:var(--ink);
+      border:1px solid var(--line);box-shadow:var(--shadow-soft);border-radius:15px;padding:14px 17px;
+      z-index:60;transform:translateY(16px);opacity:0;pointer-events:none;transition:.2s ease;font-weight:750;
+    }
+    .toast.show{transform:translateY(0);opacity:1}
+    @media (max-width:1240px){
+      .grid{grid-template-columns:1fr}
+      .quick{grid-template-columns:repeat(2,1fr)}
+      .weather-pill{min-width:340px}
+      .formgrid{grid-template-columns:repeat(2,1fr)}
+      .interests{grid-template-columns:1fr}
+      .bottom{grid-template-columns:1fr;left:118px}
+      .bottom-center{text-align:left}
+    }
+    @media (max-width:820px){
+      .app{grid-template-columns:1fr}
+      .sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;height:72px;flex-direction:row;overflow:auto;padding:8px 10px;border-right:0;border-top:1px solid rgba(255,255,255,.55)}
+      .navbtn{min-width:72px;min-height:54px;border-radius:15px}
+      .navbtn span{font-size:10px}
+      .main{padding:22px 15px 150px}
+      .topbar{display:block;margin-bottom:34px}
+      .status{justify-content:flex-start;margin-top:18px}
+      .brand h1{font-size:40px}
+      .logo{width:62px;height:62px;font-size:27px}
+      .weather-pill{min-width:100%;grid-template-columns:1fr}
+      .divider{display:none}
+      .hero{margin-left:0}
+      .hero h2{font-size:32px}
+      .quick{grid-template-columns:1fr}
+      .formgrid,.panel-grid,.settings-grid{grid-template-columns:1fr}
+      .vehicle,.budget{grid-template-columns:1fr}
+      .costs{grid-template-columns:1fr}
+      .bottom{left:12px;right:12px;bottom:84px}
+    }
+  </style>
 </head>
 <body>
-  <main class="app">
-    <header class="hero">
-      <div class="heroTop">
+  <div class="app">
+    <aside class="sidebar" aria-label="Hauptnavigation">
+      <button class="navbtn active" data-page="start"><span class="ico">⌂</span><span>Start</span></button>
+      <button class="navbtn" data-page="target"><span class="ico">◎</span><span>Ziel</span></button>
+      <button class="navbtn" data-page="plan"><span class="ico">▦</span><span>Planen</span></button>
+      <button class="navbtn" data-page="pack"><span class="ico">▣</span><span>Packliste</span></button>
+      <button class="navbtn" data-page="weather"><span class="ico">☁</span><span>Wetter</span></button>
+      <button class="navbtn" data-page="places"><span class="ico">⌖</span><span>Orte</span></button>
+      <button class="navbtn" data-page="info"><span class="ico">ⓘ</span><span>Infos</span></button>
+      <button class="navbtn" data-page="budget"><span class="ico">▤</span><span>Budget</span></button>
+      <button class="navbtn" data-page="auto"><span class="ico">▰</span><span>Auto</span></button>
+      <button class="navbtn" data-page="timeline"><span class="ico">▥</span><span>Timeline</span></button>
+      <button class="navbtn" data-page="export"><span class="ico">⇩</span><span>Export</span></button>
+      <button class="navbtn" data-page="settings"><span class="ico">⚙</span><span>Einstellungen</span></button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
         <div class="brand">
           <div class="logo">CR</div>
           <div>
@@ -21,87 +407,799 @@
             <p>Find your place. Plan your trip.</p>
           </div>
         </div>
-        <div class="topActions">
-          <button id="weatherBadge" data-view="wetter">📍 Standort<br><b>Wetter laden</b></button>
-          <button id="newTrip">↻</button>
-          <button id="printTop">⇩</button>
-        </div>
-      </div>
-
-      <nav class="menuGrid">
-        <button data-view="ziel" class="active">🎯 <span>Ziel</span></button>
-        <button data-view="entdecken">◆ <span>Entdecken</span></button>
-        <button data-view="karte">⌖ <span>Karte</span></button>
-        <button data-view="wetter">☀️ <span>Wetter</span></button>
-        <button data-view="planen">▣ <span>Planen</span></button>
-        <button data-view="orte">⌂ <span>Orte</span></button>
-        <button data-view="budget">€ <span>Budget</span></button>
-        <button data-view="packliste">🎒 <span>Packliste</span></button>
-        <button data-view="touren">⌁ <span>Touren</span></button>
-        <button data-view="haus">⌂ <span>Haus</span></button>
-        <button data-view="timeline">☷ <span>Timeline</span></button>
-        <button data-view="export">⇩ <span>Export</span></button>
-      </nav>
-    </header>
-
-    <section id="view-ziel" class="view">
-      <div class="panel">
-        <div class="panelHead">
-          <div>
-            <h2>🎯 Reiseziel finden</h2>
-            <p>Saubere Basis: keine alten Werte, keine überlappenden Felder.</p>
+        <div class="status">
+          <div class="weather-pill">
+            <div class="loc">
+              <div class="pin">⌖</div>
+              <div><small>Mein Standort</small><strong id="locationLabel">Marl, Deutschland</strong></div>
+            </div>
+            <div class="divider"></div>
+            <div class="sunline">
+              <div class="sun" id="weatherIcon">☀️</div>
+              <div class="weatherText"><small id="tempLabel">22°C</small><span id="weatherLabel">Sonnig</span></div>
+            </div>
           </div>
-          <button class="primary" id="loadAll">Live laden</button>
+          <button class="iconbtn" id="refreshBtn" title="Live-Daten aktualisieren">↻</button>
+          <button class="iconbtn" id="downloadBtn" title="Plan exportieren">⇩</button>
+          <button class="iconbtn" id="themeBtn" title="Hell/Dunkel umschalten">☾</button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <h2>Dein Abenteuer beginnt hier.</h2>
+        <p>Plane deine perfekte Reise mit allen wichtigen Details.</p>
+      </section>
+
+      <nav class="quick" aria-label="Schnellzugriff">
+        <button data-page="target" class="active"><span class="qico">◎</span>Reiseziel finden</button>
+        <button data-page="explore"><span class="qico">◉</span>Entdecken</button>
+        <button data-page="map"><span class="qico">🗺️</span>Karte</button>
+        <button data-page="weather"><span class="qico">☁️</span>Wetter</button>
+        <button data-page="places"><span class="qico">⌖</span>Orte</button>
+        <button data-page="plan"><span class="qico">▦</span>Planen</button>
+        <button data-page="pack"><span class="qico">▣</span>Packliste</button>
+        <button data-page="tours"><span class="qico">△</span>Touren</button>
+        <button data-page="budget"><span class="qico">▤</span>Budget</button>
+        <button data-page="house"><span class="qico">⌂</span>Haus</button>
+      </nav>
+
+      <section id="startPage" class="grid">
+        <div class="card" id="targetCard">
+          <div class="section-title">
+            <div class="bigico">◎</div>
+            <div>
+              <h3>Reiseziel finden</h3>
+              <p>Plane deine Reise mit Echtzeit-Daten zu Wetter, Orten und mehr.</p>
+            </div>
+          </div>
+          <div class="formgrid">
+            <div class="field">
+              <label>Startort</label><small>für Suche und Karte</small>
+              <input id="startPlace" placeholder="z. B. Marl, Deutschland" />
+            </div>
+            <div class="field">
+              <label>Ziel / Region</label><small>optional</small>
+              <input id="destination" placeholder="z. B. Algarve, Portugal" />
+            </div>
+            <div class="field">
+              <label>Umkreis</label><small>weltweit</small>
+              <select id="radius"><option>50 km</option><option>100 km</option><option>250 km</option><option>500 km</option><option>Weltweit</option></select>
+            </div>
+            <div class="field">
+              <label>Zeitraum Start</label><small>Reisedatum Beginn</small>
+              <input id="dateStart" type="date" />
+            </div>
+            <div class="field">
+              <label>Zeitraum Ende</label><small>Reisedatum Ende</small>
+              <input id="dateEnd" type="date" />
+            </div>
+            <div class="field">
+              <label>Reiseart</label><small>z. B. Strand, Stadt, Natur</small>
+              <select id="tripType"><option>Beliebig</option><option>Natur</option><option>Strand</option><option>Stadt</option><option>Camping</option><option>Bike & Hike</option></select>
+            </div>
+            <div class="field">
+              <label>Gesamtbudget (€)</label><small>startet immer bei 0</small>
+              <input id="budgetInput" type="number" min="0" value="0" />
+            </div>
+            <div class="field">
+              <label>Personen</label><small>Anzahl Reisende</small>
+              <select id="persons"><option>1 Person</option><option>2 Personen</option><option>3 Personen</option><option>4 Personen</option></select>
+            </div>
+            <div class="field">
+              <label>Wetterwunsch</label><small>bevorzugtes Wetter</small>
+              <select id="weatherWish"><option>Sonnig</option><option>Mild</option><option>Warm</option><option>Kühl</option><option>Trocken</option></select>
+            </div>
+            <div class="interests">
+              <div class="field"><label>Interessen (optional)</label><small>z. B. Wandern, Kultur, Wellness, Strand</small></div>
+              <input id="interestInput" placeholder="Füge deine Interessen hinzu ..." />
+              <button class="btn primary" id="addInterest">＋ Hinzufügen</button>
+            </div>
+          </div>
+          <div id="interestChips" class="actions"></div>
+          <div class="actions">
+            <button class="btn primary" id="findTrip">⌕ Reise finden</button>
+            <button class="btn" id="gpsBtn">⌖ GPS übernehmen</button>
+            <button class="btn" id="liveBtn">◉ Live-Daten laden</button>
+            <button class="btn" id="suggestBtn">↻ Vorschläge aktualisieren</button>
+            <button class="btn danger" id="clearBtn">♲ Auswahl leeren</button>
+          </div>
         </div>
 
-        <div class="formGrid">
-          <label>Startort<span>leer lassen oder GPS nutzen</span><input id="start" placeholder="z. B. Marl"></label>
-          <label>Ziel / Region<span>weltweit</span><input id="destination" placeholder="z. B. Domburg, Algarve"></label>
-          <label>Umkreis<span>für Orte-Suche</span><select id="radius"><option value="50000">50 km</option><option value="100000">100 km</option><option value="250000">250 km</option><option value="500000">500 km</option><option value="1000000">1000 km</option><option value="20000000">Weltweit</option></select></label>
-          <label>Start<span>optional</span><input id="dateStart" type="date"></label>
-          <label>Ende<span>optional</span><input id="dateEnd" type="date"></label>
-          <label>Reiseart<span>Auswahl</span><select id="tripType"><option>Beliebig</option><option>Tagesausflug</option><option>Wochenendtrip</option><option>Campingurlaub</option><option>Dachzelt-Reise</option><option>Familienurlaub</option><option>Strandurlaub</option><option>Wanderurlaub</option><option>Radurlaub</option><option>Roadtrip</option><option>Wellness</option></select></label>
-          <label>Gesamtbudget €<span>startet immer bei 0</span><input id="budgetInput" type="number" min="0" step="50" placeholder="0"></label>
-          <label>Personen<span>optional</span><select id="persons"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
-          <label>Wetterwunsch<span>Sortierung</span><select id="weatherPref"><option>Sonnig</option><option>Mild</option><option>Egal</option><option>Kühl</option></select></label>
-        </div>
+        <div class="rightcol">
+          <div class="card">
+            <div class="section-title" style="justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:13px">
+                <div class="bigico">▰</div>
+                <h3>Fahrzeug & Reisekosten</h3>
+              </div>
+              <button class="btn mini" id="editVehicle">✎ Bearbeiten</button>
+            </div>
+            <div class="vehicle">
+              <div class="carbox">
+                <div class="carimg" aria-label="Fahrzeugbild"></div>
+                <strong id="vehicleName">VW Passat B6</strong>
+                <span id="vehicleType">Diesel</span>
+              </div>
+              <div>
+                <div class="stats">
+                  <div class="stat"><small>⛽ Verbrauch</small><strong id="consumptionLabel">7,2 l/100 km</strong></div>
+                  <div class="stat"><small>Tankgröße</small><strong id="tankLabel">70 l</strong></div>
+                  <div class="stat"><small>⛽ Kraftstoffpreis</small><strong id="fuelLabel">1,65 € / l</strong></div>
+                  <div class="stat"><small>Reichweite</small><strong id="rangeLabel">ca. 970 km</strong></div>
+                </div>
+                <div class="costs">
+                  <div class="cost"><small>Strecke (Hinzufügen)</small><strong id="kmLabel">0 km</strong></div>
+                  <div class="cost"><small>Kraftstoffkosten</small><strong id="fuelCostLabel">0 €</strong></div>
+                  <div class="cost highlight"><small>Gesamtkosten</small><strong id="totalCostLabel">0 €</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div class="actions">
-          <button class="primary" id="gpsBtn">📍 GPS übernehmen</button>
-          <button class="primary" id="liveBtn">🌐 Live-Daten laden</button>
-          <button id="refreshBtn">↻ Vorschläge aktualisieren</button>
-          <button class="danger" id="clearBtn">Auswahl leeren</button>
+          <div class="card">
+            <div class="section-title">
+              <div class="bigico">▤</div><h3>Budgetübersicht</h3>
+            </div>
+            <div class="budget">
+              <div class="rows">
+                <div class="row"><span>Gesamtbudget</span><strong id="budgetTotal">0 €</strong></div>
+                <div class="row"><span>Geplante Kosten</span><strong id="plannedCost">0 €</strong></div>
+                <div class="row total"><span>Verbleibend</span><strong id="remainingBudget">0 €</strong></div>
+              </div>
+              <div class="donut" id="donut" style="--percent:0%">
+                <div class="donut-inner"><div><b id="percentLabel">0%</b><small>verwendet</small></div></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div id="status" class="status">Bereit. Neue Reise startet leer.</div>
+      </section>
+
+      <section id="dynamicPanel" class="panel active">
+        <div class="card">
+          <div class="section-title">
+            <div class="bigico" id="panelIcon">◎</div>
+            <div>
+              <h3 id="panelTitle">Vorschläge</h3>
+              <p id="panelSub">Wähle Ziele aus, um Planung, Budget und Timeline zu füllen.</p>
+            </div>
+          </div>
+          <div id="panelContent" class="panel-grid"></div>
+        </div>
+      </section>
+
+      <section id="mapPanel" class="panel">
+        <div class="card">
+          <div class="section-title">
+            <div class="bigico">🗺️</div><div><h3>Karte</h3><p>OpenStreetMap-Ansicht für Start und Ziel.</p></div>
+          </div>
+          <div class="actions" style="margin-top:0;margin-bottom:16px">
+            <button class="btn primary" id="mapSearch">Karte aktualisieren</button>
+            <button class="btn" id="routeToMap">Route aus Auswahl anzeigen</button>
+          </div>
+          <div class="mapbox"><iframe id="mapFrame" title="Karte" src="https://www.openstreetmap.org/export/embed.html?bbox=7.05%2C51.55%2C7.35%2C51.75&layer=mapnik&marker=51.6535%2C7.0919"></iframe></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="bottom">
+    <div class="bottom-left"><span class="bag">▣</span><div><strong id="selectedCount">0 Vorschläge ausgewählt</strong><small>Auswahl wird in Planung, Budget und Timeline übernommen.</small></div></div>
+    <div class="bottom-center"><small>Gesamt</small><strong id="bottomTotal">0 €</strong></div>
+    <button class="open" id="openPlan">Planung öffnen ›</button>
+  </div>
+
+  <div class="modal" id="vehicleModal" role="dialog" aria-modal="true">
+    <div class="modalbox">
+      <div class="modalhead">
+        <h3>Fahrzeug bearbeiten</h3>
+        <button class="x" data-close="vehicleModal">×</button>
       </div>
-
-      <div class="panel">
-        <h2>✨ Vorschläge</h2>
-        <div id="suggestions" class="cards"></div>
+      <div class="formgrid">
+        <div class="field"><label>Fahrzeug</label><small>Name</small><input id="mVehicleName"></div>
+        <div class="field"><label>Typ</label><small>Benzin/Diesel/Hybrid</small><input id="mVehicleType"></div>
+        <div class="field"><label>Verbrauch</label><small>l/100 km</small><input id="mConsumption" type="number" step="0.1"></div>
+        <div class="field"><label>Tankgröße</label><small>Liter</small><input id="mTank" type="number" step="1"></div>
+        <div class="field"><label>Kraftstoffpreis</label><small>€/Liter</small><input id="mFuel" type="number" step="0.01"></div>
+        <div class="field"><label>Zusatzkosten</label><small>Maut, Camping etc.</small><input id="mExtra" type="number" step="1"></div>
       </div>
-    </section>
+      <div class="actions">
+        <button class="btn primary" id="saveVehicle">Speichern</button>
+        <button class="btn" data-close="vehicleModal">Abbrechen</button>
+      </div>
+    </div>
+  </div>
 
-    <section id="view-entdecken" class="view hidden"><div class="panel"><h2>◆ Entdecken</h2><div id="discover" class="cards"></div></div></section>
-    <section id="view-karte" class="view hidden"><div class="panel"><div class="panelHead"><div><h2>⌖ Karte</h2><p>Vorschläge und Live-Orte.</p></div><button id="fitMap">Alle anzeigen</button></div><div id="map"></div></div></section>
-    <section id="view-wetter" class="view hidden"><div class="panel"><div class="panelHead"><div><h2>☀️ Wetter</h2><p>Aktueller Standort oder Ziel.</p></div><button class="primary" id="weatherReload">Wetter neu laden</button></div><div id="weatherBox" class="weatherGrid"></div></div></section>
-    <section id="view-planen" class="view hidden"><div class="panel"><h2>▣ Planen</h2><div id="planList" class="list"></div></div></section>
-    <section id="view-orte" class="view hidden"><div class="panel"><div class="panelHead"><div><h2>⌂ Orte</h2><p>Camping, Hotels und Restaurants.</p></div><select id="poiFilter"><option>Alle</option><option>Restaurant</option><option>Camping</option><option>Hotel</option></select></div><div id="poiList" class="cards"></div></div></section>
-    <section id="view-budget" class="view hidden"><div class="panel"><h2>€ Budget</h2><div class="budgetGrid"><div><span>Budget</span><b id="budgetTotal">0 €</b></div><div><span>Auswahl</span><b id="budgetUsed">0 €</b></div><div><span>Fahrzeug</span><b id="budgetCar">0 €</b></div><div><span>Rest</span><b id="budgetRest">0 €</b></div></div><div id="budgetList" class="list"></div></div></section>
-    <section id="view-packliste" class="view hidden"><div class="panel"><div class="panelHead"><div><h2>🎒 Packliste</h2><p>Kleine passende Icons, stabile Liste.</p></div><b id="packCount">0 / 0</b></div><div class="progress"><span id="packProgress"></span></div><div class="packTools"><input id="packSearch" placeholder="Packliste durchsuchen"><select id="packFilter"><option>Alle Kategorien</option></select></div><div id="packCats" class="packCats"></div><div class="addLine"><input id="customPack" placeholder="Eigenen Eintrag hinzufügen"><button id="addPack">+ Hinzufügen</button></div><div id="packItems" class="packList"></div></div></section>
-    <section id="view-touren" class="view hidden"><div class="panel"><h2>⌁ Touren</h2><div id="tourList" class="cards"></div></div></section>
-    <section id="view-haus" class="view hidden"><div class="panel"><h2>⌂ Hauscheck</h2><div id="houseList" class="houseList"></div></div></section>
-    <section id="view-timeline" class="view hidden"><div class="panel"><h2>☷ Timeline</h2><div id="timeline" class="list"></div></div></section>
-    <section id="view-export" class="view hidden"><div class="panel"><h2>⇩ Export</h2><div class="actions"><button class="primary" id="printBtn">PDF / Drucken</button><button id="txtBtn">TXT Download</button><button id="jsonBtn">JSON Download</button></div><textarea id="exportText"></textarea></div></section>
-  </main>
+  <div class="toast" id="toast">Gespeichert</div>
 
-  <footer class="bottomBar">
-    <div><b id="selectedCount">0 Vorschläge ausgewählt</b><span>Auswahl wird in Planung, Budget und Timeline übernommen.</span></div>
-    <div><span>Gesamt</span><b id="totalPrice">0 €</b></div>
-    <button data-view="planen">Planung öffnen ›</button>
-  </footer>
+<script>
+(() => {
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="data.js?v=x1"></script>
-  <script src="app.js?v=x1"></script>
+  const state = {
+    page: "target",
+    interests: [],
+    selected: [],
+    suggestions: [],
+    coords: {lat:51.6535, lon:7.0919},
+    vehicle: {name:"VW Passat B6", type:"Diesel", consumption:7.2, tank:70, fuel:1.65, extra:0},
+    weather: {temp:22, text:"Sonnig", code:0},
+    pack: [
+      {name:"Ausweise / Führerschein", done:false},
+      {name:"Dachzelt & Leiter prüfen", done:false},
+      {name:"Powerbank / Ladekabel", done:false},
+      {name:"Regenjacke / warme Schicht", done:false},
+      {name:"Erste-Hilfe-Set", done:false}
+    ]
+  };
+
+  const data = {
+    places: [
+      {title:"Marl → Sauerland Basecamp", type:"Natur", km:92, days:2, cost:96, weather:"Mild", desc:"Wald, Seen, kurze Anfahrt und gute Campingoptionen."},
+      {title:"Eifel Vulkanseen", type:"Camping", km:165, days:3, cost:168, weather:"Trocken", desc:"Ruhige Stellplätze, Wandern und Wasser in einem Plan."},
+      {title:"Zeeland Küste", type:"Strand", km:260, days:3, cost:210, weather:"Sonnig", desc:"Strand, Dünen, Fahrradwege und viele Campingplätze."},
+      {title:"Allgäu Seenrunde", type:"Bike & Hike", km:610, days:5, cost:440, weather:"Mild", desc:"Berge, Seen, MTB-Touren und schöne Etappen."},
+      {title:"Algarve Roadtrip", type:"Strand", km:2450, days:12, cost:1180, weather:"Warm", desc:"Sonne, Klippen, Roadtrip und Campingplätze am Meer."},
+      {title:"Nordspanien Atlantik", type:"Natur", km:1500, days:8, cost:790, weather:"Mild", desc:"Grüne Küste, Strände, Berge und starke Route für Dachzelt."}
+    ],
+    tours: [
+      {title:"MTB Waldroute", km:34, cost:0, desc:"Leichte bis mittlere Runde mit viel Waldanteil."},
+      {title:"Panorama Hike", km:12, cost:0, desc:"Wanderung mit Aussichtspunkt und Einkehr."},
+      {title:"See-Spaziergang", km:7, cost:0, desc:"Ruhiger Rundweg für Ankunftstag."}
+    ],
+    houses: [
+      {title:"Campingplatz mit Sanitär", cost:38, desc:"Stellplatz, Dusche, Strom und kurze Wege."},
+      {title:"Tiny House Stop", cost:89, desc:"Feste Unterkunft für Regentage oder Pause."},
+      {title:"Bauernhof-Stellplatz", cost:24, desc:"Ruhig, einfach, oft mit schöner Natur direkt am Platz."}
+    ],
+    info: [
+      {title:"Datenmodus", desc:"Die App läuft komplett im Browser. Wetter/GPS funktionieren live, wenn Browser und Internet es erlauben."},
+      {title:"Speicherung", desc:"Planung, Fahrzeugdaten und Auswahl werden lokal im Browser gespeichert."},
+      {title:"Export", desc:"Exportiert werden JSON und CSV. Damit kannst du später Backend oder Datenbank anbinden."}
+    ]
+  };
+
+  function toast(msg){
+    const t = $("#toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(window.__toast);
+    window.__toast = setTimeout(() => t.classList.remove("show"), 2100);
+  }
+
+  function save(){
+    localStorage.setItem("creovaState", JSON.stringify(state));
+  }
+
+  function load(){
+    try{
+      const old = JSON.parse(localStorage.getItem("creovaState") || "{}");
+      if(old && typeof old === "object"){
+        Object.assign(state, old);
+        state.vehicle = Object.assign({name:"VW Passat B6", type:"Diesel", consumption:7.2, tank:70, fuel:1.65, extra:0}, old.vehicle || {});
+        state.pack = Array.isArray(old.pack) ? old.pack : state.pack;
+      }
+    }catch(e){}
+  }
+
+  function euro(n){ return new Intl.NumberFormat("de-DE",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(Number(n)||0); }
+  function num(n, d=0){ return new Intl.NumberFormat("de-DE",{maximumFractionDigits:d}).format(Number(n)||0); }
+
+  function fuelCosts(km){
+    return (Number(km)||0) * state.vehicle.consumption / 100 * state.vehicle.fuel;
+  }
+
+  function selectedKm(){ return state.selected.reduce((a,b) => a + (Number(b.km)||0), 0); }
+  function selectedCosts(){
+    const km = selectedKm();
+    const direct = state.selected.reduce((a,b) => a + (Number(b.cost)||0), 0);
+    return direct + fuelCosts(km) + (Number(state.vehicle.extra)||0);
+  }
+
+  function renderBase(){
+    $("#startPlace").value = state.startPlace || "";
+    $("#destination").value = state.destination || "";
+    $("#radius").value = state.radius || "50 km";
+    $("#dateStart").value = state.dateStart || "";
+    $("#dateEnd").value = state.dateEnd || "";
+    $("#tripType").value = state.tripType || "Beliebig";
+    $("#budgetInput").value = state.budget ?? 0;
+    $("#persons").value = state.persons || "1 Person";
+    $("#weatherWish").value = state.weatherWish || "Sonnig";
+    $("#locationLabel").textContent = state.startPlace || "Marl, Deutschland";
+    $("#tempLabel").textContent = `${Math.round(state.weather.temp)}°C`;
+    $("#weatherLabel").textContent = state.weather.text || "Sonnig";
+    $("#weatherIcon").textContent = weatherIcon(state.weather.code);
+    renderInterests();
+    renderVehicle();
+    renderBudget();
+  }
+
+  function renderInterests(){
+    const wrap = $("#interestChips");
+    wrap.innerHTML = "";
+    state.interests.forEach((v, i) => {
+      const b = document.createElement("button");
+      b.className = "chip";
+      b.innerHTML = `${escapeHTML(v)} ×`;
+      b.onclick = () => { state.interests.splice(i,1); save(); renderInterests(); };
+      wrap.appendChild(b);
+    });
+  }
+
+  function renderVehicle(){
+    const v = state.vehicle;
+    $("#vehicleName").textContent = v.name;
+    $("#vehicleType").textContent = v.type;
+    $("#consumptionLabel").textContent = `${num(v.consumption,1)} l/100 km`;
+    $("#tankLabel").textContent = `${num(v.tank)} l`;
+    $("#fuelLabel").textContent = `${num(v.fuel,2)} € / l`;
+    const range = v.consumption ? Math.round(v.tank / v.consumption * 100) : 0;
+    $("#rangeLabel").textContent = `ca. ${num(range)} km`;
+    $("#kmLabel").textContent = `${num(selectedKm())} km`;
+    $("#fuelCostLabel").textContent = euro(fuelCosts(selectedKm()));
+    $("#totalCostLabel").textContent = euro(selectedCosts());
+  }
+
+  function renderBudget(){
+    const budget = Number(state.budget) || 0;
+    const planned = selectedCosts();
+    const remain = budget - planned;
+    $("#budgetTotal").textContent = euro(budget);
+    $("#plannedCost").textContent = euro(planned);
+    $("#remainingBudget").textContent = euro(remain);
+    $("#bottomTotal").textContent = euro(planned);
+    $("#selectedCount").textContent = `${state.selected.length} Vorschläge ausgewählt`;
+    const p = budget > 0 ? Math.min(100, Math.round(planned / budget * 100)) : 0;
+    $("#percentLabel").textContent = `${p}%`;
+    $("#donut").style.setProperty("--percent", `${p}%`);
+    renderVehicle();
+  }
+
+  function makeSuggestions(){
+    const region = ($("#destination").value || "").trim();
+    const type = $("#tripType").value;
+    const wish = $("#weatherWish").value;
+    state.suggestions = data.places
+      .filter(p => type === "Beliebig" || p.type === type || p.weather === wish || region.length)
+      .map(p => {
+        const bonus = region ? ` Richtung ${region}` : "";
+        return {...p, title: region && !p.title.toLowerCase().includes(region.toLowerCase()) ? `${p.title}${bonus}` : p.title};
+      });
+    if(!state.suggestions.length) state.suggestions = data.places.slice(0,4);
+    saveForm();
+    renderPanel("target");
+    toast("Reisevorschläge aktualisiert");
+  }
+
+  function isSelected(item){
+    return state.selected.some(x => x.title === item.title);
+  }
+
+  function toggleSelected(item){
+    const idx = state.selected.findIndex(x => x.title === item.title);
+    if(idx >= 0) state.selected.splice(idx,1);
+    else state.selected.push(item);
+    save();
+    renderPanel(state.page);
+    renderBudget();
+  }
+
+  function renderCards(list, selectable=true){
+    const box = $("#panelContent");
+    box.className = "panel-grid";
+    box.innerHTML = "";
+    list.forEach(item => {
+      const el = document.createElement("article");
+      el.className = `item ${isSelected(item) ? "selected" : ""}`;
+      el.innerHTML = `
+        <h4>${escapeHTML(item.title)}</h4>
+        <p>${escapeHTML(item.desc || "")}</p>
+        <div class="meta">
+          ${item.type ? `<span class="chip">${escapeHTML(item.type)}</span>` : ""}
+          ${item.km != null ? `<span class="chip">${num(item.km)} km</span>` : ""}
+          ${item.days ? `<span class="chip">${item.days} Tage</span>` : ""}
+          ${item.cost != null ? `<span class="chip">${euro(item.cost)}</span>` : ""}
+        </div>
+        ${selectable ? `<div class="actions"><button class="btn mini primary">${isSelected(item) ? "Entfernen" : "Auswählen"}</button></div>` : ""}
+      `;
+      if(selectable) el.querySelector("button").onclick = () => toggleSelected(item);
+      box.appendChild(el);
+    });
+  }
+
+  function renderPlan(){
+    const box = $("#panelContent");
+    box.className = "list";
+    box.innerHTML = "";
+    if(!state.selected.length){
+      box.innerHTML = `<div class="notice">Noch keine Auswahl vorhanden. Öffne „Reiseziel finden“ und wähle mindestens einen Vorschlag aus.</div>`;
+      return;
+    }
+    state.selected.forEach((x, i) => {
+      const row = document.createElement("div");
+      row.className = "todo";
+      row.innerHTML = `<div><b>Etappe ${i+1}: ${escapeHTML(x.title)}</b><br><small>${num(x.km)} km · ${x.days || 1} Tag(e) · ${euro(x.cost)}</small></div><button class="btn mini danger">Entfernen</button>`;
+      row.querySelector("button").onclick = () => toggleSelected(x);
+      box.appendChild(row);
+    });
+  }
+
+  function renderPack(){
+    const box = $("#panelContent");
+    box.className = "list";
+    box.innerHTML = `
+      <div class="actions" style="margin-top:0">
+        <input id="newPack" placeholder="Neuen Packlistenpunkt eintragen …" />
+        <button class="btn primary" id="addPack">＋ Hinzufügen</button>
+      </div>`;
+    state.pack.forEach((item, i) => {
+      const row = document.createElement("div");
+      row.className = "todo";
+      row.innerHTML = `<label><input type="checkbox" ${item.done ? "checked" : ""}> <span ${item.done ? 'style="text-decoration:line-through;opacity:.62"' : ""}>${escapeHTML(item.name)}</span></label><button class="btn mini danger">Löschen</button>`;
+      row.querySelector("input").onchange = e => { item.done = e.target.checked; save(); renderPack(); };
+      row.querySelector("button").onclick = () => { state.pack.splice(i,1); save(); renderPack(); };
+      box.appendChild(row);
+    });
+    $("#addPack").onclick = () => {
+      const v = $("#newPack").value.trim();
+      if(!v) return;
+      state.pack.push({name:v, done:false});
+      save(); renderPack();
+    };
+  }
+
+  function renderWeather(){
+    const box = $("#panelContent");
+    box.className = "panel-grid";
+    box.innerHTML = "";
+    [
+      {title:"Aktuell", desc:`${Math.round(state.weather.temp)}°C · ${state.weather.text}`, km:null, cost:null},
+      {title:"Wetterwunsch", desc:`Bevorzugt: ${$("#weatherWish").value || state.weatherWish || "Sonnig"}`, km:null, cost:null},
+      {title:"Live-Daten", desc:"Über „Live-Daten laden“ werden Open-Meteo-Daten für den Standort abgefragt.", km:null, cost:null}
+    ].forEach(x => {
+      const el = document.createElement("article");
+      el.className = "item";
+      el.innerHTML = `<h4>${escapeHTML(x.title)}</h4><p>${escapeHTML(x.desc)}</p><div class="meta"><span class="chip">${weatherIcon(state.weather.code)}</span></div>`;
+      box.appendChild(el);
+    });
+  }
+
+  function renderBudgetPanel(){
+    const box = $("#panelContent");
+    box.className = "list";
+    const fuel = fuelCosts(selectedKm());
+    const direct = state.selected.reduce((a,b)=>a+(Number(b.cost)||0),0);
+    box.innerHTML = `
+      <div class="rows">
+        <div class="row"><span>Reisekosten Auswahl</span><strong>${euro(direct)}</strong></div>
+        <div class="row"><span>Strecke</span><strong>${num(selectedKm())} km</strong></div>
+        <div class="row"><span>Kraftstoff</span><strong>${euro(fuel)}</strong></div>
+        <div class="row"><span>Zusatzkosten</span><strong>${euro(state.vehicle.extra)}</strong></div>
+        <div class="row total"><span>Gesamt geplant</span><strong>${euro(selectedCosts())}</strong></div>
+      </div>
+      <div class="actions"><button class="btn primary" id="exportBudget">Budget exportieren</button><button class="btn" id="editVehicle2">Fahrzeug bearbeiten</button></div>
+    `;
+    $("#exportBudget").onclick = () => downloadJSON("creova-budget.json", buildExport());
+    $("#editVehicle2").onclick = openVehicle;
+  }
+
+  function renderTimeline(){
+    const box = $("#panelContent");
+    box.className = "list";
+    if(!state.selected.length){
+      box.innerHTML = `<div class="notice">Die Timeline wird automatisch aus deinen ausgewählten Vorschlägen aufgebaut.</div>`;
+      return;
+    }
+    const start = state.dateStart ? new Date(state.dateStart) : new Date();
+    let day = 0;
+    state.selected.forEach((x, i) => {
+      const date = new Date(start);
+      date.setDate(start.getDate() + day);
+      day += Number(x.days) || 1;
+      const row = document.createElement("div");
+      row.className = "todo";
+      row.innerHTML = `<div><b>${date.toLocaleDateString("de-DE")} · ${escapeHTML(x.title)}</b><br><small>Etappe ${i+1} · ${num(x.km)} km · ${x.days || 1} Tag(e)</small></div><span class="chip">${euro(x.cost)}</span>`;
+      box.appendChild(row);
+    });
+  }
+
+  function renderExport(){
+    const box = $("#panelContent");
+    box.className = "list";
+    box.innerHTML = `
+      <div class="notice">Exportiert werden Start/Ziel, Zeitraum, Fahrzeug, Budget, Packliste, Wetter und ausgewählte Vorschläge.</div>
+      <div class="actions">
+        <button class="btn primary" id="jsonExport">⇩ JSON herunterladen</button>
+        <button class="btn" id="csvExport">⇩ CSV herunterladen</button>
+        <button class="btn" id="printExport">Druckansicht</button>
+      </div>
+      <textarea readonly style="height:280px">${escapeHTML(JSON.stringify(buildExport(), null, 2))}</textarea>
+    `;
+    $("#jsonExport").onclick = () => downloadJSON("creova-plan.json", buildExport());
+    $("#csvExport").onclick = () => downloadText("creova-auswahl.csv", toCSV(state.selected));
+    $("#printExport").onclick = () => window.print();
+  }
+
+  function renderSettings(){
+    const box = $("#panelContent");
+    box.className = "list";
+    box.innerHTML = `
+      <div class="settings-grid">
+        <div class="field"><label>Design</label><small>Hell oder dunkel</small><select id="setTheme"><option value="light">Hell</option><option value="dark">Dunkel</option></select></div>
+        <div class="field"><label>Akzent</label><small>Flieder/Violett bleibt Standard</small><select id="setAccent"><option value="#5b2ee6">CREOVA Violett</option><option value="#7e5cff">Flieder hell</option><option value="#4b18d7">Dunkelviolett</option></select></div>
+      </div>
+      <div class="actions"><button class="btn primary" id="saveSettings">Speichern</button><button class="btn danger" id="resetApp">App zurücksetzen</button></div>
+    `;
+    $("#setTheme").value = document.body.dataset.theme || "light";
+    $("#saveSettings").onclick = () => {
+      document.body.dataset.theme = $("#setTheme").value;
+      document.documentElement.style.setProperty("--violet", $("#setAccent").value);
+      state.theme = $("#setTheme").value;
+      state.accent = $("#setAccent").value;
+      save();
+      toast("Einstellungen gespeichert");
+    };
+    $("#resetApp").onclick = () => {
+      if(confirm("CREOVA lokal zurücksetzen?")){
+        localStorage.removeItem("creovaState");
+        location.reload();
+      }
+    };
+  }
+
+  function renderInfo(){
+    renderCards(data.info.map(x => ({...x, cost:null, km:null})), false);
+  }
+
+  function renderAuto(){
+    const box = $("#panelContent");
+    box.className = "list";
+    box.innerHTML = `
+      <div class="rows">
+        <div class="row"><span>Fahrzeug</span><strong>${escapeHTML(state.vehicle.name)}</strong></div>
+        <div class="row"><span>Typ</span><strong>${escapeHTML(state.vehicle.type)}</strong></div>
+        <div class="row"><span>Verbrauch</span><strong>${num(state.vehicle.consumption,1)} l/100 km</strong></div>
+        <div class="row"><span>Tank</span><strong>${num(state.vehicle.tank)} l</strong></div>
+        <div class="row"><span>Preis</span><strong>${num(state.vehicle.fuel,2)} €/l</strong></div>
+      </div>
+      <div class="actions"><button class="btn primary" id="autoEdit">Bearbeiten</button></div>
+    `;
+    $("#autoEdit").onclick = openVehicle;
+  }
+
+  function renderPanel(page){
+    state.page = page;
+    $("#dynamicPanel").classList.toggle("active", page !== "map");
+    $("#mapPanel").classList.toggle("active", page === "map");
+    $$(".navbtn,.quick button").forEach(b => b.classList.toggle("active", b.dataset.page === page || (page === "target" && b.dataset.page === "start")));
+    const titles = {
+      start:["◎","Vorschläge","Wähle Ziele aus, um Planung, Budget und Timeline zu füllen."],
+      target:["◎","Reiseziel finden","Wähle Ziele aus, um Planung, Budget und Timeline zu füllen."],
+      explore:["◉","Entdecken","Inspirierende Orte passend zu deiner Reiseart."],
+      weather:["☁️","Wetter","Wetterstatus und Live-Daten."],
+      places:["⌖","Orte","Interessante Orte, Zwischenstopps und Ziele."],
+      plan:["▦","Planung","Ausgewählte Etappen deiner Reise."],
+      pack:["▣","Packliste","Checkliste für Dachzelt, Reise und Alltag."],
+      tours:["△","Touren","Bike-, Hike- und Naturtouren."],
+      budget:["▤","Budget","Kostenübersicht mit Fahrzeugdaten."],
+      house:["⌂","Haus & Unterkunft","Campingplätze, Stellplätze und Unterkünfte."],
+      info:["ⓘ","Infos","System- und Datennutzung."],
+      auto:["▰","Auto","Fahrzeugdaten und Reichweite."],
+      timeline:["▥","Timeline","Chronologischer Reiseverlauf."],
+      export:["⇩","Export","Planung speichern oder drucken."],
+      settings:["⚙","Einstellungen","App lokal anpassen."]
+    };
+    const t = titles[page] || titles.target;
+    $("#panelIcon").textContent = t[0]; $("#panelTitle").textContent = t[1]; $("#panelSub").textContent = t[2];
+
+    if(page === "map"){ updateMap(); save(); return; }
+    if(page === "target" || page === "start") renderCards(state.suggestions.length ? state.suggestions : data.places);
+    else if(page === "explore" || page === "places") renderCards(data.places);
+    else if(page === "tours") renderCards(data.tours);
+    else if(page === "house") renderCards(data.houses);
+    else if(page === "plan") renderPlan();
+    else if(page === "pack") renderPack();
+    else if(page === "weather") renderWeather();
+    else if(page === "budget") renderBudgetPanel();
+    else if(page === "timeline") renderTimeline();
+    else if(page === "export") renderExport();
+    else if(page === "settings") renderSettings();
+    else if(page === "info") renderInfo();
+    else if(page === "auto") renderAuto();
+    save();
+  }
+
+  function saveForm(){
+    state.startPlace = $("#startPlace").value.trim();
+    state.destination = $("#destination").value.trim();
+    state.radius = $("#radius").value;
+    state.dateStart = $("#dateStart").value;
+    state.dateEnd = $("#dateEnd").value;
+    state.tripType = $("#tripType").value;
+    state.budget = Number($("#budgetInput").value) || 0;
+    state.persons = $("#persons").value;
+    state.weatherWish = $("#weatherWish").value;
+    save(); renderBudget();
+  }
+
+  function openVehicle(){
+    $("#mVehicleName").value = state.vehicle.name;
+    $("#mVehicleType").value = state.vehicle.type;
+    $("#mConsumption").value = state.vehicle.consumption;
+    $("#mTank").value = state.vehicle.tank;
+    $("#mFuel").value = state.vehicle.fuel;
+    $("#mExtra").value = state.vehicle.extra;
+    $("#vehicleModal").classList.add("active");
+  }
+
+  function updateMap(){
+    const q = encodeURIComponent(state.destination || $("#destination").value || state.startPlace || "Marl, Deutschland");
+    $("#mapFrame").src = `https://www.openstreetmap.org/search?query=${q}#map=8/51.65/7.09`;
+  }
+
+  function buildExport(){
+    saveForm();
+    return {
+      app:"CREOVA",
+      created:new Date().toISOString(),
+      trip:{
+        startPlace:state.startPlace,
+        destination:state.destination,
+        radius:state.radius,
+        dateStart:state.dateStart,
+        dateEnd:state.dateEnd,
+        tripType:state.tripType,
+        persons:state.persons,
+        weatherWish:state.weatherWish,
+        interests:state.interests
+      },
+      vehicle:state.vehicle,
+      weather:state.weather,
+      selected:state.selected,
+      packlist:state.pack,
+      totals:{
+        km:selectedKm(),
+        fuelCost:fuelCosts(selectedKm()),
+        plannedCost:selectedCosts(),
+        budget:Number(state.budget)||0,
+        remaining:(Number(state.budget)||0)-selectedCosts()
+      }
+    };
+  }
+
+  function downloadJSON(filename, obj){ downloadText(filename, JSON.stringify(obj, null, 2)); }
+  function downloadText(filename, text){
+    const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast(`${filename} erstellt`);
+  }
+  function toCSV(rows){
+    const header = ["Titel","Typ","Kilometer","Tage","Kosten"];
+    const lines = rows.map(r => [r.title,r.type || "",r.km || 0,r.days || "",r.cost || 0].map(v => `"${String(v).replaceAll('"','""')}"`).join(";"));
+    return [header.join(";"), ...lines].join("\n");
+  }
+
+  function weatherText(code){
+    if([0].includes(code)) return "Sonnig";
+    if([1,2].includes(code)) return "Leicht bewölkt";
+    if([3].includes(code)) return "Bewölkt";
+    if([45,48].includes(code)) return "Nebel";
+    if([51,53,55,61,63,65,80,81,82].includes(code)) return "Regen";
+    if([71,73,75,77,85,86].includes(code)) return "Schnee";
+    if([95,96,99].includes(code)) return "Gewitter";
+    return "Wetter";
+  }
+  function weatherIcon(code){
+    if([0].includes(Number(code))) return "☀️";
+    if([1,2].includes(Number(code))) return "🌤️";
+    if([3].includes(Number(code))) return "☁️";
+    if([51,53,55,61,63,65,80,81,82].includes(Number(code))) return "🌧️";
+    if([71,73,75,77,85,86].includes(Number(code))) return "❄️";
+    if([95,96,99].includes(Number(code))) return "⛈️";
+    return "🌤️";
+  }
+
+  async function loadWeather(){
+    try{
+      const {lat, lon} = state.coords || {lat:51.6535, lon:7.0919};
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`;
+      const res = await fetch(url);
+      const json = await res.json();
+      const code = json.current?.weather_code ?? 0;
+      const temp = json.current?.temperature_2m ?? state.weather.temp;
+      state.weather = {temp, code, text:weatherText(code)};
+      save();
+      renderBase();
+      if(state.page === "weather") renderWeather();
+      toast("Wetterdaten geladen");
+    }catch(e){
+      toast("Live-Wetter nicht erreichbar");
+    }
+  }
+
+  function useGPS(){
+    if(!navigator.geolocation){
+      toast("GPS wird vom Browser nicht unterstützt");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(pos => {
+      state.coords = {lat:pos.coords.latitude, lon:pos.coords.longitude};
+      state.startPlace = `GPS: ${state.coords.lat.toFixed(4)}, ${state.coords.lon.toFixed(4)}`;
+      $("#startPlace").value = state.startPlace;
+      $("#locationLabel").textContent = state.startPlace;
+      save();
+      loadWeather();
+    }, () => toast("GPS-Freigabe nicht erteilt"));
+  }
+
+  function escapeHTML(str){
+    return String(str ?? "").replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+  }
+
+  function bind(){
+    $$(".navbtn,.quick button").forEach(b => b.addEventListener("click", () => {
+      const p = b.dataset.page;
+      if(p === "target") document.getElementById("targetCard").scrollIntoView({behavior:"smooth", block:"center"});
+      renderPanel(p);
+    }));
+    ["startPlace","destination","radius","dateStart","dateEnd","tripType","budgetInput","persons","weatherWish"].forEach(id => {
+      $("#"+id).addEventListener("change", saveForm);
+      $("#"+id).addEventListener("input", saveForm);
+    });
+    $("#addInterest").onclick = () => {
+      const v = $("#interestInput").value.trim();
+      if(!v) return;
+      state.interests.push(v);
+      $("#interestInput").value = "";
+      save(); renderInterests(); toast("Interesse hinzugefügt");
+    };
+    $("#findTrip").onclick = makeSuggestions;
+    $("#suggestBtn").onclick = makeSuggestions;
+    $("#clearBtn").onclick = () => { state.selected = []; save(); renderPanel(state.page); renderBudget(); toast("Auswahl geleert"); };
+    $("#gpsBtn").onclick = useGPS;
+    $("#liveBtn").onclick = loadWeather;
+    $("#refreshBtn").onclick = () => { makeSuggestions(); loadWeather(); };
+    $("#downloadBtn").onclick = () => downloadJSON("creova-plan.json", buildExport());
+    $("#themeBtn").onclick = () => {
+      const next = document.body.dataset.theme === "dark" ? "light" : "dark";
+      document.body.dataset.theme = next; state.theme = next; save();
+    };
+    $("#openPlan").onclick = () => renderPanel("plan");
+    $("#editVehicle").onclick = openVehicle;
+    $("#saveVehicle").onclick = () => {
+      state.vehicle = {
+        name: $("#mVehicleName").value.trim() || "VW Passat B6",
+        type: $("#mVehicleType").value.trim() || "Diesel",
+        consumption: Number($("#mConsumption").value) || 0,
+        tank: Number($("#mTank").value) || 0,
+        fuel: Number($("#mFuel").value) || 0,
+        extra: Number($("#mExtra").value) || 0
+      };
+      $("#vehicleModal").classList.remove("active");
+      save(); renderVehicle(); renderBudget(); renderPanel(state.page); toast("Fahrzeug gespeichert");
+    };
+    $$("[data-close]").forEach(b => b.onclick = () => $("#" + b.dataset.close).classList.remove("active"));
+    $("#vehicleModal").addEventListener("click", e => { if(e.target.id === "vehicleModal") $("#vehicleModal").classList.remove("active"); });
+    $("#mapSearch").onclick = updateMap;
+    $("#routeToMap").onclick = () => {
+      if(state.selected[0]) $("#destination").value = state.selected[0].title;
+      saveForm(); updateMap(); toast("Karte aktualisiert");
+    };
+  }
+
+  load();
+  if(state.theme) document.body.dataset.theme = state.theme;
+  if(state.accent) document.documentElement.style.setProperty("--violet", state.accent);
+  if(!state.suggestions.length) state.suggestions = data.places.slice(0,4);
+  bind();
+  renderBase();
+  renderPanel(state.page || "target");
+})();
+</script>
 </body>
 </html>
