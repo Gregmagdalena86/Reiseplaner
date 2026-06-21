@@ -3,7 +3,7 @@ const $=(q,r=document)=>r.querySelector(q),$$=(q,r=document)=>[...r.querySelecto
 const D=window.CREOVA_DATA, img=D.img;
 const defaults={view:"ziel",start:"Marl",destination:"",radius:25000,tripType:"Urlaub",weatherPref:"Sonnig",budget:2000,persons:2,dateStart:"",dateEnd:"",interests:["Meer","Radfahren","Camping","gutes Essen"],selected:[],selectedPoi:[],packDone:{},customPack:[],houseDone:{},coords:{lat:51.647,lon:7.096},pois:[],weather:null,alarm:{arrival:"10:00",drive:"5 h 30 min",buffer:"30 min",wakeLead:"60 min",departure:"04:00",wake:"03:00"}};
 let state=load(),seed=0,map,markers=[];
-const suggestions=D.suggestions.map(s=>({...s,img:img[s.img]||s.img}));
+const suggestions=D.suggestions.map(s=>({...s,img:img[s.img]||s.img}));creovaLoadWeather(place);
 const pack=D.packBase.trim().split("\n").map((x,i)=>{let [name,cat,tags,key]=x.split("|");return{id:"p"+i,name,cat,tags:tags.split(","),img:img[key]||img.bag,qty:"1 / 1"}});
 const house=[["windows","Fenster schließen","▦"],["stove","Herd ausschalten","▣"],["water","Wasserhahn prüfen","♨"],["trash","Müll entsorgen","♲"],["pets","Haustiere versorgt","♧"],["lights","Licht aus","◌"],["doors","Türen abschließen","▣"],["mail","Post umleiten","✉"],["heater","Heizung prüfen","♨"],["plants","Pflanzen gießen","☘"],["fridge","Kühlschrank prüfen","▤"],["alarm","Alarmanlage aktivieren","⚑"]];
 function load(){try{return {...defaults,...JSON.parse(localStorage.creova_ultimate_v5||"{}")}}catch(e){return {...defaults}}}
@@ -52,3 +52,174 @@ function bind(){$$("[data-view]").forEach(b=>b.onclick=()=>nav(b.dataset.view));
 window.addEventListener("online",renderHome);window.addEventListener("offline",renderHome);
 if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").then(()=>{}).catch(()=>{})}
 document.addEventListener("DOMContentLoaded",()=>{bind();nav(state.view||"ziel")});
+async function creovaLoadWeather(place) {
+
+  if (!place || !place.lat || !place.lon) {
+
+    console.warn("Keine Wetter-Koordinaten vorhanden:", place);
+
+    return;
+
+  }
+
+  const url =
+
+    "https://api.open-meteo.com/v1/forecast" +
+
+    "?latitude=" + encodeURIComponent(place.lat) +
+
+    "&longitude=" + encodeURIComponent(place.lon) +
+
+    "&current=temperature_2m,weather_code,wind_speed_10m" +
+
+    "&timezone=auto";
+
+  try {
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+
+      throw new Error("Open-Meteo Fehler: " + response.status);
+
+    }
+
+    const data = await response.json();
+
+    const current = data.current;
+
+    const temp = Math.round(current.temperature_2m);
+
+    const wind = Math.round(current.wind_speed_10m);
+
+    const text = creovaWeatherCodeText(current.weather_code);
+
+    const weatherText =
+
+      temp + " °C · " + text + " · " + wind + " km/h Wind";
+
+    // Variante 1: Wenn es ein Wetter-Feld gibt
+
+    const weatherEl =
+
+      document.querySelector("#weather") ||
+
+      document.querySelector("#weatherText") ||
+
+      document.querySelector("#weather-text") ||
+
+      document.querySelector("[data-weather]");
+
+    if (weatherEl) {
+
+      weatherEl.textContent = weatherText;
+
+      return;
+
+    }
+
+    // Variante 2: Wetterkarte automatisch in Detailansicht einsetzen
+
+    const detailBox =
+
+      document.querySelector("#detail") ||
+
+      document.querySelector("#details") ||
+
+      document.querySelector(".detail") ||
+
+      document.querySelector(".details") ||
+
+      document.querySelector(".screen.active");
+
+    if (detailBox) {
+
+      let card = document.querySelector("#creovaWeatherCard");
+
+      if (!card) {
+
+        card = document.createElement("div");
+
+        card.id = "creovaWeatherCard";
+
+        card.className = "card weather-card";
+
+        card.innerHTML = `
+
+          <h3>Aktuelles Wetter</h3>
+
+          <div id="creovaWeatherTemp"></div>
+
+          <div id="creovaWeatherDesc"></div>
+
+          <div id="creovaWeatherWind"></div>
+
+        `;
+
+        detailBox.prepend(card);
+
+      }
+
+      document.querySelector("#creovaWeatherTemp").textContent = temp + " °C";
+
+      document.querySelector("#creovaWeatherDesc").textContent = text;
+
+      document.querySelector("#creovaWeatherWind").textContent = wind + " km/h Wind";
+
+    }
+
+  } catch (error) {
+
+    console.error("Wetter konnte nicht geladen werden:", error);
+
+  }
+
+}
+
+function creovaWeatherCodeText(code) {
+
+  const codes = {
+
+    0: "Klarer Himmel",
+
+    1: "Überwiegend klar",
+
+    2: "Teilweise bewölkt",
+
+    3: "Bewölkt",
+
+    45: "Nebel",
+
+    48: "Reifnebel",
+
+    51: "Leichter Nieselregen",
+
+    53: "Nieselregen",
+
+    55: "Starker Nieselregen",
+
+    61: "Leichter Regen",
+
+    63: "Regen",
+
+    65: "Starker Regen",
+
+    71: "Leichter Schnee",
+
+    73: "Schnee",
+
+    75: "Starker Schnee",
+
+    80: "Leichte Regenschauer",
+
+    81: "Regenschauer",
+
+    82: "Starke Regenschauer",
+
+    95: "Gewitter"
+
+  };
+
+  return codes[code] || "Unbekannte Wetterlage";
+
+}
