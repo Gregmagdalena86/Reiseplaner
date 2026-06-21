@@ -1,33 +1,131 @@
-<!DOCTYPE html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>CREOVA</title>
-<style>
-body{margin:0;font-family:Arial,sans-serif;background:#f6f3fb}
-.hero{height:320px;background:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee') center/cover;color:white;padding:30px}
-nav button{margin:6px;padding:12px 18px;border-radius:20px;border:none}
-.card{background:white;margin:20px;padding:20px;border-radius:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
-.item{border:1px solid #ddd;padding:10px;border-radius:15px}
-img{max-width:100%;border-radius:12px}
-</style></head>
+<meta name="theme-color" content="#7b4de2">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
 <body>
-<div class="hero">
-<h1>CREOVA</h1>
-<h2>Find your place. Plan your trip.</h2>
-<nav>
-<button>Ziel</button><button>Planen</button><button>Infos</button><button>Packliste</button>
-<button>Touren</button><button>Galerie</button><button>Budget</button>
-<button>Haus</button><button>Wecker</button><button>Timeline</button>
-</nav>
+<div class="app">
+<header class="hero">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">CR</div>
+      <div><h1>CREOVA</h1><p>Find your place. Plan your trip.</p></div>
+    </div>
+    <div class="iconActions"><button class="roundIcon">🔔</button><button class="roundIcon">♡</button><button class="roundIcon">👤</button></div>
+  </div>
+  <nav class="nav">
+    <button data-view="home">⌖ Ziel</button>
+    <button data-view="planen">▣ Planen</button>
+    <button data-view="infos">ⓘ Infos</button>
+    <button data-view="packliste">▣ Packliste</button>
+    <button data-view="touren">⌁ Touren</button>
+    <button data-view="galerie">▧ Galerie</button>
+    <button data-view="budget">▣ Budget</button>
+    <button data-view="haus">⌂ Haus</button>
+    <button data-view="wecker">◴ Wecker</button>
+    <button data-view="timeline">☷ Timeline</button>
+  </nav>
+</header>
+
+<div class="shell">
+  <aside class="sideHero">
+    <div>
+      <h2>Deine Reise.<br>Einfach. Schön.<br>Unvergesslich.</h2>
+      <p>Planen. Packen. Losfahren.</p>
+      <button class="sideButton" data-go="planen"><span>🗺️</span><span><strong>Reise planen</strong><small>Erstelle deine perfekte Reise</small></span></button>
+      <button class="sideButton" data-go="packliste"><span>🎒</span><span><strong>Packen</strong><small>Deine Packliste verwalten</small></span></button>
+      <button class="sideButton" data-go="wecker"><span>🚗</span><span><strong>Losfahren</strong><small>Checklisten & Abfahrt planen</small></span></button>
+      <div class="bottomMiniNav"><button>Home</button><button>Reisen</button><button>Entdecken</button><button>Profil</button></div>
+    </div>
+  </aside>
+
+  <main class="mainCol">
+    <section id="view-home" class="view">
+      <div class="card">
+        <h2>🎯 Ziel finden</h2>
+        <p class="muted">Budget, Reiseziel und Wünsche eingeben. Die Vorschläge können direkt übernommen werden.</p>
+        <div class="formGrid">
+          <div class="field"><label>Startort</label><span>oder Standort nutzen</span><div class="inputWrap"><input id="start"><span>⌖</span></div></div>
+          <div class="field"><label>Umkreis</label><span>für Tagesausflug z. B. 100 km</span><select id="radius"><option value="100">100 km</option><option value="300">300 km</option><option value="1000">1000 km</option></select></div>
+          <div class="field"><label>Reiseart</label><span>Tagesausflug, Wochenende, Urlaub</span><select id="tripType"><option>Tagesausflug</option><option>Wochenendtrip</option><option>Campingurlaub</option><option>Dachzelt-Reise</option><option>Familienurlaub</option><option>Aktivurlaub</option><option>Wellnessurlaub</option><option>Strandurlaub</option><option>Wanderurlaub</option><option>Radurlaub</option><option>Städtetrip</option><option>Roadtrip</option><option>Abenteuerurlaub</option><option>Kurzurlaub</option><option>Winterurlaub</option><option>Wohnmobilreise</option><option>Urlaub</option></select></div>
+          <div class="field"><label>Gesamtbudget €</label><span>wird live verrechnet</span><input id="budgetInput" type="number"></div>
+          <div class="field"><label>Personen</label><span>für Übersicht</span><input id="persons" type="number"></div>
+          <div class="field"><label>Interessen & Bedürfnisse</label><span>Wähle aus, was dir wichtig ist</span><input id="interestInput"></div>
+        </div>
+        <div id="chips" class="chipGrid"></div>
+        <div class="actions">
+          <button id="btnLocation" class="btn primary">📍 Standort übernehmen</button>
+          <button id="btnRefresh" class="btn">↻ Vorschläge aktualisieren</button>
+          <button id="btnClear" class="btn">🗑 Auswahl leeren</button>
+        </div>
+        <div id="locationInfo" class="smartHint">Standort noch nicht übernommen.</div>
+        <div id="budgetTiles" class="budgetMini"></div>
+      </div>
+      <div class="card">
+        <div class="sectionTitle"><div><h2>✨ Für dich empfohlen</h2><p class="muted">Die Reihenfolge ändert sich nach deinen Bedürfnissen.</p></div><select id="sort"><option>Beste Treffer</option><option>Preis niedrig</option><option>Entfernung</option></select></div>
+        <div id="results" class="resultsGrid"></div>
+      </div>
+    </section>
+
+    <section id="view-planen" class="view hidden">
+      <div class="card"><h2>🧭 Reise planen</h2><p class="muted">Ausgewählte Vorschläge werden automatisch als Tagesplan vorgeschlagen.</p><div id="planList"></div></div>
+    </section>
+
+    <section id="view-infos" class="view hidden">
+      <div class="card" id="detailContent"><h2>Infos</h2><p class="muted">Wähle einen Vorschlag und klicke auf Details.</p></div>
+    </section>
+
+    <section id="view-packliste" class="view hidden">
+      <div class="card">
+        <div class="sectionTitle"><div><h2>🎒 Packliste</h2><p class="muted">Produktkarten mit Bildern, automatisch passend zu Reiseart und Interessen.</p></div><b id="packProgressText">0 / 0</b></div>
+        <div class="progressBar"><div id="packProgress" class="progressFill"></div></div>
+        <div id="packCats" class="packCategories"></div>
+        <div class="actions" style="grid-template-columns:1fr auto">
+          <input id="customPack" placeholder="Neuen Eintrag hinzufügen">
+          <button id="addPack" class="btn primary">＋ Hinzufügen</button>
+        </div>
+        <div id="packProducts" class="productGrid"></div>
+      </div>
+    </section>
+
+    <section id="view-touren" class="view hidden"><div class="card"><h2>🚴 Touren</h2><p class="muted">Radtouren und Wanderungen passend zum Ziel.</p><div class="resultsGrid"><article class="resultCard"><div class="cardPhoto" style="background-image:url('https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=900&q=80')"></div><div class="resultBody"><h3>Panorama-Radtour</h3><p class="muted">Leichte Tour mit schönen Aussichtspunkten.</p></div></article><article class="resultCard"><div class="cardPhoto" style="background-image:url('https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=900&q=80')"></div><div class="resultBody"><h3>Wanderroute Natur</h3><p class="muted">Ruhige Strecke mit Picknick-Möglichkeit.</p></div></article></div></div></section>
+
+    <section id="view-galerie" class="view hidden"><div class="card"><h2>🖼️ Galerie</h2><p class="muted">Reisebilder, Highlights und Inspiration.</p><div id="galleryGrid" class="galleryGrid"></div></div></section>
+
+    <section id="view-budget" class="view hidden"><div class="card"><h2>💶 Budget</h2><div id="budgetTiles2" class="budgetMini"></div><div class="smartHint">Alle ausgewählten Vorschläge werden hier automatisch verrechnet.</div></div></section>
+
+    <section id="view-haus" class="view hidden"><div class="card"><h2>🏠 Hauscheck</h2><p class="muted">Vergiss nichts! Für eine sorgenfreie Abreise.</p><div id="houseList" class="houseList"></div></div></section>
+
+    <section id="view-wecker" class="view hidden">
+      <div class="card"><h2>⏰ Abfahrt planen</h2>
+        <div class="departureGrid">
+          <div class="card"><label>Gewünschte Ankunftszeit</label><input id="arrival"><label>Fahrzeit ca.</label><input id="drive"><label>Pufferzeit</label><input id="buffer"><button id="saveAlarm" class="btn primary">Wecker speichern</button></div>
+          <div>
+            <div class="departureHighlight"><div><span>Abfahrtszeit</span><h2 id="departureTime">04:00</h2><p class="muted">So solltest du losfahren.</p></div><img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=500&q=80"></div>
+            <div class="departureHighlight" style="margin-top:14px"><div><span>Aufstehzeit</span><h2 id="wakeTime">03:00</h2><p class="muted">Wecker wird gestellt.</p></div><img src="https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&w=500&q=80"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-timeline" class="view hidden"><div class="card"><h2>🗓️ Timeline</h2><p class="muted">Kompletter Reiseablauf aus deiner Auswahl.</p><div id="timelineFull"></div></div></section>
+  </main>
+
+  <aside class="rightPanel">
+    <div class="stat"><span>Budget</span><b id="rightBudget">0 €</b></div>
+    <div class="stat"><span>Ausgewählt</span><b id="rightSelected">0 €</b></div>
+    <div class="stat"><span>Rest</span><b id="rightRest">0 €</b></div>
+    <button class="btn primary" data-go="planen">Planung öffnen →</button>
+  </aside>
 </div>
-<div class="card">
-<h2>🎯 Ziel finden</h2>
-<p>Komplette Demo-Version.</p>
-<div class="grid">
-<div class="item"><img src="https://picsum.photos/400/250?1"><h3>Campingplatz</h3></div>
-<div class="item"><img src="https://picsum.photos/400/250?2"><h3>Restaurant</h3></div>
-<div class="item"><img src="https://picsum.photos/400/250?3"><h3>Aktivität</h3></div>
+
+<div class="sticky"><div><b id="stickyCount">0 Vorschläge ausgewählt</b><br><small>Auswahl wird in Planen und Budget übernommen.</small></div><div><small>Gesamt</small><br><b id="stickySum">0 €</b></div><button data-go="planen">Planung öffnen ›</button></div>
 </div>
-</div>
-<div class="card"><h2>🎒 Packliste</h2><p>Produkte mit Bildern je nach Reiseziel.</p></div>
-</body></html>
+<script src="app.js"></script>
+</body>
+</html>
