@@ -1,0 +1,1 @@
+Packlistenbilder hier ablegen, wenn du eigene Produktbilder nutzen möchtest.

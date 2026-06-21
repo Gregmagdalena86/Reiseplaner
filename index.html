@@ -161,8 +161,14 @@
   <section id="view-budget" class="view hidden">
     <div class="card">
       <h2>💶 Budget</h2>
-      <p class="muted">Ausgewählte Vorschläge werden automatisch abgezogen.</p>
+      <p class="muted">Hier kannst du dein Gesamtbudget jederzeit ändern. Ausgewählte Vorschläge werden automatisch abgezogen.</p>
+      <div class="formGrid" style="grid-template-columns:1fr 1fr 1fr">
+        <label>Gesamtbudget ändern €<span>wirkt sofort auf Ziel, Planung und Restbudget</span><input id="budgetInput2" type="number" min="0" step="50"></label>
+        <label>Personen<span>für Kostenübersicht</span><input id="persons2" type="number" min="1" step="1"></label>
+        <label>Notiz Budget<span>z. B. Tank, Essen, Reserve</span><input id="budgetNote" placeholder="z. B. 300 € Reserve"></label>
+      </div>
       <div id="budgetTiles2" class="budgetGrid"></div>
+      <h3 style="margin-top:18px">Ausgewählte Kosten</h3>
       <div id="budgetList" class="simpleList"></div>
     </div>
   </section>
