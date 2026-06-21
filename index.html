@@ -1,8 +1,76 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>CREOVA V8 Final</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="styles.css?v=8"></head><body>
-<aside class="side"><div class="hamb">☰</div><button class="sideBtn active" data-view="home">⌂<span>Start</span></button><button class="sideBtn" data-view="ziel">⌖<span>Ziel</span></button><button class="sideBtn" data-view="planen">▣<span>Planen</span></button><button class="sideBtn" data-view="packliste">🎒<span>Packliste</span></button><button class="sideBtn" data-view="wetter">☀<span>Wetter</span></button><button class="sideBtn" data-view="orte">⌖<span>Orte</span></button><button class="sideBtn" data-view="karte">🗺<span>Karte</span></button><button class="sideBtn" data-view="budget">€<span>Budget</span></button><button class="sideBtn" data-view="auto">🚗<span>Auto</span></button><button class="sideBtn" data-view="timeline">☷<span>Timeline</span></button><button class="sideBtn" data-view="export">⇩<span>Export</span></button></aside>
-<main class="shell"><section class="hero"><div class="brand"><div class="logo">CR</div><div><h1>CREOVA</h1><p>Find your place. Plan your trip.</p></div></div><div class="topWidgets"><button class="weatherPill" id="topWeather" data-view="wetter">📍 Mein Standort<br><b>Wetter laden</b></button><button class="circle" id="resetBtn">↻</button><button class="circle">⇩</button><button class="circle">☾</button></div><div class="claim"><h2>Dein Abenteuer beginnt hier.</h2><p>Plane deine perfekte Reise mit Wetter, Orten, Budget, Fahrzeugkosten und Packliste.</p></div><nav class="tileNav"><button data-view="ziel">🎯<b>Reiseziel finden</b></button><button data-view="orte">🧭<b>Entdecken</b></button><button data-view="karte">🗺️<b>Karte</b></button><button data-view="wetter">☀️<b>Wetter</b></button><button data-view="orte">📍<b>Orte</b></button><button data-view="planen">🗓️<b>Planen</b></button><button data-view="packliste">🎒<b>Packliste</b></button><button data-view="auto">🚗<b>Fahrzeug</b></button><button data-view="budget">💶<b>Budget</b></button><button data-view="export">📄<b>Export</b></button></nav></section>
-<section id="view-home" class="view gridDash"><div class="panel formPanel"><h2>🎯 Reiseziel finden</h2><p class="muted">Echtzeit-Daten zu Wetter, Orten, Camping, Hotels und Restaurants. Startet immer leer.</p><div class="formGrid"><label>Startort<span>für Suche und Karte</span><input id="start" placeholder="z. B. Marl, Deutschland"></label><label>Ziel / Region<span>weltweit</span><input id="destination" placeholder="z. B. Algarve, Portugal"></label><label>Umkreis<span>max. weltweit</span><select id="radius"><option value="5000">5 km</option><option value="25000">25 km</option><option value="50000">50 km</option><option value="100000">100 km</option><option value="300000">300 km</option><option value="1000000">1000 km</option><option value="20000000">weltweit</option></select></label><label>Zeitraum Start<span>Reisedatum Beginn</span><input id="dateStart" type="date"></label><label>Zeitraum Ende<span>Reisedatum Ende</span><input id="dateEnd" type="date"></label><label>Reiseart<span>z. B. Strand, Stadt, Natur</span><select id="tripType"></select></label><label>Gesamtbudget (€)<span>startet immer bei 0</span><input id="budgetInput" type="number" min="0" step="50" placeholder="0"></label><label>Personen<span>Anzahl Reisende</span><select id="persons"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label><label>Wetterwunsch<span>bevorzugtes Wetter</span><select id="weatherPref"><option>Sonnig</option><option>Mild</option><option>Kühl</option><option>Egal</option></select></label></div><div class="interestLine"><label>Interessen optional<span>z. B. Wandern, Kultur, Wellness</span></label><input id="customInterest" placeholder="Füge deine Interessen hinzu ..."><button id="addInterest">＋ Hinzufügen</button></div><div id="chips" class="chips"></div><div class="actions"><button class="primary" id="findTrip">🔎 Reise finden</button><button id="gpsBtn">📍 GPS übernehmen</button><button id="liveBtn">🌐 Live-Daten laden</button><button id="refreshBtn">↻ Vorschläge aktualisieren</button><button class="danger" id="clearBtn">🗑 Auswahl leeren</button></div><div id="status" class="status">Bereit. Bitte Ziel oder Standort eingeben.</div></div>
-<div class="panel vehicle"><div class="panelHead"><h2>🚗 Fahrzeug & Reisekosten</h2><button data-view="auto">Bearbeiten</button></div><div class="carBox"><img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=700&q=80"><div><h3 id="carName">VW Passat B6</h3><p class="muted">Benziner</p></div></div><div class="specGrid"><div><span>Verbrauch</span><b id="carCons">7,2 l/100 km</b></div><div><span>Tankgröße</span><b id="carTank">70 l</b></div><div><span>Kraftstoffpreis</span><b id="fuelPrice">1,75 € / l</b></div><div><span>Reichweite</span><b id="range">ca. 970 km</b></div></div><div class="costTiles"><div><span>Strecke</span><b id="tripKm">0 km</b></div><div><span>Kraftstoff</span><b id="fuelCost">0 €</b></div><div><span>Gesamt</span><b id="carTotal">0 €</b></div></div></div>
-<div class="panel budgetSmall"><h2>💶 Budgetübersicht</h2><div class="budgetRows"><p><span>Gesamtbudget</span><b id="bTotal">0 €</b></p><p><span>Geplante Kosten</span><b id="bUsed">0 €</b></p><p><span>Verbleibend</span><b id="bRest">0 €</b></p></div><div class="donut"><b id="bPct">0%</b><span>verwendet</span></div></div></section>
-<section id="view-ziel" class="view hidden"><div class="panel"><h2>🎯 Reiseziel finden</h2><div id="results" class="cards"></div></div></section><section id="view-orte" class="view hidden"><div class="panel"><div class="panelHead"><h2>📍 Orte weltweit</h2><select id="poiFilter"><option>Alle</option><option>Restaurants</option><option>Camping</option><option>Hotels</option></select></div><div id="poiList" class="cards"></div></div></section><section id="view-karte" class="view hidden"><div class="panel"><div class="panelHead"><h2>🗺️ Interaktive Karte</h2><button id="fitMap">Alle anzeigen</button></div><div id="map"></div></div></section><section id="view-wetter" class="view hidden"><div class="panel"><div class="panelHead"><h2>☀ Wetter am aktuellen Standort</h2><button id="loadWeather">Wetter neu laden</button></div><div id="weatherPanel" class="weatherCards"></div></div></section><section id="view-planen" class="view hidden"><div class="panel"><h2>🗓️ Planung</h2><div id="planList"></div></div></section><section id="view-packliste" class="view hidden"><div class="panel"><div class="panelHead"><h2>🎒 Packliste</h2><b id="packText">0 / 0</b></div><div class="bar"><div id="packFill"></div></div><div class="packTools"><input id="packSearch" placeholder="Packliste durchsuchen"><select id="packFilter"><option>Alle Kategorien</option></select></div><div id="packCats" class="packCats"></div><div class="addLine"><input id="customPack" placeholder="Eigenen Artikel hinzufügen"><button id="addPack">＋ Hinzufügen</button></div><div id="products" class="packList"></div></div></section><section id="view-budget" class="view hidden"><div class="panel"><h2>💶 Budget</h2><div class="formGrid"><label>Budget €<input id="budgetInput2" type="number" min="0"></label><label>Personen<input id="persons2" type="number" min="1"></label></div><div id="budgetTiles" class="costTiles big"></div><div id="budgetList"></div></div></section><section id="view-auto" class="view hidden"><div class="panel"><h2>🚗 Fahrzeug</h2><div class="formGrid"><label>Fahrzeug<input id="carModel" placeholder="VW Passat B6"></label><label>Verbrauch l/100 km<input id="consumption" type="number" step="0.1"></label><label>Tankgröße l<input id="tankSize" type="number"></label><label>Kraftstoffpreis €/l<input id="fuel" type="number" step="0.01"></label><label>Strecke km<input id="distanceKm" type="number"></label></div><button class="primary" id="saveCar">Fahrzeug übernehmen</button></div></section><section id="view-timeline" class="view hidden"><div class="panel"><h2>☷ Timeline</h2><div id="timeline"></div></div></section><section id="view-export" class="view hidden"><div class="panel"><h2>📄 Export</h2><div class="actions"><button class="primary" onclick="window.print()">PDF / Drucken</button><button id="txtExport">TXT herunterladen</button></div><textarea id="exportText"></textarea></div></section>
-</main><footer class="sticky"><div>💼 <b id="selCount">0 Vorschläge ausgewählt</b><br><span>Auswahl wird in Planung, Budget und Timeline übernommen.</span></div><div><span>Gesamt</span><b id="sum">0 €</b></div><button data-view="planen">Planung öffnen ›</button></footer><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="data.js?v=8"></script><script src="app.js?v=8"></script></body></html>
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CREOVA V9 Final</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="styles.css?v=9">
+</head>
+<body>
+<main class="app">
+<header class="hero">
+  <div class="topBar">
+    <div class="brand"><div class="logo">CR</div><div><h1>CREOVA</h1><p>Find your place. Plan your trip.</p></div></div>
+    <div class="statusWidgets">
+      <button class="weatherChip" id="topWeather" data-view="wetter"><span>📍 Standort</span><b>Wetter laden</b></button>
+      <button class="roundBtn" id="resetBtn">↻</button>
+      <button class="roundBtn" id="printBtn">⇩</button>
+    </div>
+  </div>
+  <nav class="dashboard">
+    <button class="dashBtn active" data-view="ziel">🎯<span>Ziel</span></button>
+    <button class="dashBtn" data-view="entdecken">◆<span>Entdecken</span></button>
+    <button class="dashBtn" data-view="karte">⌖<span>Karte</span></button>
+    <button class="dashBtn" data-view="wetter">☀️<span>Wetter</span></button>
+    <button class="dashBtn" data-view="planen">▣<span>Planen</span></button>
+    <button class="dashBtn" data-view="orte">⌂<span>Orte</span></button>
+    <button class="dashBtn" data-view="budget">€<span>Budget</span></button>
+    <button class="dashBtn" data-view="packliste">🎒<span>Packliste</span></button>
+    <button class="dashBtn" data-view="touren">⌁<span>Touren</span></button>
+    <button class="dashBtn" data-view="haus">⌂<span>Haus</span></button>
+    <button class="dashBtn" data-view="timeline">☷<span>Timeline</span></button>
+    <button class="dashBtn" data-view="export">⇩<span>Export</span></button>
+  </nav>
+</header>
+
+<section id="view-ziel" class="view">
+  <div class="panel">
+    <div class="panelTitle"><div><h2>🎯 Reiseziel finden</h2><p>Startet immer leer. Weltweite Suche, Wetter, Orte und Budget.</p></div><button class="ghost" id="loadEverything">Live laden</button></div>
+    <div class="formGrid">
+      <label>Startort<span>leer oder GPS nutzen</span><input id="start" placeholder="z. B. Marl"></label>
+      <label>Ziel / Region<span>weltweit</span><input id="destination" placeholder="z. B. Domburg, Algarve"></label>
+      <label>Umkreis<span>POI-Suche</span><select id="radius"><option value="50000">50 km</option><option value="100000">100 km</option><option value="250000">250 km</option><option value="500000">500 km</option><option value="1000000">1000 km</option><option value="20000000">Weltweit</option></select></label>
+      <label>Start<span>optional</span><input id="dateStart" type="date"></label>
+      <label>Ende<span>optional</span><input id="dateEnd" type="date"></label>
+      <label>Reiseart<span>viele Optionen</span><select id="tripType"><option>Beliebig</option><option>Tagesausflug</option><option>Wochenendtrip</option><option>Campingurlaub</option><option>Dachzelt-Reise</option><option>Familienurlaub</option><option>Strandurlaub</option><option>Wanderurlaub</option><option>Radurlaub</option><option>Roadtrip</option></select></label>
+      <label>Gesamtbudget €<span>startet immer bei 0</span><input id="budgetInput" type="number" min="0" step="50" placeholder="0"></label>
+      <label>Personen<span>Kosten pro Person</span><select id="persons"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+      <label>Wetterwunsch<span>Sortierung</span><select><option>Sonnig</option><option>Mild</option><option>Egal</option></select></label>
+    </div>
+    <div class="interestRow"><input id="customInterest" placeholder="Eigenes Interesse hinzufügen"><button id="addInterest">+ Hinzufügen</button></div>
+    <div id="chips" class="chips"></div>
+    <div class="actionRow"><button class="primary" id="gpsBtn">📍 GPS übernehmen</button><button class="primary" id="liveBtn">🌐 Live-Daten laden</button><button id="refreshBtn">↻ Vorschläge aktualisieren</button><button class="danger" id="clearBtn">Auswahl leeren</button></div>
+    <div id="status" class="statusLine">Bereit. Keine alten Werte geladen.</div>
+  </div>
+  <div class="panel"><h2>✨ Vorschläge</h2><div id="results" class="cards"></div></div>
+</section>
+
+<section id="view-entdecken" class="view hidden"><div class="panel"><h2>◆ Entdecken</h2><div id="discoverCards" class="cards"></div></div></section>
+<section id="view-karte" class="view hidden"><div class="panel"><div class="panelTitle"><div><h2>🗺️ Karte</h2><p>Vorschläge und Live-Orte.</p></div><button id="fitMap">Alle anzeigen</button></div><div id="map"></div></div></section>
+<section id="view-wetter" class="view hidden"><div class="panel"><div class="panelTitle"><div><h2>☀️ Wetter</h2><p>Aktueller Standort oder gewähltes Ziel.</p></div><button class="primary" id="loadWeather">Wetter neu laden</button></div><div id="weatherPanel" class="weatherGrid"></div></div></section>
+<section id="view-planen" class="view hidden"><div class="panel"><h2>▣ Planung</h2><div id="planList"></div></div></section>
+<section id="view-orte" class="view hidden"><div class="panel"><div class="panelTitle"><div><h2>⌂ Orte</h2><p>Camping, Hotels und Restaurants.</p></div><select id="poiFilter"><option>Alle</option><option>Restaurants</option><option>Camping</option><option>Hotels</option></select></div><div id="poiList" class="cards"></div></div></section>
+<section id="view-budget" class="view hidden"><div class="panel"><h2>€ Budget</h2><div class="budgetGrid"><div><span>Budget</span><b id="bTotal">0 €</b></div><div><span>Auswahl</span><b id="bUsed">0 €</b></div><div><span>Fahrzeug</span><b id="bCar">0 €</b></div><div><span>Rest</span><b id="bRest">0 €</b></div></div><div id="budgetList"></div></div></section>
+<section id="view-packliste" class="view hidden"><div class="panel"><div class="panelTitle"><div><h2>🎒 Packliste</h2><p>Kleine feste Symbole, keine Platzhalterbilder.</p></div><b id="packText">0 / 0</b></div><div class="progress"><span id="packFill"></span></div><div class="packTools"><input id="packSearch" placeholder="Packliste durchsuchen"><select id="packFilter"><option>Alle Kategorien</option></select></div><div id="packCats" class="packCats"></div><div class="interestRow"><input id="customPack" placeholder="Eigenen Packlisten-Eintrag hinzufügen"><button id="addPack">+ Hinzufügen</button></div><div id="products" class="packList"></div></div></section>
+<section id="view-touren" class="view hidden"><div class="panel"><h2>⌁ Touren</h2><div id="tourCards" class="cards"></div></div></section>
+<section id="view-haus" class="view hidden"><div class="panel"><h2>⌂ Hauscheck</h2><div id="houseList" class="checkList"></div></div></section>
+<section id="view-timeline" class="view hidden"><div class="panel"><h2>☷ Timeline</h2><div id="timeline"></div></div></section>
+<section id="view-export" class="view hidden"><div class="panel"><h2>⇩ Export</h2><div class="actionRow"><button class="primary" id="printPlan">PDF / Drucken</button><button id="txtExport">TXT herunterladen</button><button id="jsonExport">JSON herunterladen</button></div><textarea id="exportText"></textarea></div></section>
+</main>
+<footer class="bottomBar"><div><b id="selCount">0 Vorschläge ausgewählt</b><span>Auswahl wird in Planung, Budget und Timeline übernommen.</span></div><div><span>Gesamt</span><b id="sum">0 €</b></div><button data-view="planen">Planung öffnen ›</button></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="data.js?v=9"></script><script src="app.js?v=9"></script>
+</body></html>
