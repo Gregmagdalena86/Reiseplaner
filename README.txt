@@ -1,4 +1,4 @@
-CREOVA Ultimate V4
+CREOVA Ultimate V5
 
 Upload nach GitHub:
 - index.html
@@ -6,10 +6,19 @@ Upload nach GitHub:
 - data.js
 - app.js
 - api-config.js
+- sw.js
 - manifest.webmanifest
 - icon.svg
 
-Keine assets nötig. Bilder werden per URL geladen.
+Funktionen:
+- interaktive Karte: Leaflet/OpenStreetMap
+- echte Wetterdaten: Open-Meteo
+- echte Restaurants/Camping/Hotels: OpenStreetMap Overpass
+- Budget-Rechner live
+- Packliste 100+
+- PDF über Drucken
+- TXT Export
+- Offline-Modus für App-Dateien über Service Worker
 
 Hinweis:
-Echte Live-Daten für Wetter, Booking, Restaurants und Karten benötigen eigene API-Keys und später ggf. einen Backend-Server.
+Externe Live-Daten funktionieren nur mit Internet. Offline bleiben App, Planung und gespeicherte Daten verfügbar.

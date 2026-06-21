@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>CREOVA Ultimate V4</title>
+<title>CREOVA Ultimate V5</title>
 <meta name="theme-color" content="#7b4de2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
 <header class="hero">
@@ -16,126 +17,200 @@
       <div class="logo">CR</div>
       <div>
         <h1>CREOVA</h1>
-        <p>Deine Reise. Einfach. Schön. Unvergesslich.</p>
+        <p>Find your place. Plan your trip.</p>
       </div>
     </div>
-    <div class="topTools">
-      <button id="installBtn" title="Installieren">⬇</button>
-      <button id="themeBtn" title="Design">◐</button>
-      <button id="resetApp" title="Reset">↺</button>
+    <div class="heroActions">
+      <button id="installBtn" class="round" title="Installieren">⬇</button>
+      <button id="syncBtn" class="round" title="Live-Daten laden">↻</button>
+      <button id="resetApp" class="round" title="Zurücksetzen">⌫</button>
     </div>
   </div>
 
   <nav class="nav">
-    <button data-view="home">⌂ Home</button>
-    <button data-view="reise">✦ Reise planen</button>
+    <button data-view="ziel">⌖ Ziel</button>
     <button data-view="entdecken">◆ Entdecken</button>
-    <button data-view="details">ⓘ Details</button>
-    <button data-view="timeline">☷ Timeline</button>
     <button data-view="karte">⌖ Karte</button>
-    <button data-view="budget">▣ Budget</button>
+    <button data-view="wetter">☀ Wetter</button>
+    <button data-view="pois">⌂ Orte</button>
+    <button data-view="planen">▣ Planen</button>
+    <button data-view="infos">ⓘ Infos</button>
     <button data-view="packliste">▣ Packliste</button>
-    <button data-view="haus">⌂ Hauscheck</button>
-    <button data-view="wecker">◴ Wecker</button>
-    <button data-view="galerie">▧ Galerie</button>
+    <button data-view="touren">⌁ Touren</button>
+    <button data-view="budget">€ Budget</button>
+    <button data-view="haus">⌂ Haus</button>
+    <button data-view="timeline">☷ Timeline</button>
     <button data-view="export">⇩ Export</button>
   </nav>
 </header>
 
 <main class="app">
-<section id="view-home" class="view">
-  <div class="homeGrid">
-    <article class="homeHero card">
-      <h2>Plane deine Reise von A bis Z</h2>
-      <p>CREOVA schlägt Ziele anhand deiner Wünsche, Reiseart, Budget, Zeitraum, Wetteridee und Entfernung vor.</p>
-      <div class="homeActions">
-        <button class="btn primary" data-view="reise">Reise erstellen ✨</button>
-        <button class="btn" data-view="entdecken">Ziele entdecken</button>
+<section id="view-ziel" class="view">
+  <div class="card splitHero">
+    <div>
+      <h2>🎯 Reiseziel finden</h2>
+      <p class="muted">Plane eine Reise nach Bedürfnissen, Budget, Zeitraum, Wetter, Reiseart und Umkreis. V5 lädt echte Daten, wenn verfügbar.</p>
+      <div class="formGrid">
+        <label>Startort<span>für Suche und Karte</span><input id="start" placeholder="z. B. Marl"></label>
+        <label>Ziel / Region<span>optional, z. B. Domburg</span><input id="destination" placeholder="z. B. Domburg, Winterberg, Algarve"></label>
+        <label>Umkreis<span>POI-Suche</span><select id="radius"><option value="5000">5 km</option><option value="10000">10 km</option><option value="25000">25 km</option><option value="50000">50 km</option><option value="100000">100 km</option></select></label>
+        <label>Zeitraum Start<span>Kalender</span><input id="dateStart" type="date"></label>
+        <label>Zeitraum Ende<span>Kalender</span><input id="dateEnd" type="date"></label>
+        <label>Reiseart<span>viele Optionen</span><select id="tripType"></select></label>
+        <label>Gesamtbudget €<span>live verrechnet</span><input id="budgetInput" type="number" min="0" step="50"></label>
+        <label>Personen<span>Kosten pro Person</span><input id="persons" type="number" min="1" step="1"></label>
+        <label>Wetterwunsch<span>Sortierung</span><select id="weatherPref"><option>Sonnig</option><option>Mild</option><option>Kühl</option><option>Egal</option><option>Schlechtwetter-geeignet</option></select></label>
       </div>
-    </article>
-    <article class="sideImage card">
-      <img src="https://images.unsplash.com/photo-1533873984035-25970ab07461?auto=format&fit=crop&w=1000&q=90" alt="Dachzelt Reise">
-    </article>
-  </div>
 
-  <div class="dashGrid">
-    <button class="dash" data-view="reise"><b>Reise planen</b><span>Budget, Zeitraum, Ziel</span></button>
-    <button class="dash" data-view="packliste"><b>Packen</b><span>Dynamische Packliste</span></button>
-    <button class="dash" data-view="wecker"><b>Losfahren</b><span>Abfahrt & Wecker</span></button>
-    <button class="dash" data-view="haus"><b>Hauscheck</b><span>Vor Abreise abhaken</span></button>
-  </div>
-</section>
+      <div id="chips" class="chips"></div>
+      <div class="customAdd">
+        <input id="customInterest" placeholder="Eigenes Interesse hinzufügen, z. B. Hund, Angeln, Wein">
+        <button class="btn" id="addInterest">＋ Hinzufügen</button>
+      </div>
 
-<section id="view-reise" class="view hidden">
-  <div class="card">
-    <h2>✦ Reise planen</h2>
-    <p class="muted">Je genauer die Angaben, desto besser werden die Vorschläge sortiert.</p>
-    <div class="formGrid">
-      <label>Startort<input id="start" placeholder="Marl"></label>
-      <label>Reiseziel / Region<input id="target" placeholder="optional, z. B. Meer, Alpen, Holland"></label>
-      <label>Zeitraum Start<input id="dateStart" type="date"></label>
-      <label>Zeitraum Ende<input id="dateEnd" type="date"></label>
-      <label>Budget €<input id="budgetInput" type="number" min="0" step="50"></label>
-      <label>Personen<input id="persons" type="number" min="1" step="1"></label>
-      <label>Umkreis<select id="radius"><option value="100">100 km</option><option value="300">300 km</option><option value="1000">1000 km</option><option value="5000">weltweit</option></select></label>
-      <label>Reiseart<select id="tripType"></select></label>
-      <label>Wetterwunsch<select id="weatherPref"><option>Sonnig</option><option>Mild</option><option>Kühl</option><option>Egal</option><option>Schlechtwetter-geeignet</option></select></label>
+      <div class="actions">
+        <button class="btn primary" id="btnLocation">📍 GPS übernehmen</button>
+        <button class="btn primary" id="btnSearchLive">🌐 Live-Daten laden</button>
+        <button class="btn" id="btnRefresh">↻ Vorschläge aktualisieren</button>
+        <button class="btn danger" id="btnClear">Auswahl leeren</button>
+      </div>
+
+      <div id="loc" class="hint">Standort noch nicht übernommen.</div>
     </div>
-    <h3>Interessen & Bedürfnisse</h3>
-    <div id="chips" class="chips"></div>
-    <div class="customAdd">
-      <input id="customInterest" placeholder="Eigenes Interesse hinzufügen">
-      <button id="addInterest" class="btn">＋ Hinzufügen</button>
-    </div>
-    <div class="actions">
-      <button id="btnLocation" class="btn primary">📍 Standort übernehmen</button>
-      <button id="btnRefresh" class="btn">↻ Vorschläge aktualisieren</button>
-      <button id="btnClear" class="btn danger">Auswahl leeren</button>
-    </div>
-    <div id="loc" class="hint">Standort noch nicht übernommen.</div>
-    <div id="budgetTiles" class="budgetGrid"></div>
+    <aside class="quickPanel">
+      <h3>Live-Übersicht</h3>
+      <div id="budgetTiles" class="budgetGrid one"></div>
+      <div id="weatherMini" class="weatherBox"></div>
+      <div class="statusGrid">
+        <div><b id="poiCount">0</b><span>Live-Orte</span></div>
+        <div><b id="offlineState">bereit</b><span>Offline</span></div>
+      </div>
+      <button class="btn primary full" data-view="entdecken">Vorschläge anzeigen ›</button>
+    </aside>
   </div>
 </section>
 
 <section id="view-entdecken" class="view hidden">
   <div class="card">
     <div class="titleRow">
-      <div><h2>◆ Entdecken</h2><p class="muted">Ziele, Restaurants, Aktivitäten, Campingplätze und Unterkünfte.</p></div>
-      <select id="sort"><option>Beste Treffer</option><option>Preis niedrig</option><option>Entfernung</option><option>Wetter passend</option><option>Bewertung</option></select>
+      <div>
+        <h2>✨ Entdecken</h2>
+        <p class="muted">Reiseziele und echte POIs. Alles kann angehakt und in Planung, Budget und Timeline übernommen werden.</p>
+      </div>
+      <select id="sort"><option>Beste Treffer</option><option>Preis niedrig</option><option>Entfernung</option><option>Wetter passend</option></select>
     </div>
     <div id="results" class="cards"></div>
   </div>
 </section>
 
-<section id="view-details" class="view hidden"><div id="detailContent" class="card"><h2>ⓘ Details</h2><p class="muted">Wähle einen Vorschlag aus und klicke auf Details.</p></div></section>
-<section id="view-timeline" class="view hidden"><div class="card"><div class="titleRow"><div><h2>☷ Timeline</h2><p class="muted">Automatischer Tagesplan aus deiner Auswahl.</p></div><button id="rebalanceTimeline" class="btn">↻ Neu verteilen</button></div><div id="timelineFull"></div></div></section>
-<section id="view-karte" class="view hidden"><div class="card"><h2>⌖ Karte</h2><p class="muted">Live-Kartenlinks über Google Maps/OpenStreetMap. Eine echte eingebettete Karte kann später mit Mapbox/Leaflet ergänzt werden.</p><div id="mapList" class="cards"></div></div></section>
-<section id="view-budget" class="view hidden"><div class="card"><h2>▣ Budget</h2><p class="muted">Kosten werden live berechnet.</p><div class="formGrid compact"><label>Budget ändern €<input id="budgetInput2" type="number" min="0" step="50"></label><label>Personen<input id="persons2" type="number" min="1"></label><label>Reserve / Notiz<input id="budgetNote" placeholder="z. B. 300 € Reserve"></label></div><div id="budgetTiles2" class="budgetGrid"></div><h3>Kostenliste</h3><div id="budgetList" class="simpleList"></div></div></section>
+<section id="view-karte" class="view hidden">
+  <div class="card">
+    <div class="titleRow">
+      <div><h2>🗺️ Interaktive Karte</h2><p class="muted">OpenStreetMap mit Vorschlägen, Restaurants, Hotels und Campingplätzen.</p></div>
+      <div class="mapTools"><button class="btn" id="fitMap">Alle anzeigen</button><button class="btn primary" id="reloadMapData">POIs neu laden</button></div>
+    </div>
+    <div id="map"></div>
+  </div>
+</section>
+
+<section id="view-wetter" class="view hidden">
+  <div class="card">
+    <div class="titleRow">
+      <div><h2>☀ Echte Wetterdaten</h2><p class="muted">Wetterdaten kommen über Open-Meteo. Wenn kein Ziel gesetzt ist, wird Marl/Fallback genutzt.</p></div>
+      <button class="btn primary" id="loadWeather">Wetter neu laden</button>
+    </div>
+    <div id="weatherPanel" class="weatherCards"></div>
+  </div>
+</section>
+
+<section id="view-pois" class="view hidden">
+  <div class="card">
+    <div class="titleRow">
+      <div><h2>⌂ Echte Orte</h2><p class="muted">Campingplätze, Hotels und Restaurants aus OpenStreetMap/Overpass.</p></div>
+      <select id="poiFilter"><option>Alle</option><option>Restaurants</option><option>Camping</option><option>Hotels</option></select>
+    </div>
+    <div id="poiList" class="cards"></div>
+  </div>
+</section>
+
+<section id="view-planen" class="view hidden"><div class="card"><div class="titleRow"><div><h2>🧭 Planen</h2><p class="muted">Ausgewählte Vorschläge und Live-Orte landen hier.</p></div><button class="btn primary" data-view="timeline">Timeline öffnen</button></div><div id="planList"></div></div></section>
+
+<section id="view-infos" class="view hidden"><div class="card" id="detailContent"><h2>ⓘ Infos</h2><p class="muted">Klicke auf „Details anzeigen“.</p></div></section>
 
 <section id="view-packliste" class="view hidden">
   <div class="card">
-    <div class="titleRow"><div><h2>▣ Packliste</h2><p class="muted">Große dynamische Packliste mit Bildern.</p></div><b id="packText">0 / 0</b></div>
+    <div class="titleRow"><div><h2>🎒 Packliste 100+</h2><p class="muted">Dynamisch nach Reiseart, Interessen und ausgewählten Orten.</p></div><b id="packText">0 / 0</b></div>
     <div class="bar"><div id="packFill" class="fill"></div></div>
     <div id="packCats" class="packCats"></div>
-    <div class="customAdd"><input id="customPack" placeholder="Neuen Artikel hinzufügen"><button id="addPack" class="btn primary">＋ Hinzufügen</button></div>
+    <div class="customAdd"><input id="customPack" placeholder="Neuen Packlisten-Eintrag hinzufügen"><button class="btn primary" id="addPack">＋ Hinzufügen</button></div>
     <div class="titleRow slim"><h3>Artikel</h3><select id="packFilter"><option>Alle Kategorien</option></select></div>
     <div id="products" class="products"></div>
   </div>
 </section>
 
-<section id="view-haus" class="view hidden"><div class="card"><h2>⌂ Hauscheck</h2><p class="muted">Vor der Abfahrt abhaken.</p><div id="houseList" class="checkList"></div></div></section>
-<section id="view-wecker" class="view hidden"><div class="card"><h2>◴ Abfahrt & Wecker</h2><div class="depart"><div class="innerCard"><label>Ankunftszeit<input id="arrival" placeholder="10:00"></label><label>Fahrzeit<input id="drive" placeholder="5 h 30 min"></label><label>Puffer<input id="buffer" placeholder="30 min"></label><label>Aufsteh-Vorlauf<input id="wakeLead" placeholder="60 min"></label><button id="saveAlarm" class="btn primary">Speichern</button></div><div><div class="highlight"><div><span>Abfahrt</span><h2 id="depTime">04:00</h2><p class="muted">So solltest du losfahren.</p></div><img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80"></div><div class="highlight"><div><span>Aufstehen</span><h2 id="wakeTime">03:00</h2><p class="muted">Weckerzeit.</p></div><img src="https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&w=600&q=80"></div></div></div></div></section>
-<section id="view-galerie" class="view hidden"><div class="card"><h2>▧ Galerie</h2><div id="gallery" class="gallery"></div></div></section>
-<section id="view-export" class="view hidden"><div class="card"><h2>⇩ Export</h2><p class="muted">Reiseplan als Textdatei speichern oder als PDF drucken.</p><div class="actions"><button id="downloadPlan" class="btn primary">Reiseplan herunterladen</button><button onclick="window.print()" class="btn">Drucken / PDF</button><button id="resetAll" class="btn danger">Alles zurücksetzen</button></div><textarea id="exportText"></textarea></div></section>
+<section id="view-touren" class="view hidden"><div class="card"><h2>🚴 Touren</h2><p class="muted">Radtouren, Wanderungen und Tagesausflüge passend zum Ziel.</p><div id="tourCards" class="cards"></div></div></section>
 
+<section id="view-budget" class="view hidden">
+  <div class="card">
+    <h2>💶 Budget-Rechner</h2>
+    <p class="muted">Live-Auswertung mit Budget, Rest, Kosten pro Person und Kategorien.</p>
+    <div class="formGrid compact">
+      <label>Gesamtbudget ändern €<span>sofort aktiv</span><input id="budgetInput2" type="number" min="0" step="50"></label>
+      <label>Personen<span>Kosten pro Person</span><input id="persons2" type="number" min="1" step="1"></label>
+      <label>Reserve / Notiz<span>optional</span><input id="budgetNote" placeholder="z. B. 300 € Reserve"></label>
+    </div>
+    <div id="budgetTiles2" class="budgetGrid"></div>
+    <div id="budgetBars" class="budgetBars"></div>
+    <h3>Ausgewählte Kosten</h3>
+    <div id="budgetList" class="simpleList"></div>
+  </div>
+</section>
+
+<section id="view-haus" class="view hidden"><div class="card"><h2>🏠 Hauscheck</h2><p class="muted">Vor der Abfahrt abhaken.</p><div id="houseList" class="checkList"></div></div></section>
+
+<section id="view-wecker" class="view hidden">
+  <div class="card">
+    <h2>⏰ Abfahrt planen</h2>
+    <div class="depart">
+      <div class="innerCard">
+        <label>Ankunftszeit<input id="arrival" placeholder="10:00"></label>
+        <label>Fahrzeit ca.<input id="drive" placeholder="5 h 30 min"></label>
+        <label>Pufferzeit<input id="buffer" placeholder="30 min"></label>
+        <label>Aufsteh-Vorlauf<input id="wakeLead" placeholder="60 min"></label>
+        <button id="saveAlarm" class="btn primary">Wecker speichern</button>
+      </div>
+      <div>
+        <div class="highlight"><div><span>Abfahrtszeit</span><h2 id="depTime">04:00</h2><p class="muted">So solltest du losfahren.</p></div><img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80"></div>
+        <div class="highlight"><div><span>Aufstehzeit</span><h2 id="wakeTime">03:00</h2><p class="muted">Wecker wird gestellt.</p></div><img src="https://images.unsplash.com/photo-1501139083538-0139583c060f?auto=format&fit=crop&w=600&q=80"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="view-timeline" class="view hidden"><div class="card"><div class="titleRow"><div><h2>🗓️ Timeline</h2><p class="muted">Automatischer Tagesplan mit Bildern.</p></div><button id="rebalanceTimeline" class="btn">↻ Neu verteilen</button></div><div id="timelineFull"></div></div></section>
+
+<section id="view-export" class="view hidden">
+  <div class="card">
+    <h2>⇩ PDF / Export</h2>
+    <p class="muted">Als PDF drucken oder Reiseplan als Text herunterladen. Für PDF auf iPad: Drucken → Teilen → In Dateien sichern.</p>
+    <div class="actions">
+      <button class="btn primary" onclick="window.print()">PDF erstellen / Drucken</button>
+      <button class="btn" id="downloadPlan">Reiseplan TXT</button>
+      <button class="btn danger" id="resetAll">Alles zurücksetzen</button>
+    </div>
+    <textarea id="exportText" rows="18"></textarea>
+  </div>
+</section>
 </main>
 
 <div class="sticky">
-  <div><b id="stickyCount">0 Vorschläge ausgewählt</b><br><small>Übernahme in Planung, Budget und Timeline.</small></div>
+  <div><b id="stickyCount">0 Vorschläge ausgewählt</b><br><small>Auswahl wird in Planung, Budget und Timeline übernommen.</small></div>
   <div><small>Gesamt</small><br><b id="stickySum">0 €</b></div>
-  <button data-view="planen" id="stickyPlan">Planung öffnen ›</button>
+  <button data-view="planen">Planung öffnen ›</button>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="api-config.js"></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>
