@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#7b55d9">
 <link rel="manifest" href="manifest.webmanifest">
-<title>CREOVA 7.6</title>
+<title>CREOVA 7.7</title>
 <style>
 :root{--bg:#fbf8ff;--card:#fff;--lav:#7b55d9;--lav2:#9b7cf0;--lav3:#efe8ff;--text:#241b3f;--muted:#746c86;--line:#ded2ff}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#fff,#f8f3ff);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text)}
@@ -36,6 +36,15 @@ input,select{width:100%;padding:15px 16px;border:1px solid #cabcf4;border-radius
 .stickyBar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:linear-gradient(135deg,#7b55d9,#9b7cf0);color:white;border-radius:20px 20px 0 0;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -10px 35px rgba(76,45,151,.25)}.stickyBar button{background:white;color:var(--lav)}
 @media(max-width:1100px){nav{grid-template-columns:repeat(5,1fr)}.grid3{grid-template-columns:1fr}.suggestions{grid-template-columns:repeat(2,1fr)}.wishGrid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:650px){main{padding:12px;padding-bottom:120px}.heroTop{padding:20px 14px}.suggestions,.wishGrid,.budgetBox,.detailHero,.detailList{grid-template-columns:1fr}nav{grid-template-columns:1fr 1fr}h1{font-size:34px}.stickyBar{font-size:13px;padding:12px}}
+
+.packAdd{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:16px}
+.packItems{display:grid;gap:10px;margin-top:16px}
+.packItem{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#fbf8ff;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.packItem input{width:auto;margin:0;transform:scale(1.25)}
+.packItem.done span{text-decoration:line-through;color:var(--muted)}
+.packDelete{background:white;color:#7b55d9;border:1px solid var(--line);padding:8px 12px;border-radius:12px}
+@media(max-width:650px){.packAdd{grid-template-columns:1fr}.packDelete{padding:8px}}
+
 </style>
 </head>
 <body>
@@ -49,7 +58,15 @@ input,select{width:100%;padding:15px 16px;border:1px solid #cabcf4;border-radius
 <section id="details" class="card"><div id="detailContent"><h2>Infos</h2><p class="muted">Wähle einen Vorschlag und klicke auf Details.</p></div></section>
 <section id="planen" class="card"><h2>🧭 Planen</h2><p class="muted">Hier landen die ausgewählten Vorschläge.</p><div id="planList"></div></section>
 <section id="budget" class="card"><h2>💶 Budget</h2><div id="budgetBox2" class="budgetBox"></div><div id="budgetList"></div></section>
-<section id="packliste" class="card"><h2>🎒 Packliste</h2><p class="muted">Wird später anhand der Auswahl erweitert.</p></section>
+<section id="packliste" class="card">
+  <h2>🎒 Packliste</h2>
+  <p class="muted">Eigene Dinge eintragen, abhaken oder wieder löschen. Die Liste bleibt auf diesem Gerät gespeichert.</p>
+  <div class="packAdd">
+    <input id="packInput" placeholder="z. B. Ladekabel, Ausweis, Dachzelt-Leiter, Regenjacke">
+    <button class="primary" id="packAddBtn">＋ Hinzufügen</button>
+  </div>
+  <div id="packItems" class="packItems"></div>
+</section>
 <section id="touren" class="card"><h2>🚴 Touren</h2><p class="muted">Radtouren und Wanderungen passend zum Ziel.</p></section>
 <section id="galerie" class="card"><h2>🖼️ Galerie</h2></section><section id="haus" class="card"><h2>🏠 Haus</h2></section><section id="wecker" class="card"><h2>⏰ Wecker</h2></section><section id="timeline" class="card"><h2>🗓️ Timeline</h2><div id="timelineList"></div></section>
 </main>
@@ -65,9 +82,56 @@ function renderSuggestions(){let arr=[...suggestions].sort((a,b)=>score(b)-score
 function updateBudget(){let budget=Number(budgetInput.value||0);let sum=selected.reduce((a,b)=>a+b.price,0);let box=`<div><span class="muted">Budget</span><br><b>${budget} €</b></div><div><span class="muted">Ausgewählt</span><br><b>${sum} €</b></div><div><span class="muted">Rest</span><br><b>${budget-sum} €</b></div>`;budgetBox.innerHTML=box;budgetBox2.innerHTML=box;selectedCount.textContent=selected.length+" Vorschläge ausgewählt";selectedTotal.textContent=sum+" €";planList.innerHTML=selected.map(s=>`<div class="card"><h3>${s.title}</h3><p>${s.desc}</p><b>${s.price} €</b></div>`).join("")||"<p class='muted'>Noch keine Vorschläge ausgewählt.</p>";budgetList.innerHTML=selected.map(s=>`<p><b>${s.title}</b> · ${s.price} €</p>`).join("");timelineList.innerHTML=selected.map((s,i)=>`<div class="card"><h3>Tag ${i+1}: ${s.title}</h3><p>${s.desc}</p></div>`).join("")||"<p class='muted'>Noch keine Timeline vorhanden.</p>"}
 function toggleSuggestion(title){let item=suggestions.find(x=>x.title===title);if(!item)return;if(selected.some(x=>x.title===item.title))selected=selected.filter(x=>x.title!==item.title);else selected.push(item);localStorage.creova75selected=JSON.stringify(selected);renderSuggestions();updateBudget()}
 function showDetails(title){let s=suggestions.find(x=>x.title===title);if(!s)return;detailContent.innerHTML=`<div class="detailHero"><div class="detailImage" style="background-image:url('${s.img}')"></div><div class="detailInfo"><h2>${s.title}</h2><p class="muted">${s.desc}</p><div class="tags">${s.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div><div class="budgetBox"><div><span class="muted">Match</span><br><b>${score(s)}%</b></div><div><span class="muted">Entfernung</span><br><b>${s.km} km</b></div><div><span class="muted">Kosten</span><br><b>${s.price} €</b></div></div><button class="primary" data-add-detail="${s.title}">Für Planung übernehmen</button></div></div><h2 style="margin-top:22px">Details & passende Vorschläge</h2><div class="detailList">${s.details.map(x=>`<div class="detailItem"><h3>${x}</h3><p class="muted">Wird später als Aktivität in die Timeline übernommen.</p></div>`).join("")}</div>`;location.hash="#details"}
-document.addEventListener("click",e=>{let d=e.target.closest("[data-detail]");if(d){e.stopPropagation();showDetails(d.dataset.detail);return}let add=e.target.closest("[data-add-detail]");if(add){toggleSuggestion(add.dataset.addDetail);showDetails(add.dataset.addDetail);return}let w=e.target.closest(".wish");if(w){wishes[Number(w.dataset.wish)].active=!wishes[Number(w.dataset.wish)].active;localStorage.creova75wishes=JSON.stringify(wishes);renderWishes();renderSuggestions();return}let s=e.target.closest(".suggestion");if(s){toggleSuggestion(s.dataset.suggestion)}})
+document.addEventListener("click",e=>{
+let pc=e.target.closest("[data-pack-check]");if(pc){packList[Number(pc.dataset.packCheck)].done=pc.checked;savePackList();renderPackList();return}
+let pd=e.target.closest("[data-pack-delete]");if(pd){packList.splice(Number(pd.dataset.packDelete),1);savePackList();renderPackList();return}
+let pab=e.target.closest("#packAddBtn");if(pab){addPackItem();return}
+let d=e.target.closest("[data-detail]");if(d){e.stopPropagation();showDetails(d.dataset.detail);return}let add=e.target.closest("[data-add-detail]");if(add){toggleSuggestion(add.dataset.addDetail);showDetails(add.dataset.addDetail);return}let w=e.target.closest(".wish");if(w){wishes[Number(w.dataset.wish)].active=!wishes[Number(w.dataset.wish)].active;localStorage.creova75wishes=JSON.stringify(wishes);renderWishes();renderSuggestions();return}let s=e.target.closest(".suggestion");if(s){toggleSuggestion(s.dataset.suggestion)}})
 addInterest.onclick=()=>{let val=customInterest.value.trim();if(!val)return;wishes.push({name:val,img:"https://images.unsplash.com/photo-1533873984035-25970ab07461?auto=format&fit=crop&w=500&q=80",active:true});customInterest.value="";localStorage.creova75wishes=JSON.stringify(wishes);renderWishes();renderSuggestions()}
 btnSuggestions.onclick=renderSuggestions;budgetInput.oninput=updateBudget;sort.onchange=renderSuggestions;radius.onchange=renderSuggestions;clearSelection.onclick=()=>{selected=[];localStorage.creova75selected="[]";renderSuggestions();updateBudget()}
 btnLocation.onclick=()=>{if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>loc.textContent=`✅ Standort: ${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`,()=>loc.textContent="Standort nicht freigegeben.")}
-renderWishes();renderSuggestions();updateBudget();
+
+let packList = JSON.parse(localStorage.creova77packlist || "null") || [
+  {text:"Ausweis / Führerschein", done:false},
+  {text:"Ladekabel / Powerbank", done:false},
+  {text:"Regenjacke", done:false},
+  {text:"Dachzelt-Zubehör prüfen", done:false}
+];
+
+function savePackList(){
+  localStorage.creova77packlist = JSON.stringify(packList);
+}
+
+function renderPackList(){
+  const el = document.getElementById("packItems");
+  if(!el) return;
+  el.innerHTML = packList.map((item,i)=>`
+    <div class="packItem ${item.done ? "done" : ""}">
+      <input type="checkbox" ${item.done ? "checked" : ""} data-pack-check="${i}">
+      <span>${item.text}</span>
+      <button class="packDelete" data-pack-delete="${i}">Löschen</button>
+    </div>
+  `).join("") || "<p class='muted'>Noch keine Einträge vorhanden.</p>";
+}
+
+function addPackItem(){
+  const input = document.getElementById("packInput");
+  if(!input) return;
+  const text = input.value.trim();
+  if(!text) return;
+  packList.push({text, done:false});
+  input.value = "";
+  savePackList();
+  renderPackList();
+}
+
+renderWishes();renderSuggestions();updateBudget();renderPackList();
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.target && e.target.id==="packInput"){
+    e.preventDefault();
+    addPackItem();
+  }
+});
+
 </script></body></html>
