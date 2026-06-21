@@ -1,10 +1,10 @@
 {
-  "name": "CREOVA V9 Final",
-  "short_name": "CREOVA V9",
-  "start_url": "./?v=9",
+  "name": "CREOVA X Clean",
+  "short_name": "CREOVA X",
+  "start_url": "./?v=x1",
   "display": "standalone",
   "background_color": "#f8f4ff",
-  "theme_color": "#6330d4",
+  "theme_color": "#6530d4",
   "icons": [
     {
       "src": "icon.svg",

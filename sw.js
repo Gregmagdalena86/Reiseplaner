@@ -1,16 +1,5 @@
-const CACHE_NAME = "creova-v9-final-cache-v1";
-const ASSETS = ["./?v=9","./index.html","./styles.css?v=9","./data.js?v=9","./app.js?v=9","./manifest.webmanifest","./icon.svg"];
-self.addEventListener("install", event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)));
-  self.skipWaiting();
-});
-self.addEventListener("activate", event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))));
-  self.clients.claim();
-});
-self.addEventListener("fetch", event => {
-  const url = new URL(event.request.url);
-  if (url.origin === location.origin) {
-    event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request)));
-  }
-});
+const CACHE_NAME="creova-x-clean-v1";
+const ASSETS=["./?v=x1","./index.html","./styles.css?v=x1","./data.js?v=x1","./app.js?v=x1","./manifest.webmanifest","./icon.svg"];
+self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)));self.skipWaiting();});
+self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))));self.clients.claim();});
+self.addEventListener("fetch",e=>{const u=new URL(e.request.url);if(u.origin===location.origin){e.respondWith(caches.match(e.request).then(c=>c||fetch(e.request)));}});
