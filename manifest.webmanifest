@@ -1,1 +1,1 @@
-{"name": "CREOVA Reiseplaner", "short_name": "CREOVA", "start_url": "./", "display": "standalone", "background_color": "#fbf8ff", "theme_color": "#7b4de2", "icons": [{"src": "icon.svg", "sizes": "any", "type": "image/svg+xml"}]}
+{"name": "CREOVA", "short_name": "CREOVA", "start_url": "./", "display": "standalone", "background_color": "#fbf8ff", "theme_color": "#7b4de2", "icons": [{"src": "icon.svg", "sizes": "any", "type": "image/svg+xml"}]}
